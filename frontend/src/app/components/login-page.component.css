@@ -1,0 +1,35 @@
+/* .example-form {
+    height: 100%;
+    width: 100%;
+    background-image: url("../../assets/login.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: lightgrey;
+  } */
+
+  .example-form {
+    background-image: url("../../assets/login.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+
+  /* .login-form {
+    display: flex;
+    justify-content: center;
+    background-color: lightyellow;
+    align-items: center;
+    height: 100vh;
+  } */
+
+  .login-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: darkcyan;
+  }

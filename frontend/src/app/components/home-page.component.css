@@ -1,7 +1,10 @@
 .background-image {
-    background-image: url("../../assets/Krypt-photo.jpg");
-    background-size: cover;
-    background-position: center;
+    background-image: url("../../assets/Krypt.jpg");
+    background-color: lightgray;
+    background-size: contain;
+    background-position: right;
+    background-repeat: no-repeat;
     height: 100%;
-    width: auto;
+    width: 100%;
+    /* margin-left: 5px; */
 }

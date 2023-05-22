@@ -1,17 +1,18 @@
-<mat-toolbar color="primary">
+<mat-toolbar style="background-color: turquoise;">
   <mat-toolbar-row>
     <button mat-icon-button (click)="sidenav.toggle()" matTooltip="Menu">
       <mat-icon>menu</mat-icon>
     </button>
 
-    <span (click)="['/']">Kryptonite Netball Team Management App</span>
+    <p>Kryptonite Netball Team Management App</p  >
     &nbsp;
     &nbsp;
     <span>
       <img src="../assets/netball.png" style="height: 40px">
+      <!-- <mat-icon class="material-icons-outlined">sports_volleyball</mat-icon> -->
     </span>
     <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon" matTooltip="Login">
+    <button mat-icon-button class="example-icon" matTooltip="Login" routerLink="/login">
       <mat-icon>login</mat-icon>
     </button>
     <button mat-icon-button class="example-icon" matTooltip="Link to Facebook">
@@ -24,21 +25,66 @@
 </mat-toolbar>
 
 <mat-sidenav-container class="example-container">
-  <mat-sidenav #sidenav mode="side" opened>
+  <mat-sidenav #sidenav mode="side" opened style="background-color: lightgray;">
     <mat-nav-list>
-      <!-- <mat-list-item matTooltip="Home">
-        <button mat-icon-button>
-          <mat-icon>Home</mat-icon>
-        </button>
-      </mat-list-item> -->
-      <mat-list-item matTooltip="Settings">
-        <button mat-icon-button>
-          <mat-icon>settings</mat-icon>
+      <mat-list-item matTooltip="Home">
+        <button mat-icon-button routerLink="['/']">
+          <mat-icon>home</mat-icon>
         </button>
       </mat-list-item>
       <mat-list-item matTooltip="Notifications">
         <button mat-icon-button>
           <mat-icon>notifications</mat-icon>
+        </button>
+      </mat-list-item>
+      <mat-list-item matTooltip="Calendar">
+        <button mat-icon-button>
+          <mat-icon>calendar_today</mat-icon>
+        </button>
+      </mat-list-item>
+      <mat-list-item matTooltip="Members">
+        <button mat-icon-button>
+          <mat-icon>people</mat-icon>
+        </button>
+      </mat-list-item>
+      <mat-list-item matTooltip="Attendance">
+        <button mat-icon-button>
+          <mat-icon>assignment_turned_in</mat-icon>
+        </button>
+      </mat-list-item>
+      <mat-list-item matTooltip="Messaging">
+        <button mat-icon-button>
+          <mat-icon>email</mat-icon>
+        </button>
+      </mat-list-item>
+      <mat-list-item matTooltip="Compeitions & Friendlies">
+        <button mat-icon-button>
+          <mat-icon>sports_volleyball</mat-icon>
+        </button>
+      </mat-list-item>
+      <mat-list-item matTooltip="Fitness">
+        <button mat-icon-button>
+          <mat-icon>fitness_center</mat-icon>
+        </button>
+      </mat-list-item>
+      <mat-list-item matTooltip="Achievements">
+        <button mat-icon-button>
+          <mat-icon>emoji_events</mat-icon>
+        </button>
+      </mat-list-item>
+      <mat-list-item matTooltip="Team funds">
+        <button mat-icon-button>
+          <mat-icon>paid</mat-icon>
+        </button>
+      </mat-list-item>
+      <mat-list-item matTooltip="Useful links">
+        <button mat-icon-button>
+          <mat-icon>link</mat-icon>
+        </button>
+      </mat-list-item>
+      <mat-list-item matTooltip="Settings">
+        <button mat-icon-button>
+          <mat-icon>settings</mat-icon>
         </button>
       </mat-list-item>
       <mat-list-item matTooltip="Profile">

@@ -1,0 +1,7 @@
+.background-image {
+    background-image: url("../../assets/Krypt-photo.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: auto;
+}

@@ -15,9 +15,9 @@
     height: 100vh;
   }
   
-  .example-full-width {
+  /* .example-full-width {
     width: 100%;
-  }
+  } */
 
   /* .login-form {
     display: flex;
@@ -28,8 +28,7 @@
   } */
 
   .login-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center; */
+    /* align-items: center; */
     background-color: darkcyan;
   }

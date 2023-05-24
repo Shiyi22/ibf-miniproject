@@ -1,0 +1,178 @@
+<mat-sidenav-container class="example-container">
+    <mat-sidenav mode="side" opened>
+      <mat-nav-list>
+        <mat-list-item (click)="showDetails('identity')">
+          <mat-icon>person</mat-icon>
+          &nbsp;
+          <span>Identity</span>
+        </mat-list-item>
+        <mat-list-item (click)="showDetails('emergency')">
+          <mat-icon>emergency</mat-icon>
+          &nbsp;
+          <span>Emergency Contact</span>
+        </mat-list-item>
+        <mat-list-item (click)="showDetails('team')">
+          <mat-icon>group</mat-icon>
+          &nbsp;
+          <span>Team Related</span>
+        </mat-list-item>
+        <mat-list-item (click)="showDetails('blockout')">
+            <mat-icon>date_range</mat-icon>
+            &nbsp;
+            <span>Block out dates</span>
+          </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div *ngIf="selectedSection === 'identity'" style="margin-left: 10px;">
+        <!-- Display identity details here -->
+        <form [formGroup]="identityForm">
+            <table>
+                <tr>
+                    <td>Name: </td>
+                    <td>
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="name">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Weight: </td>
+                    <td>
+                        <mat-form-field>
+                            <input matInput type="number" formControlName="weight">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Height: </td>
+                    <td>
+                        <mat-form-field>
+                            <input matInput type="number" formControlName="height">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Positions: </td>
+                    <td>
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="position">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Email: </td>
+                    <td>
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="email">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Phone Number: </td>
+                    <td>
+                        <mat-form-field>
+                            <input matInput type="number" formControlName="phoneNumber">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>DOB: </td>
+                    <td>
+                        <mat-form-field>
+                            <input matInput type="date" formControlName="DOB">
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+        </form>
+      </div>
+      <div *ngIf="selectedSection === 'emergency'" style="margin-left: 10px;">
+        <!-- Display emergency contact details here -->
+        <form [formGroup]="emergencyForm">
+            <table>
+                <tr>
+                    <td>Emergency Contact: </td>
+                    <td>
+                        <mat-form-field>
+                            <input matInput type="number" formControlName="eContact">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Emergency Name: </td>
+                    <td>
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="eName">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Home Address: </td>
+                    <td>
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="homeAdd">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Past Injuries: </td>
+                    <td>
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="injuries">
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+        </form>
+      </div>
+      <div *ngIf="selectedSection === 'team'" style="margin-left: 10px;">
+        <!-- Display team-related details here -->
+        <form [formGroup]="teamForm">
+            <table>
+                <tr>
+                    <td>Role: </td>
+                    <td>
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="role">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Year Joined: </td>
+                    <td>
+                        <mat-form-field>
+                            <input matInput type="number" formControlName="year">
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+        </form>
+      </div>
+      <div *ngIf="selectedSection === 'blockout'" style="margin-left: 10px;">
+        <!-- Display blockout dates details here -->
+        <!-- <div class="demo-button-container">
+            <button mat-raised-button (click)="addData()" class="demo-button">
+              Add data
+            </button>
+            <button mat-raised-button [disabled]="!dataSource.length" (click)="removeData()" class="demo-button">
+              Remove data
+            </button>
+          </div> -->
+        <table mat-table [dataSource]="blockdates" class="mat-elevation-z8 demo-table">
+            <ng-container>
+                <th mat-header-cell *matHeaderCellDef>Dates not available</th>
+            </ng-container>
+            <ng-container matColumnDef="from">
+                <th mat-header-cell *matHeaderCellDef>From</th>
+                <td mat-cell *matCellDef="let blockdate">{{blockdate.from}}</td>
+            </ng-container>
+            <ng-container matColumnDef="to">
+                <th mat-header-cell *matHeaderCellDef>To</th>
+                <td mat-cell *matCellDef="let blockdate">{{blockdate.to}}</td>
+            </ng-container>
+        </table>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

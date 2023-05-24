@@ -9,10 +9,12 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { HomePageComponent } from './components/home-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginPageComponent } from './components/login-page.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ProfilePageComponent } from './components/profile-page.component';
 
 @NgModule({
   declarations: [
-    AppComponent, HomePageComponent, LoginPageComponent
+    AppComponent, HomePageComponent, LoginPageComponent, ProfilePageComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +27,8 @@ import { LoginPageComponent } from './components/login-page.component';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }), 
-    ReactiveFormsModule
+    ReactiveFormsModule, 
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,4 +10,18 @@ export interface BlockDate {
 
 export interface PlayerInfo {
     //TODO: add model 
+    name : string,
+    weight : number,
+    height : number, 
+    // playerPhoto : Blob,
+    email : string,
+    phoneNumber : number,
+    DOB : string,
+    emergencyContact : number,
+    emergencyName : string, 
+    address : string,
+    pastInjuries : string,
+    role : string,
+    yearJoined : number
+    positions : string[]
 }

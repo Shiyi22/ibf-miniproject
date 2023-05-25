@@ -21,7 +21,7 @@ import jakarta.json.JsonObject;
 public class BackendController {
 
     @Autowired
-    private BackendService backendSvc; 
+    private BackendService backendSvc;
 
     @Autowired
     private SQLRepository sqlRepo; 
@@ -44,7 +44,17 @@ public class BackendController {
     @GetMapping(path="/playerInfo", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getPlayerInfo(@RequestParam String userId) {
         PlayerInfo info = sqlRepo.getPlayerInfo(userId); 
-        return ResponseEntity.ok().body(info.toJson().toString()); 
+        return ResponseEntity.ok().body(info.toJson().toString());
+    }
+
+    @PostMapping(path="/updatePlayerInfo/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updatePlayerInfo(@RequestBody PlayerInfo info, @PathVariable String username) {
+        // DOB is not sent across 
+        System.out.printf(">>> DOB: %s\n", info.getDOB()); // this is null!
+        String userId = sqlRepo.getPlayerId(username);
+        boolean isUpdated = sqlRepo.updatePlayerInfo(info, userId);
+        JsonObject jo = Json.createObjectBuilder().add("updated", isUpdated).build(); 
+        return ResponseEntity.ok().body(jo.toString());
     }
     
 }

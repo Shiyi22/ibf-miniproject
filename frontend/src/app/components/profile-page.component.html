@@ -20,13 +20,13 @@
             <mat-icon>date_range</mat-icon>
             &nbsp;
             <span>Block out dates</span>
-          </mat-list-item>
+        </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
       <div *ngIf="selectedSection === 'identity'" style="margin-left: 10px;">
         <!-- Display identity details here -->
-        <form [formGroup]="identityForm">
+        <form [formGroup]="identityForm" (ngSubmit)="saveIdentity()">
             <table>
                 <tr>
                     <td>Name: </td>
@@ -37,7 +37,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Weight: </td>
+                    <td>Weight (kg): </td>
                     <td>
                         <mat-form-field>
                             <input matInput type="number" formControlName="weight">
@@ -45,7 +45,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Height: </td>
+                    <td>Height (cm): </td>
                     <td>
                         <mat-form-field>
                             <input matInput type="number" formControlName="height">
@@ -84,12 +84,18 @@
                         </mat-form-field>
                     </td>
                 </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button mat-raised-button type="submit" style="float: right;">Save</button>
+                    </td>
+                </tr>
             </table>
         </form>
       </div>
       <div *ngIf="selectedSection === 'emergency'" style="margin-left: 10px;">
         <!-- Display emergency contact details here -->
-        <form [formGroup]="emergencyForm">
+        <form [formGroup]="emergencyForm" (ngSubmit)="saveEForm()">
             <table>
                 <tr>
                     <td>Emergency Contact: </td>
@@ -121,6 +127,12 @@
                         <mat-form-field>
                             <input matInput type="text" formControlName="injuries">
                         </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button mat-raised-button type="submit" style="float: right;">Save</button>
                     </td>
                 </tr>
             </table>

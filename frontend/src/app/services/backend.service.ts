@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs'
+import { PlayerInfo } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -18,4 +19,7 @@ export class BackendService {
     return lastValueFrom( this.http.get('/playerInfo', {params}))
   }
 
+  updatePlayerInfo(info: PlayerInfo, username: string) {
+    return lastValueFrom(this.http.post(`/updatePlayerInfo/${username}`, info)); // return Integer on num of rows affected
+  }
 }

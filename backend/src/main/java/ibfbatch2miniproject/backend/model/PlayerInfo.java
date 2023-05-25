@@ -21,7 +21,7 @@ public class PlayerInfo {
     // private byte[] playerPhoto; 
     private String email;
     private Integer phoneNumber;
-    private Date DOB;
+    private String DOB;
     private Integer emergencyContact;
     private String emergencyName;
     private String address;
@@ -41,9 +41,10 @@ public class PlayerInfo {
             .add("name", name)
             .add("weight", weight)
             .add("height", height)
+            // .add("playerPhoto", playerPhoto)
             .add("email", email)
             .add("phoneNumber", phoneNumber)
-            .add("DOB", DOB.toString())
+            .add("DOB", DOB)
             .add("emergencyContact", emergencyContact)
             .add("emergencyName", emergencyName)
             .add("address", address)

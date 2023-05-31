@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BlockDate, PlayerInfo } from '../models';
 import { BackendService } from '../services/backend.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-profile-page',
@@ -16,8 +17,11 @@ export class ProfilePageComponent implements OnInit {
   identityForm!: FormGroup
   emergencyForm!: FormGroup
   teamForm!: FormGroup
+  photoForm!: FormGroup
   blockdates!: BlockDate[]
   playerInfo!: PlayerInfo
+
+  @ViewChild('picture') playerPhoto!: ElementRef;
 
   constructor(private fb: FormBuilder, private backendSvc: BackendService) {}
 
@@ -36,7 +40,8 @@ export class ProfilePageComponent implements OnInit {
 
       this.identityForm = this.createIdentityForm(); 
       this.emergencyForm = this.createEmergencyForm(); 
-      this.teamForm = this.createTeamForm(); 
+      // this.teamForm = this.createTeamForm(); 
+      this.photoForm = this.createPhotoForm(); 
     })
   }
 
@@ -47,9 +52,10 @@ export class ProfilePageComponent implements OnInit {
     this.playerInfo.email = this.identityForm.value['email']
     this.playerInfo.phoneNumber = this.identityForm.value['phoneNumber']
     this.playerInfo.weight = this.identityForm.value['weight']
-    this.playerInfo.DOB = this.identityForm.value['DOB'] as string
-    console.info('>>> print DOB ', this.playerInfo.DOB); // DOB is present here!
-    console.info('>>> print name: ', this.playerInfo.name);
+    const date: string = this.identityForm.get('DOB')?.value
+    console.log('>>> print date value from form: ', date);
+    this.playerInfo.dob = date
+    console.info('>>> print DOB ', this.playerInfo.dob); // DOB is present here as string
 
     const letters: string = this.identityForm.value['position'] as string // this is a string
     console.info('>>> letters from form in Angular: ', letters)
@@ -76,19 +82,26 @@ export class ProfilePageComponent implements OnInit {
     })
   }
 
+  updatePhoto() {
+    const formData = new FormData(); 
+    formData.set("picture", this.playerPhoto.nativeElement.files[0])
+    this.backendSvc.updatePhoto(formData, this.username)
+  }
+
   showDetails(section: string): void {
     this.selectedSection = section;
   }
 
-  createIdentityForm() {
+  createIdentityForm() {  
+    const combinedString = this.playerInfo.positions.join(",");  
     return this.fb.group({
       name: this.fb.control(this.playerInfo? this.playerInfo.name : '', [Validators.required, Validators.minLength(5)]),
       weight: this.fb.control(this.playerInfo? this.playerInfo.weight : ''), 
       height: this.fb.control(this.playerInfo? this.playerInfo.height : ''),
-      position: this.fb.control(this.playerInfo? this.playerInfo.positions : ''),
+      position: this.fb.control(this.playerInfo? combinedString : ''),
       email: this.fb.control(this.playerInfo? this.playerInfo.email : ''),
       phoneNumber: this.fb.control(this.playerInfo? this.playerInfo.phoneNumber : ''),
-      DOB: this.fb.control(this.playerInfo? this.playerInfo.DOB : '')
+      DOB: this.fb.control(this.playerInfo? this.playerInfo.dob : '')
     })
   }
 
@@ -101,10 +114,16 @@ export class ProfilePageComponent implements OnInit {
     })
   }
 
-  createTeamForm() {
+  // createTeamForm() {
+  //   return this.fb.group({
+  //     role: this.fb.control(this.playerInfo? this.playerInfo.role : ''),
+  //     year: this.fb.control(this.playerInfo? this.playerInfo.yearJoined : '')
+  //   })
+  // }
+
+  createPhotoForm() {
     return this.fb.group({
-      role: this.fb.control(this.playerInfo? this.playerInfo.role : ''),
-      year: this.fb.control(this.playerInfo? this.playerInfo.yearJoined : '')
+      playerPhoto: this.fb.control('')
     })
   }
 

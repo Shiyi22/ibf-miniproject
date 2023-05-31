@@ -13,15 +13,15 @@ export interface PlayerInfo {
     name : string,
     weight : number,
     height : number, 
-    // playerPhoto : Blob,
+    playerPhoto : Blob,
     email : string,
     phoneNumber : number,
-    DOB : string,
     emergencyContact : number,
     emergencyName : string, 
     address : string,
     pastInjuries : string,
     role : string,
     yearJoined : number
-    positions : string[]
+    positions : string[],
+    dob : string
 }

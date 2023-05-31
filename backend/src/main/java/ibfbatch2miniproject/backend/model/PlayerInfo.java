@@ -1,6 +1,5 @@
 package ibfbatch2miniproject.backend.model;
 
-import java.sql.Date;
 import java.util.List;
 
 import jakarta.json.Json;
@@ -21,7 +20,7 @@ public class PlayerInfo {
     // private byte[] playerPhoto; 
     private String email;
     private Integer phoneNumber;
-    private String DOB;
+    private String dob;
     private Integer emergencyContact;
     private String emergencyName;
     private String address;
@@ -44,7 +43,7 @@ public class PlayerInfo {
             // .add("playerPhoto", playerPhoto)
             .add("email", email)
             .add("phoneNumber", phoneNumber)
-            .add("DOB", DOB)
+            .add("dob", dob)
             .add("emergencyContact", emergencyContact)
             .add("emergencyName", emergencyName)
             .add("address", address)
@@ -54,5 +53,7 @@ public class PlayerInfo {
             .add("positions", arrBuilder.build()) // json array
             .build(); 
     }
+
+
 
 }

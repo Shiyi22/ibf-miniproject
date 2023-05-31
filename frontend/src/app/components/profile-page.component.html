@@ -21,6 +21,11 @@
             &nbsp;
             <span>Block out dates</span>
         </mat-list-item>
+        <mat-list-item (click)="showDetails('photo')">
+            <mat-icon>photo</mat-icon>
+            &nbsp;
+            <span>Profile picture</span>
+        </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
@@ -80,7 +85,7 @@
                     <td>DOB: </td>
                     <td>
                         <mat-form-field>
-                            <input matInput type="date" formControlName="DOB">
+                            <input matInput type="text" formControlName="DOB">
                         </mat-form-field>
                     </td>
                 </tr>
@@ -140,26 +145,21 @@
       </div>
       <div *ngIf="selectedSection === 'team'" style="margin-left: 10px;">
         <!-- Display team-related details here -->
-        <form [formGroup]="teamForm">
-            <table>
-                <tr>
-                    <td>Role: </td>
-                    <td>
-                        <mat-form-field>
-                            <input matInput type="text" formControlName="role">
-                        </mat-form-field>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Year Joined: </td>
-                    <td>
-                        <mat-form-field>
-                            <input matInput type="number" formControlName="year">
-                        </mat-form-field>
-                    </td>
-                </tr>
-            </table>
-        </form>
+        <ng-container *ngIf="playerInfo">
+            <mat-card>
+              <mat-card-content>
+                <div class="player-info">
+                  <div>
+                    <strong>Role:</strong> {{ playerInfo.role }}
+                  </div>
+                  <br>
+                  <div>
+                    <strong>Year Joined:</strong> {{ playerInfo.yearJoined }}
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
       </div>
       <div *ngIf="selectedSection === 'blockout'" style="margin-left: 10px;">
         <!-- Display blockout dates details here -->
@@ -185,6 +185,30 @@
             </ng-container>
         </table>
       </div>
+      <div *ngIf="selectedSection === 'photo'" style="margin-left: 10px;">
+        <!-- display current photo and allow a change in photo -->
+        <mat-card>
+            <!-- TODO: Display current photo -->
+            <form [formGroup]="photoForm" (ngSubmit)="updatePhoto()">
+                <table>
+                    <tr>
+                        <td>
+                            <mat-label>Picture: </mat-label>
+                            <input type="file" accept="image/*" #picture>
+                        </td>
+                    </tr>
+                    <br>
+                    <br>
+                    <tr>
+                        <td>
+                            <button mat-raised-button type="submit">Upload</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>       
+        </mat-card>
+
+    </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
   

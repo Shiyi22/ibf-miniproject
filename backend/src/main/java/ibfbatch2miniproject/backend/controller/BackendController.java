@@ -1,5 +1,7 @@
 package ibfbatch2miniproject.backend.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import ibfbatch2miniproject.backend.model.Login;
 import ibfbatch2miniproject.backend.model.PlayerInfo;
@@ -49,12 +53,18 @@ public class BackendController {
 
     @PostMapping(path="/updatePlayerInfo/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updatePlayerInfo(@RequestBody PlayerInfo info, @PathVariable String username) {
-        // DOB is not sent across 
-        System.out.printf(">>> DOB: %s\n", info.getDOB()); // this is null!
+        System.out.printf(">>> Player Info sent from Angular to Backend: %s\n", info.toString()); // dob has to be small letters 
         String userId = sqlRepo.getPlayerId(username);
         boolean isUpdated = sqlRepo.updatePlayerInfo(info, userId);
         JsonObject jo = Json.createObjectBuilder().add("updated", isUpdated).build(); 
         return ResponseEntity.ok().body(jo.toString());
     }
-    
+
+    @PostMapping(path="/updatePhoto/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updatePhoto(@RequestPart MultipartFile picture, @PathVariable String username) throws IOException {
+        String userId = sqlRepo.getPlayerId(username); 
+        boolean isUpdated = sqlRepo.updatePhoto(picture, userId); 
+        JsonObject jo = Json.createObjectBuilder().add("updated", isUpdated).build(); 
+        return ResponseEntity.ok().body(jo.toString());
+    }
 }

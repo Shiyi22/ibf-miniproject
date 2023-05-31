@@ -1,5 +1,7 @@
 package ibfbatch2miniproject.backend.repository;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
@@ -10,7 +12,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import ibfbatch2miniproject.backend.model.Login;
 import ibfbatch2miniproject.backend.model.PlayerInfo;
@@ -31,6 +35,7 @@ public class SQLRepository {
             """;
     private final String DELETE_PLAYER_POSITION_SQL = "delete from playerPosition where id = ?"; 
     private final String INSERT_PLAYER_POSITION_SQL = "insert into playerPosition (id, position) values (?, ?)"; 
+    private final String UPDATE_PLAYER_PHOTO_SQL = "update playerInfo set playerPhoto = ? where id = ?"; 
     
     // get login credentials 
     public Optional<Boolean> getLoginCreds(Login login) {
@@ -67,7 +72,7 @@ public class SQLRepository {
     // update player info 
     public boolean updatePlayerInfo(PlayerInfo info, String userId) {
         Integer rowsAffected1 =  template.update(UPDATE_PLAYER_INFO_SQL, info.getName(), info.getWeight(), info.getHeight(), null, info.getEmail(), info.getPhoneNumber(),
-        info.getDOB(), info.getEmergencyContact(), info.getEmergencyName(), info.getAddress(), info.getPastInjuries(), info.getRole(), info.getYearJoined(), userId);
+        info.getDob(), info.getEmergencyContact(), info.getEmergencyName(), info.getAddress(), info.getPastInjuries(), info.getRole(), info.getYearJoined(), userId);
    
         // delete previously saved positions, then add new positions 
         Integer rowsAffected2 = template.update(DELETE_PLAYER_POSITION_SQL, userId); 
@@ -88,6 +93,22 @@ public class SQLRepository {
         });
         if (rowsAffected1 > 0 || rowsAffected2 > 0 || arrAffected.length > 0)
             return true;
+        return false; 
+    }
+
+    public boolean updatePhoto(MultipartFile picture, String userId) throws IOException {
+        
+        Integer rowsAffected = template.update(UPDATE_PLAYER_PHOTO_SQL, new PreparedStatementSetter() {
+
+            InputStream is = picture.getInputStream(); 
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setBinaryStream(1, is, picture.getSize());
+                ps.setString(2, userId);
+            }            
+        }); 
+        if (rowsAffected > 0)
+            return true; 
         return false; 
     }
 

@@ -1,0 +1,15 @@
+<mat-grid-list cols="4" rowHeight="1:1">
+    <mat-grid-tile *ngFor="let profile of playerProfiles">
+      <mat-card [routerLink]="['/statistics', profile.id]">
+        <div *ngIf="profile.playerPhoto == undefined">
+            <img src="https://www.shutterstock.com/image-illustration/profile-picture-illustration-woman-260nw-438749314.jpg" width="250" height="300">
+        </div>
+        <div *ngIf="profile.playerPhoto != undefined"><img mat-card-image [src]="profile.playerPhoto" alt="Player Photo" width="250" height="300"></div>
+        <mat-card-content>
+          <h3>Name: {{ profile.name }}</h3>
+          <p>Positions: {{ profile.positions }}</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+  

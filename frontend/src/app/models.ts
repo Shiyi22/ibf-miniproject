@@ -13,7 +13,7 @@ export interface PlayerInfo {
     name : string,
     weight : number,
     height : number, 
-    playerPhoto : Blob,
+    playerPhoto : string, // received from Backend as encodedString
     email : string,
     phoneNumber : number,
     emergencyContact : number,
@@ -24,4 +24,23 @@ export interface PlayerInfo {
     yearJoined : number
     positions : string[],
     dob : string
+}
+
+export interface PlayerProfile {
+    id: string,
+    name: string,
+    playerPhoto: string,
+    positions: string[]
+}
+
+export interface GameData {
+    label: string,
+    against: string,
+    date: Date
+
+    Q1_Players: string[] //
+}
+
+export interface QuarterData {
+
 }

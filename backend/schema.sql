@@ -24,7 +24,7 @@ create table playerInfo (
     playerPhoto blob,
     email varchar(30),
     phoneNumber int,
-    DOB date, 
+    dob date, 
     emergencyContact int, 
     emergencyName varchar(15),
     address varchar(30), 
@@ -39,6 +39,7 @@ insert into playerInfo values ('abcd1234', 'shiyi', 49, 164, null, 'yeoshiyi22@g
 insert into playerInfo values ('efgh5678', 'sokyee', 49, 164, null, 'sokyee@gmail.com', 81234567, '1995-10-01', 91234567, 'Husband, Shawn', 'Sembawang Drive xxx', 'nil', 'Treasurer', 2017); 
 select * from logincreds inner join playerInfo on logincreds.id = playerInfo.id;
 select * from playerInfo;
+select id, name, playerPhoto from playerInfo; 
 
 create table playerPosition(
 	id varchar(8) not null,

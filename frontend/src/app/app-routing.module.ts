@@ -5,12 +5,20 @@ import { HomePageComponent } from './components/home-page.component';
 import { LoginPageComponent } from './components/login-page.component';
 import { NotificationsComponent } from './components/notifications.component';
 import { ProfilePageComponent } from './components/profile-page.component';
+import { MembersComponent } from './components/members.component';
+import { StatisticsComponent } from './components/statistics.component';
+import { CompetitionComponent } from './components/competition.component';
+import { AddGameComponent } from './components/add-game.component';
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
   {path: 'login', component: LoginPageComponent},
   {path: 'notifications', component: NotificationsComponent},
   {path: 'profile', component: ProfilePageComponent},
+  {path: 'members', component: MembersComponent},
+  {path: 'statistics/:userId', component: StatisticsComponent},
+  {path: 'games', component: CompetitionComponent},
+  {path: 'addGame', component: AddGameComponent}, 
   {path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 

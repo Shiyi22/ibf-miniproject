@@ -1,6 +1,7 @@
 package ibfbatch2miniproject.backend.controller;
 
 import java.io.IOException;
+import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,20 +17,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ibfbatch2miniproject.backend.model.Login;
 import ibfbatch2miniproject.backend.model.PlayerInfo;
-import ibfbatch2miniproject.backend.repository.SQLRepository;
+import ibfbatch2miniproject.backend.repository.SQLProfileRepository;
 import ibfbatch2miniproject.backend.service.BackendService;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 
 @Controller
-public class BackendController {
+public class BackendProfileController {
 
     @Autowired
     private BackendService backendSvc;
 
     @Autowired
-    private SQLRepository sqlRepo; 
+    private SQLProfileRepository profileRepo; 
 
+    // LOGIN 
     @PostMapping(path="/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> loginCred(@RequestBody Login login) {
         String response = backendSvc.getLoginCreds(login);
@@ -38,33 +40,39 @@ public class BackendController {
         return ResponseEntity.ok().body(json.toString());
     }
 
+    // PROFILE 
     @GetMapping(path="/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getPlayerId(@PathVariable String username) {
-        String userId = sqlRepo.getPlayerId(username);
+        String userId = profileRepo.getPlayerId(username);
         JsonObject json = Json.createObjectBuilder().add("userId", userId).build(); 
         return ResponseEntity.ok().body(json.toString());
     }
 
     @GetMapping(path="/playerInfo", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getPlayerInfo(@RequestParam String userId) {
-        PlayerInfo info = sqlRepo.getPlayerInfo(userId); 
-        return ResponseEntity.ok().body(info.toJson().toString());
+        PlayerInfo info = profileRepo.getPlayerInfo(userId); 
+        if (info.getPlayerPhoto() != null) {
+            String encodedString = Base64.getEncoder().encodeToString(info.getPlayerPhoto());
+            return ResponseEntity.ok().body(info.toJson(encodedString).toString());
+        }
+        return ResponseEntity.ok().body(info.toJson().toString()); // no playerPhoto sent across 
     }
 
     @PostMapping(path="/updatePlayerInfo/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updatePlayerInfo(@RequestBody PlayerInfo info, @PathVariable String username) {
         System.out.printf(">>> Player Info sent from Angular to Backend: %s\n", info.toString()); // dob has to be small letters 
-        String userId = sqlRepo.getPlayerId(username);
-        boolean isUpdated = sqlRepo.updatePlayerInfo(info, userId);
+        String userId = profileRepo.getPlayerId(username);
+        boolean isUpdated = profileRepo.updatePlayerInfo(info, userId);
         JsonObject jo = Json.createObjectBuilder().add("updated", isUpdated).build(); 
         return ResponseEntity.ok().body(jo.toString());
     }
 
     @PostMapping(path="/updatePhoto/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updatePhoto(@RequestPart MultipartFile picture, @PathVariable String username) throws IOException {
-        String userId = sqlRepo.getPlayerId(username); 
-        boolean isUpdated = sqlRepo.updatePhoto(picture, userId); 
+        String userId = profileRepo.getPlayerId(username); 
+        boolean isUpdated = profileRepo.updatePhoto(picture, userId); 
         JsonObject jo = Json.createObjectBuilder().add("updated", isUpdated).build(); 
         return ResponseEntity.ok().body(jo.toString());
     }
+
 }

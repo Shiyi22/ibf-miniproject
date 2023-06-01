@@ -3,9 +3,11 @@ package ibfbatch2miniproject.backend.repository;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -18,9 +20,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ibfbatch2miniproject.backend.model.Login;
 import ibfbatch2miniproject.backend.model.PlayerInfo;
+import ibfbatch2miniproject.backend.model.PlayerProfile;
 
 @Repository
-public class SQLRepository {
+public class SQLProfileRepository {
 
     @Autowired
     private JdbcTemplate template;
@@ -37,6 +40,12 @@ public class SQLRepository {
     private final String INSERT_PLAYER_POSITION_SQL = "insert into playerPosition (id, position) values (?, ?)"; 
     private final String UPDATE_PLAYER_PHOTO_SQL = "update playerInfo set playerPhoto = ? where id = ?"; 
     
+    // save user credentials, use hash algo to store hashed passwords eg. bcrypt
+    // create a login cred 8 digit id as well (UUID)
+    public void saveLoginCreds(Login login) {
+
+    }
+
     // get login credentials 
     public Optional<Boolean> getLoginCreds(Login login) {
         try {
@@ -60,10 +69,20 @@ public class SQLRepository {
 
     // get player info from userId
     public PlayerInfo getPlayerInfo(String userId) {
-        PlayerInfo info = template.queryForObject(GET_PLAYER_INFO_SQL, BeanPropertyRowMapper.newInstance(PlayerInfo.class), userId);
+
+        AtomicReference<PlayerInfo> infoWrapper = new AtomicReference<>(new PlayerInfo());
+
+        // get info with photo 
+        // Previously: PlayerInfo info = template.queryForObject(GET_PLAYER_INFO_SQL, BeanPropertyRowMapper.newInstance(PlayerInfo.class), userId);
+        template.query(GET_PLAYER_INFO_SQL, (ResultSet rs) -> {
+            infoWrapper.set(PlayerInfo.populate(rs)); 
+        }, userId);
+        
+        PlayerInfo info = infoWrapper.get();
         // get list of positions and add to playerinfo
         List<String> positions = template.queryForList(GET_PLAYER_POSITION_SQL, String.class, userId); 
         info.setPositions(positions);
+
         // TODO: get list of block out dates 
 
         return info; 
@@ -96,8 +115,8 @@ public class SQLRepository {
         return false; 
     }
 
+    // upload player photo
     public boolean updatePhoto(MultipartFile picture, String userId) throws IOException {
-        
         Integer rowsAffected = template.update(UPDATE_PLAYER_PHOTO_SQL, new PreparedStatementSetter() {
 
             InputStream is = picture.getInputStream(); 
@@ -110,12 +129,6 @@ public class SQLRepository {
         if (rowsAffected > 0)
             return true; 
         return false; 
-    }
-
-    // save user credentials, use hash algo to store hashed passwords eg. bcrypt
-    // create a login cred 8 digit id as well (UUID)
-    public void saveLoginCreds(Login login) {
-
     }
 
     

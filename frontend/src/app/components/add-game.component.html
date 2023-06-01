@@ -1,0 +1,59 @@
+<div class="example-action-buttons">
+    <button mat-button (click)="accordion.openAll()" style="color: darkcyan;">Expand All</button>
+    <button mat-button (click)="accordion.closeAll()" style="color: darkcyan;">Collapse All</button>
+</div>
+
+<mat-accordion class="example-headers-align" multi>
+    <form [formGroup]="gameForm" (ngSubmit)="storeDescription()">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Description</mat-panel-title>
+            </mat-expansion-panel-header>
+        
+            <mat-form-field>
+                <mat-label>Game Label</mat-label>
+                <mat-select formControlName="label">
+                    <mat-option value="mnl">MNL</mat-option>
+                    <mat-option value="scc">SCC</mat-option>
+                    <mat-option value="friendly">Friendly</mat-option>
+                </mat-select>
+            </mat-form-field>
+        
+            <mat-form-field>
+                <mat-label>Against</mat-label>
+                <input matInput type="text" formControlName="against">
+            </mat-form-field>
+        
+            <mat-form-field>
+                <mat-label>Date</mat-label>
+                <input matInput type="date" formControlName="date">
+            </mat-form-field>
+            &nbsp;
+            <button type="submit" mat-raised-button>Next</button>
+        </mat-expansion-panel>
+    </form>
+
+    <div *ngIf="q1Form != undefined">
+        <form [formGroup]="q1Form" (ngSubmit)="storeQ1Info()">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Quarter 1 Info</mat-panel-title>
+                </mat-expansion-panel-header>
+            
+                <mat-form-field>
+                    <mat-label>Goal Shooter</mat-label>
+                    <mat-select formControlName="gs">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- TODO: Repeat for all other positions! -->
+    
+                <br>
+                <button type="submit" mat-raised-button>Next</button>
+            </mat-expansion-panel>
+        </form>
+    </div>
+
+</mat-accordion>
+  

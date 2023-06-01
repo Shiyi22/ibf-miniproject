@@ -11,10 +11,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginPageComponent } from './components/login-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfilePageComponent } from './components/profile-page.component';
+import { MembersComponent } from './components/members.component';
+import { StatisticsComponent } from './components/statistics.component';
+import { CompetitionComponent } from './components/competition.component';
+import { AddGameComponent } from './components/add-game.component';
 
 @NgModule({
   declarations: [
-    AppComponent, HomePageComponent, LoginPageComponent, ProfilePageComponent
+    AppComponent, HomePageComponent, LoginPageComponent, ProfilePageComponent, MembersComponent, StatisticsComponent, CompetitionComponent,
+    AddGameComponent
   ],
   imports: [
     BrowserModule,

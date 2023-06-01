@@ -26,4 +26,8 @@ export class BackendService {
   updatePhoto(formData: FormData, username: string) {
     return lastValueFrom(this.http.post(`/updatePhoto/${username}`, formData));
   }
+
+  getPlayerProfiles() {
+    return lastValueFrom(this.http.get('/playerProfiles'))
+  }
 }

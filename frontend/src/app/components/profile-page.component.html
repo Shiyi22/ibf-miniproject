@@ -189,11 +189,15 @@
         <!-- display current photo and allow a change in photo -->
         <mat-card>
             <!-- TODO: Display current photo -->
+            <div *ngIf="playerInfo.playerPhoto != undefined">
+                <img src="{{playerInfo.playerPhoto}}" height="400">
+            </div>
+            <br>
             <form [formGroup]="photoForm" (ngSubmit)="updatePhoto()">
                 <table>
                     <tr>
                         <td>
-                            <mat-label>Picture: </mat-label>
+                            <mat-label>Change Profile Picture (jpg only): </mat-label>
                             <input type="file" accept="image/*" #picture>
                         </td>
                     </tr>
@@ -201,7 +205,7 @@
                     <br>
                     <tr>
                         <td>
-                            <button mat-raised-button type="submit">Upload</button>
+                            <button mat-raised-button type="submit">Update</button>
                         </td>
                     </tr>
                 </table>

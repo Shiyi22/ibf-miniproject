@@ -37,10 +37,32 @@ export interface GameData {
     label: string,
     against: string,
     date: Date
-
-    Q1_Players: string[] //
 }
 
 export interface QuarterData {
+    gs: string;
+    ga: string;
+    wa: string;
+    c: string;
+    wd: string;
+    gd: string;
+    gk: string;
+    duration: number;
 
+    ownScore: number;   
+    oppScore: number;
+    gaShotIn: number;
+    gsShotIn: number;
+    gaTotalShots: number;
+    gsTotalShots: number;
+    ownCpCount: number;
+    oppCpCount: number;
+    oppSelfError: number;
+    goodTeamD: number;
+    oppMissShot: number;
+    interceptions: Map<string, number> 
+    lostSelfError: number;
+    lostByIntercept: number;
+
+    // = new Map<string, number>([['GS', 0], ['GA', 0], ['WA', 0], ['C', 0], ['WD', 0], ['GD', 0], ['GK', 0]]);
 }

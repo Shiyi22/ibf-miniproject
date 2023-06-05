@@ -9,6 +9,8 @@ import { MembersComponent } from './components/members.component';
 import { StatisticsComponent } from './components/statistics.component';
 import { CompetitionComponent } from './components/competition.component';
 import { AddGameComponent } from './components/add-game.component';
+import { AddStatisticsComponent } from './components/add-statistics.component';
+import { DisplayStatsComponent } from './components/display-stats.component';
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
@@ -19,6 +21,8 @@ const routes: Routes = [
   {path: 'statistics/:userId', component: StatisticsComponent},
   {path: 'games', component: CompetitionComponent},
   {path: 'addGame', component: AddGameComponent}, 
+  {path: 'addStats/:quarter', component: AddStatisticsComponent},
+  {path: 'displayStats', component: DisplayStatsComponent}, 
   {path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 

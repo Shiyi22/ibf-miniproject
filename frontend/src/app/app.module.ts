@@ -15,11 +15,13 @@ import { MembersComponent } from './components/members.component';
 import { StatisticsComponent } from './components/statistics.component';
 import { CompetitionComponent } from './components/competition.component';
 import { AddGameComponent } from './components/add-game.component';
+import { AddStatisticsComponent } from './components/add-statistics.component';
+import { DisplayStatsComponent } from './components/display-stats.component';
 
 @NgModule({
   declarations: [
     AppComponent, HomePageComponent, LoginPageComponent, ProfilePageComponent, MembersComponent, StatisticsComponent, CompetitionComponent,
-    AddGameComponent
+    AddGameComponent, AddStatisticsComponent, DisplayStatsComponent
   ],
   imports: [
     BrowserModule,

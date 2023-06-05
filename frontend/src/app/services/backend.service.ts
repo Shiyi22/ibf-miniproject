@@ -1,12 +1,18 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs'
-import { PlayerInfo } from '../models';
+import { GameData, PlayerInfo, QuarterData } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
+
+  gameData!: GameData
+  q1Data!: QuarterData
+  q2Data!: QuarterData 
+  q3Data!: QuarterData 
+  q4Data!: QuarterData
 
   constructor(private http: HttpClient) { }
 
@@ -29,5 +35,59 @@ export class BackendService {
 
   getPlayerProfiles() {
     return lastValueFrom(this.http.get('/playerProfiles'))
+  }
+
+  initVariables(quarter: string) {
+    const qtr = this.getQuarterData(quarter)!; 
+    qtr.ownScore = 0; 
+    qtr.oppScore = 0; 
+    qtr.gaShotIn = 0; 
+    qtr.gsShotIn = 0; 
+    qtr.gaTotalShots = 0; 
+    qtr.gsTotalShots = 0; 
+    qtr.ownCpCount = 0; 
+    qtr.oppCpCount = 0; 
+    qtr.oppSelfError = 0; 
+    qtr.goodTeamD = 0; 
+    qtr.oppMissShot = 0; 
+    qtr.interceptions = new Map<string, number>([['GS', 0], ['GA', 0], ['WA', 0], ['C', 0], ['WD', 0], ['GD', 0], ['GK', 0]]);
+    qtr.lostByIntercept = 0;
+    qtr.lostSelfError = 0;
+
+    // switch (quarter) {
+    //   case '1':
+    //     this.q1Data.ownScore = 0; 
+    //     this.q1Data.oppScore = 0; 
+    //     this.q1Data.gaShotIn = 0; 
+    //     this.q1Data.gsShotIn = 0; 
+    //     this.q1Data.gaTotalShots = 0; 
+    //     this.q1Data.gsTotalShots = 0; 
+    //     this.q1Data.ownCpCount = 0; 
+    //     this.q1Data.oppCpCount = 0; 
+    //     this.q1Data.oppSelfError = 0; 
+    //     this.q1Data.goodTeamD = 0; 
+    //     this.q1Data.oppMissShot = 0; 
+    //     this.q1Data.interceptions = new Map<string, number>([['GS', 0], ['GA', 0], ['WA', 0], ['C', 0], ['WD', 0], ['GD', 0], ['GK', 0]]);
+    //     this.q1Data.lostByIntercept = 0;
+    //     this.q1Data.lostSelfError = 0;
+    //     break;
+    //   case '2': 
+    //     break; 
+    //   }
+  }
+
+  getQuarterData(quarter: string) {
+    switch (quarter) {
+      case '1': 
+        return this.q1Data;
+      case '2': 
+        return this.q2Data;
+      case '3': 
+        return this.q3Data;
+      case '4': 
+        return this.q4Data; 
+      default: 
+        return undefined; 
+    }
   }
 }

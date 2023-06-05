@@ -5,7 +5,7 @@
 
 <mat-accordion class="example-headers-align" multi>
     <form [formGroup]="gameForm" (ngSubmit)="storeDescription()">
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="isFirstPanelExpanded">
             <mat-expansion-panel-header>
                 <mat-panel-title>Description</mat-panel-title>
             </mat-expansion-panel-header>
@@ -28,18 +28,25 @@
                 <mat-label>Date</mat-label>
                 <input matInput type="date" formControlName="date">
             </mat-form-field>
-            &nbsp;
-            <button type="submit" mat-raised-button>Next</button>
+            <br>
+            <button type="submit" mat-raised-button [disabled]="gameForm.invalid">Next</button>
         </mat-expansion-panel>
     </form>
 
     <div *ngIf="q1Form != undefined">
         <form [formGroup]="q1Form" (ngSubmit)="storeQ1Info()">
-            <mat-expansion-panel>
+            <mat-expansion-panel [expanded]="isSecondPanelExpanded">
                 <mat-expansion-panel-header>
                     <mat-panel-title>Quarter 1 Info</mat-panel-title>
                 </mat-expansion-panel-header>
-            
+
+                <!-- Duration of the game -->
+                <mat-form-field>
+                    <mat-label>Quarter Duration (minutes)</mat-label>
+                    <input matInput type="number" formControlName="duration">
+                </mat-form-field>
+                <br>
+                <!-- Select player to fill 7 positions -->
                 <mat-form-field>
                     <mat-label>Goal Shooter</mat-label>
                     <mat-select formControlName="gs">
@@ -47,8 +54,252 @@
                     </mat-select>
                 </mat-form-field>
 
-                <!-- TODO: Repeat for all other positions! -->
+                <mat-form-field>
+                    <mat-label>Goal Attack</mat-label>
+                    <mat-select formControlName="ga">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Wing Attack</mat-label>
+                    <mat-select formControlName="wa">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Centre</mat-label>
+                    <mat-select formControlName="c">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br>
+                <mat-form-field>
+                    <mat-label>Wing Defence</mat-label>
+                    <mat-select formControlName="wd">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Goal Defence</mat-label>
+                    <mat-select formControlName="gd">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Goal Keeper</mat-label>
+                    <mat-select formControlName="gk">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
     
+                <br>
+                <button type="submit" mat-raised-button>Next</button>
+            </mat-expansion-panel>
+        </form>
+    </div>
+
+    <div *ngIf="q1Ended">
+        <form [formGroup]="q2Form" (ngSubmit)="storeQ2Info()">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Quarter 2 Info</mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <!-- Duration of the game -->
+                <mat-form-field>
+                    <mat-label>Quarter Duration (minutes)</mat-label>
+                    <input matInput type="number" formControlName="duration">
+                </mat-form-field>
+                <br>
+                <!-- Select player to fill 7 positions -->
+                <mat-form-field>
+                    <mat-label>Goal Shooter</mat-label>
+                    <mat-select formControlName="gs">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Goal Attack</mat-label>
+                    <mat-select formControlName="ga">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Wing Attack</mat-label>
+                    <mat-select formControlName="wa">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Centre</mat-label>
+                    <mat-select formControlName="c">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br>
+                <mat-form-field>
+                    <mat-label>Wing Defence</mat-label>
+                    <mat-select formControlName="wd">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Goal Defence</mat-label>
+                    <mat-select formControlName="gd">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Goal Keeper</mat-label>
+                    <mat-select formControlName="gk">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br>
+                <button type="submit" mat-raised-button>Next</button>
+            </mat-expansion-panel>
+        </form>
+    </div>
+
+    <div *ngIf="q2Ended">
+        <form [formGroup]="q3Form" (ngSubmit)="storeQ3Info()">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Quarter 3 Info</mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <!-- Duration of the game -->
+                <mat-form-field>
+                    <mat-label>Quarter Duration (minutes)</mat-label>
+                    <input matInput type="number" formControlName="duration">
+                </mat-form-field>
+                <br>
+                <!-- Select player to fill 7 positions -->
+                <mat-form-field>
+                    <mat-label>Goal Shooter</mat-label>
+                    <mat-select formControlName="gs">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Goal Attack</mat-label>
+                    <mat-select formControlName="ga">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Wing Attack</mat-label>
+                    <mat-select formControlName="wa">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Centre</mat-label>
+                    <mat-select formControlName="c">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br>
+                <mat-form-field>
+                    <mat-label>Wing Defence</mat-label>
+                    <mat-select formControlName="wd">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Goal Defence</mat-label>
+                    <mat-select formControlName="gd">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Goal Keeper</mat-label>
+                    <mat-select formControlName="gk">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br>
+                <button type="submit" mat-raised-button>Next</button>
+            </mat-expansion-panel>
+        </form>
+    </div>
+    
+    <div *ngIf="q3Ended">
+        <form [formGroup]="q4Form" (ngSubmit)="storeQ4Info()">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Quarter 4 Info</mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <!-- Duration of the game -->
+                <mat-form-field>
+                    <mat-label>Quarter Duration (minutes)</mat-label>
+                    <input matInput type="number" formControlName="duration">
+                </mat-form-field>
+                <br>
+                <!-- Select player to fill 7 positions -->
+                <mat-form-field>
+                    <mat-label>Goal Shooter</mat-label>
+                    <mat-select formControlName="gs">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Goal Attack</mat-label>
+                    <mat-select formControlName="ga">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Wing Attack</mat-label>
+                    <mat-select formControlName="wa">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Centre</mat-label>
+                    <mat-select formControlName="c">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br>
+                <mat-form-field>
+                    <mat-label>Wing Defence</mat-label>
+                    <mat-select formControlName="wd">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Goal Defence</mat-label>
+                    <mat-select formControlName="gd">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Goal Keeper</mat-label>
+                    <mat-select formControlName="gk">
+                        <mat-option *ngFor="let player of members" [value]="player.name">{{player.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
                 <br>
                 <button type="submit" mat-raised-button>Next</button>
             </mat-expansion-panel>

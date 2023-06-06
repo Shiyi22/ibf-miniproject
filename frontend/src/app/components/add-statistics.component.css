@@ -28,6 +28,14 @@
   border-right: 1px solid black;
 }
 
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+
 .score-container {
   display: flex;
   justify-content: space-between;
@@ -53,6 +61,7 @@
 .scoreboard {
   width: 40%;
   margin-left: 20px;
+  text-align: center;
 }
   
   

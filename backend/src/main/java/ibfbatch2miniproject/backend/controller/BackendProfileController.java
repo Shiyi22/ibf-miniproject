@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -67,7 +68,7 @@ public class BackendProfileController {
         return ResponseEntity.ok().body(jo.toString());
     }
 
-    @PostMapping(path="/updatePhoto/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path="/updatePhoto/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updatePhoto(@RequestPart MultipartFile picture, @PathVariable String username) throws IOException {
         String userId = profileRepo.getPlayerId(username); 
         boolean isUpdated = profileRepo.updatePhoto(picture, userId); 

@@ -21,7 +21,7 @@ create table playerInfo (
     name varchar(15) not null, 
     weight int,
     height int, 
-    playerPhoto blob,
+    playerPhoto longblob,
     email varchar(30),
     phoneNumber int,
     dob date, 
@@ -36,6 +36,7 @@ create table playerInfo (
 );
 
 insert into playerInfo values ('abcd1234', 'shiyi', 49, 164, null, 'yeoshiyi22@gmail.com', 87846863, '1997-09-02', 91234567, 'Mom, Goh', '22 Greenwich Lane', 'nil', 'Player', 2015); 
+insert into playerInfo values ('efgh5678', 'sokyee', 49, 164, null, 'sokyee@gmail.com', 81234567, '1995-10-01', 91234567, 'Husband, Shawn', 'Sembawang Drive xxx', 'nil', 'Treasurer', 2017); 
 insert into playerInfo values ('efgh5678', 'sokyee', 49, 164, null, 'sokyee@gmail.com', 81234567, '1995-10-01', 91234567, 'Husband, Shawn', 'Sembawang Drive xxx', 'nil', 'Treasurer', 2017); 
 select * from logincreds inner join playerInfo on logincreds.id = playerInfo.id;
 select * from playerInfo;

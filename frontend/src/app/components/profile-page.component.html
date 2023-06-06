@@ -26,6 +26,9 @@
             &nbsp;
             <span>Profile picture</span>
         </mat-list-item>
+        <mat-list-item>
+            <button mat-raised-button (click)="logout()">Logout</button>
+        </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
@@ -211,7 +214,6 @@
                 </table>
             </form>       
         </mat-card>
-
     </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

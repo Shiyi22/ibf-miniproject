@@ -1,0 +1,8 @@
+.quarter-container {
+    display: flex;
+}
+
+.quarter {
+    flex: 1; 
+    margin-right: 20px;
+}

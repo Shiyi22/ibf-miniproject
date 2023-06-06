@@ -13,7 +13,9 @@ import { Router } from '@angular/router';
 export class LoginPageComponent implements OnInit {
 
   form!: FormGroup
+  verification!: FormGroup
   errorMsg!: string
+  signupActivated: boolean = false 
 
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {}
 
@@ -47,6 +49,24 @@ export class LoginPageComponent implements OnInit {
       
     }).catch((err) => console.log(err))
     
+  }
+
+  signup() {
+    this.signupActivated = true; 
+    this.verification = this.createVerification() 
+  }
+
+  // TODO: to be continued 
+  sendReqToCaptain() {
+    // store email address 
+    const email = this.verification.value['email']
+    // fire notification to captain 
+  }
+
+  createVerification() {
+    return this.fb.group({
+      code: this.fb.control('', [Validators.required])
+    })
   }
 
 }

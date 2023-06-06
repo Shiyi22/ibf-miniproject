@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BlockDate, PlayerInfo } from '../models';
 import { BackendService } from '../services/backend.service';
 import { lastValueFrom } from 'rxjs';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -23,7 +24,7 @@ export class ProfilePageComponent implements OnInit {
 
   @ViewChild('picture') playerPhoto!: ElementRef;
 
-  constructor(private fb: FormBuilder, private backendSvc: BackendService) {}
+  constructor(private fb: FormBuilder, private backendSvc: BackendService, private loginSvc: LoginService) {}
 
   ngOnInit(): void {
     this.getPlayerInfo(); // will fill playerInfo property up 
@@ -125,6 +126,12 @@ export class ProfilePageComponent implements OnInit {
     return this.fb.group({
       playerPhoto: this.fb.control('')
     })
+  }
+
+  logout() {
+    localStorage.removeItem('username')
+    localStorage.removeItem('jwt')
+    this.loginSvc.isLoggedIn = false; 
   }
 
 }

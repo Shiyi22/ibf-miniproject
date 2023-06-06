@@ -13,7 +13,6 @@ export class BackendService {
   q2Data!: QuarterData 
   q3Data!: QuarterData 
   q4Data!: QuarterData
-  historicalSequence: string[][] = []
 
   constructor(private http: HttpClient) { }
 
@@ -31,7 +30,7 @@ export class BackendService {
   }
 
   updatePhoto(formData: FormData, username: string) {
-    return lastValueFrom(this.http.post(`/updatePhoto/${username}`, formData));
+    return lastValueFrom(this.http.put(`/updatePhoto/${username}`, formData));
   }
 
   getPlayerProfiles() {
@@ -54,6 +53,7 @@ export class BackendService {
     qtr.interceptions = new Map<string, number>([['GS', 0], ['GA', 0], ['WA', 0], ['C', 0], ['WD', 0], ['GD', 0], ['GK', 0]]);
     qtr.lostByIntercept = 0;
     qtr.lostSelfError = 0;
+    qtr.quarterSequence = []
   }
 
   getQuarterData(quarter: string) {

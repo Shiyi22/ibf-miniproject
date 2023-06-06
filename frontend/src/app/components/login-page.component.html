@@ -1,33 +1,52 @@
-<form [formGroup]="form" class="example-form" (ngSubmit)="login()">
-  <table class="login-form">
-    <tr>
-      <td>Username:</td>
-      <td>
-        <mat-form-field class="example-full-width">
-          <!-- <mat-label>Favorite food</mat-label> -->
-          <input matInput placeholder="username" formControlName="username">
-        </mat-form-field>
-      </td>
-    </tr>
-    <tr>
-      <td>Password:</td>
-      <td>
-        <mat-form-field class="example-full-width">
-          <!-- <mat-label>Leave a comment</mat-label> -->
-          <input matInput placeholder="password" formControlName="password">
-        </mat-form-field>
-      </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>
-        <button mat-raised-button type="submit" [disabled]="form.invalid">Login</button>
-      </td>
-    </tr>
-
-    <tr *ngIf="errorMsg !== undefined">
-      <td></td>
-      <td>{{ errorMsg }}</td>
-    </tr>
-  </table>
+<div *ngIf="signupActivated == false">
+  <form [formGroup]="form" class="example-form" (ngSubmit)="login()">
+    <table class="login-form">
+      <tr>
+        <td>Username:</td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="username" formControlName="username">
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>Password:</td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="password" formControlName="password">
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <button mat-raised-button type="submit" [disabled]="form.invalid">Login</button>&nbsp;
+          <button mat-raised-button (click)="signup()">Sign up request</button>
+        </td>
+      </tr>
+      <tr *ngIf="errorMsg !== undefined">
+        <td></td>
+        <td>{{ errorMsg }}</td>
+      </tr>
+    </table>
   </form>
+</div>
+
+<div *ngIf="signupActivated">
+  <form [formGroup]="verification" (ngSubmit)="sendReqToCaptain()">
+    <table>
+      <tr>
+        <td>
+          <mat-form-field>
+            <input type="text" placeholder="email" formControlName="email">
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button mat-raised-button type="submit">Send Request To Team Captains</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>

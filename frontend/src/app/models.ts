@@ -63,6 +63,7 @@ export interface QuarterData {
     interceptions: Map<string, number> 
     lostSelfError: number;
     lostByIntercept: number;
+    quarterSequence: string[][]
 
     // = new Map<string, number>([['GS', 0], ['GA', 0], ['WA', 0], ['C', 0], ['WD', 0], ['GD', 0], ['GK', 0]]);
 }

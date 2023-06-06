@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ibfbatch2miniproject.backend.model.Login;
 import ibfbatch2miniproject.backend.model.PlayerInfo;
-import ibfbatch2miniproject.backend.model.PlayerProfile;
 
 @Repository
 public class SQLProfileRepository {

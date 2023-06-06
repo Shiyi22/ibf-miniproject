@@ -1,55 +1,27 @@
-<style>
-    .table {
-      border-collapse: collapse;
-    }
-  
-    .table td {
-      border: 1px solid black;
-      padding: 5px;
-      position: relative;
-    }
-  
-    .circle {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: blue;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-  
-    .line {
-      position: relative;
-    }
-  
-    .line::before {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translateX(-50%);
-      height: 2px;
-      background-color: black;
-      width: 100%;
-    }
-  </style>
-  
-  <br><br><br><br>
-  <table class="table">
-    <colgroup>
-      <col style="width: 50%">
-      <col style="width: 50%">
-    </colgroup>
-    <tr class="line">
-      <td colspan="2">
-        <div class="circle"></div>
-      </td>
-    </tr>
-    <tr>
-      <td>Data 1</td>
-      <td>Data 2</td>
-    </tr>
-  </table>
-  
+<div class="quarter-container">
+  <div *ngFor="let quarter of fullGameData; let i = index" class="quarter">
+    <h2 style="color: blueviolet;">Quarter {{i + 1}}</h2>
+    <h3>Players: </h3>
+    <span>GS: {{quarter.gs}}</span><br>
+    <span>GA: {{quarter.ga}}</span><br>
+    <span>WA: {{quarter.wa}}</span><br>
+    <span>C: {{quarter.c}}</span><br>
+    <span>WD: {{quarter.wd}}</span><br>
+    <span>GD: {{quarter.gd}}</span><br>
+    <span>GK: {{quarter.gk}}</span>
+    <br><br>
+
+    <h3>Score: </h3>
+    <span>{{quarter.ownScore}} - {{ quarter.oppScore}}</span>
+    <br><br>
+
+    <h3>Merits: </h3>
+    <span>Good Team Defence: {{quarter.goodTeamD}}</span>
+    <span>Interceptions: {{interceptions[i]}}</span>
+    <br><br>
+    
+    <h3>Room for improvement: </h3>
+    <span>Lost possession due to self error: {{quarter.lostSelfError}}</span>
+    <span>Lost possession due to interception: {{quarter.lostByIntercept}}</span>
+  </div>
+</div>

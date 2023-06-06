@@ -41,16 +41,24 @@ export class AddStatisticsComponent implements OnInit {
     // push buttons records to buttonSequence
     // if cp button is pressed, save sequence in historySeq in backendSvc + clear for new sequence 
     if ((events === 'A-cp' || events === 'B-cp') && (this.buttonSequence != undefined)) {
-      this.backendSvc.historicalSequence.push(this.buttonSequence)
+      // remove id tag 
+      if (events === 'A-cp') { // previous was B-cp
+        const toRemoveIdTag = document.getElementById('B-cp-row')
+        if (toRemoveIdTag)
+          toRemoveIdTag.id = ''
+      } else if (events === 'B-cp' && this.buttonSequence != undefined) { // previous was A-cp
+        const toRemoveIdTag = document.getElementById('A-cp-row')!
+        if (toRemoveIdTag)
+          toRemoveIdTag.id = ''
+      }
+      this.qData.quarterSequence.push(this.buttonSequence)
       this.buttonSequence = [] // empty current sequence
       this.buttonSequence.push(events); // push cp event as start
-      console.info('>>> if statement executed')
     } else {
-      console.info('>>> else statement is executed')
       this.buttonSequence.push(events); 
     }
     console.info('>>> button sequence: ', this.buttonSequence)
-    console.info('>>> historical seq in backend: ', this.backendSvc.historicalSequence)
+    console.info('>>> historical quarter sequence: ', this.qData.quarterSequence)
     // draw xmas tree at every new event added
     this.drawStats();
   }
@@ -63,17 +71,35 @@ export class AddStatisticsComponent implements OnInit {
     // list all actions for each event
     const event = this.buttonSequence[this.buttonSequence.length-1]
     console.info('>>> current event:', event)
+    // account for intercepts 'A-intercept-GS'
+    if(event.includes('A-intercept')) {
+      console.info('+++ Reached this line of code!')
+      if (this.buttonSequence[this.buttonSequence.length-2] === 'B-cp') {
+        const specificRow = document.getElementById('B-cp-row') as HTMLTableRowElement
+        specificRow.cells[0].innerHTML = '<span class="material-symbols-outlined">west</span>'; 
+      } else {
+        // left arrow in new line on team A's side
+        row.insertCell().innerHTML = '<span class="material-symbols-outlined">west</span>'
+      }
+      // find out the player who intercepted and add to stats 
+      const player = event.split('-')[2] 
+      const count = this.qData.interceptions.get(player) || 0
+      this.qData.interceptions.set(player, count + 1)
+    }
 
     switch (event) {
       case 'A-cp': 
         // draw a circle
-        row.insertCell().innerHTML = '<span class="dot">O</span>';
+        row.id = 'A-cp-row'
+        row.insertCell().innerHTML = '<span class="material-symbols-outlined">sports_volleyball</span>';
         // add CP count to Krypt
         this.qData.ownCpCount ++;
         break; 
       case 'A-score-ga': 
         // write 'GA' and put a tick on the same line 
         row.insertCell().innerHTML = '<span>GA &#10003;</span>'
+        // leave a gap in live stats page
+        table.insertRow(); 
         // add to score and total shot count
         this.qData.gaTotalShots ++; 
         this.qData.gaShotIn ++; 
@@ -87,6 +113,8 @@ export class AddStatisticsComponent implements OnInit {
       case 'A-score-gs': 
         // write 'GS' and put tick on same line
         row.insertCell().innerHTML = '<span>GS &#10003;</span>'
+        // leave a gap in live stats page
+        table.insertRow(); 
         // add to score and total shot counts
         this.qData.gsShotIn ++;
         this.qData.gsTotalShots ++; 
@@ -99,50 +127,86 @@ export class AddStatisticsComponent implements OnInit {
         break; 
       case 'A-Opp self error': 
         // draw line from team B to team A 
-        // row.insertCell().innerHTML = '<span class="line">-</span>'
+        if (this.buttonSequence[this.buttonSequence.length-2] === 'B-cp') {
+          const specificRow = document.getElementById('B-cp-row') as HTMLTableRowElement
+          specificRow.cells[0].innerHTML = '<span class="material-symbols-outlined">west</span>'; 
+        } else {
+          // left arrow in new line on team A's side
+          row.insertCell().innerHTML = '<span class="material-symbols-outlined">west</span>'
+        }
         // add to stats 
         this.qData.oppSelfError += 1
         break;
       case 'A-Good team defense': 
+        // draw line from team B to team A 
+        if (this.buttonSequence[this.buttonSequence.length-2] === 'B-cp') {
+          const specificRow = document.getElementById('B-cp-row') as HTMLTableRowElement
+          specificRow.cells[0].innerHTML = '<span class="material-symbols-outlined">west</span>'; 
+        } else {
+          // left arrow in new line on team A's side
+          row.insertCell().innerHTML = '<span class="material-symbols-outlined">west</span>'
+        }
+        //stats 
+        this.qData.goodTeamD ++;
         break; 
       case 'A-Opp miss shot': 
+        if (this.buttonSequence[this.buttonSequence.length-2] === 'B-cp') {
+          const specificRow = document.getElementById('B-cp-row') as HTMLTableRowElement
+          specificRow.cells[0].innerHTML = '<span class="material-symbols-outlined">west</span>'; 
+        } else {
+          // left arrow in new line on team A's side
+          row.insertCell().innerHTML = '<span class="material-symbols-outlined">west</span>'
+        }
+        // stats 
+        this.qData.oppMissShot ++
         break; 
       case 'B-cp': 
         // draw a circle
+        row.id = 'B-cp-row'
         row.insertCell();
-        row.insertCell().innerHTML = '<span class="dot">O</span>';
+        row.insertCell().innerHTML = '<span class="material-symbols-outlined">sports_volleyball</span>';
         // add CP count to Opponent 
         this.qData.oppCpCount ++;
         break;
       case 'B-score': 
         row.insertCell()
         row.insertCell().innerHTML = '<span>&#10003;</span>'
+        // leave a gap in live stats page
+        table.insertRow(); 
         // add to opp score 
         this.qData.oppScore ++
         break; 
       case 'B-Lost on self error': 
-        // draw a line from team A to team B
+        // draw a right arrow in team B's side (indicate Team B possesion)
         if (this.buttonSequence[this.buttonSequence.length-2] === 'A-cp') {
-          // replace circle with circle and lines 
-          console.info('deleting table row: ', table.rows.length - 1) 
-          table.deleteRow(table.rows.length - 1)
-          row.insertCell().innerHTML = '<span>O----</span>'
-          row.insertCell().innerHTML = '<span>-----</span> '
-        } else { 
-          // draw horizontal line 
-          row.insertCell().innerHTML = '<span>-----</span>'
-          row.insertCell().innerHTML = '<span>-----</span>'
+          const specificRow = document.getElementById('A-cp-row') as HTMLTableRowElement
+          specificRow.insertCell().innerHTML = '<span class="material-symbols-outlined">east</span>'
+        } 
+        else { 
+          // right arrow in new line on Team B's side
+          row.insertCell(); 
+          row.insertCell().innerHTML = '<span class="material-symbols-outlined">east</span>'
         }
         // stats 
         this.qData.lostSelfError ++; 
         break; 
       case 'B-Lost on opp intercept': 
+        if (this.buttonSequence[this.buttonSequence.length-2] === 'A-cp') {
+          const specificRow = document.getElementById('A-cp-row') as HTMLTableRowElement
+          specificRow.insertCell().innerHTML = '<span class="material-symbols-outlined">east</span>'
+        } 
+        else { 
+          // right arrow in new line on Team B's side
+          row.insertCell(); 
+          row.insertCell().innerHTML = '<span class="material-symbols-outlined">east</span>'
+        }
+        // stats 
+        this.qData.lostByIntercept ++;
         break;
       default: 
-        // account for intercepts 'A-intercept-GS'
         break; 
     } 
-    console.info('>>> Total stats: ', this.qData)
+    console.info('>>> Total stats this quarter: ', this.qData)
   }
 
   // addAttempt(playerAttempted: string) {
@@ -186,27 +250,27 @@ export class AddStatisticsComponent implements OnInit {
   //   }
   // }
 
-  addIntercept(player : string) {
-    const count = this.qData.interceptions.get(player) ?? 0; 
-    if (count != undefined)
-      this.qData.interceptions.set(player, count + 1); 
-    else 
-      this.qData.interceptions.set(player, 1);
-  }
+  // addConversion(reason: string) {
+  //   if (reason.includes('Opp self error')) {
+  //     this.qData.oppSelfError += 1
+  //   } else if (reason.includes('Good team defense')) {
+  //     this.qData.goodTeamD += 1
+  //   } else if (reason.includes('Opp miss shot')) {
+  //     this.qData.oppMissShot += 1
+  //   } else if (reason.includes('Lost on self error')) {
+  //     this.qData.lostSelfError += 1
+  //   } else if (reason.includes('Lost on opp intercept')) {
+  //     this.qData.lostByIntercept += 1
+  //   }
+  // }
 
-  addConversion(reason: string) {
-    if (reason.includes('Opp self error')) {
-      this.qData.oppSelfError += 1
-    } else if (reason.includes('Good team defense')) {
-      this.qData.goodTeamD += 1
-    } else if (reason.includes('Opp miss shot')) {
-      this.qData.oppMissShot += 1
-    } else if (reason.includes('Lost on self error')) {
-      this.qData.lostSelfError += 1
-    } else if (reason.includes('Lost on opp intercept')) {
-      this.qData.lostByIntercept += 1
-    }
-  }
+  // addIntercept(player : string) {
+  //   const count = this.qData.interceptions.get(player) ?? 0; 
+  //   if (count != undefined)
+  //     this.qData.interceptions.set(player, count + 1); 
+  //   else 
+  //     this.qData.interceptions.set(player, 1);
+  // }
 
   saveQuarterData(quarter : string) {
     // save details to backend svc

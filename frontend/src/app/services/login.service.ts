@@ -14,7 +14,7 @@ export class LoginService {
     const storage = localStorage.getItem('jwt');
     if (storage == null)
       return; 
-    console.log('>>> jwt retrieved: ', storage); 
+    // console.log('>>> jwt retrieved: ', storage); 
     this.isLoggedIn = true; 
     this.checked = true;
   }

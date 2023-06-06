@@ -121,7 +121,7 @@ export class AddStatisticsComponent implements OnInit {
         this.qData.ownScore ++;
         break;  
       case 'A-attempt-gs': 
-        row.insertCell().innerHTML = '<span>GA \u00D7</span>'
+        row.insertCell().innerHTML = '<span>GS \u00D7</span>'
         // add to attempt or total shots count
         this.qData.gsTotalShots ++; 
         break; 

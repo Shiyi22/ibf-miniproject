@@ -61,3 +61,45 @@ update playerInfo set name = ?, weight = ?, height = ?, playerPhoto = ?, email =
 address = ?, pastInjuries = ?, role = ?, yearJoined = ? where id = ?; 
 update playerPosition set position = ? where id = ? ; 
 delete from playerPosition where id = '';
+
+-- statistics table 
+create table GameData (
+	game_id int not null auto_increment, 
+    label varchar(10) not null, 
+    against varchar(20) not null,
+    date date not null,
+    constraint gameData_pk primary key (game_id)
+); 
+insert into GameData (label, against, date) values (?, ?, ?); 
+select * from GameData; 
+select * from FullGameData;
+select quarterSequence from FullGameData;
+
+create table FullGameData(
+	id int not null auto_increment, 
+    game_id int not null,
+    gs varchar(15) not null, 
+    ga varchar(15) not null, 
+    wa varchar(15) not null, 
+    c varchar(15) not null, 
+    wd varchar(15) not null, 
+    gd varchar(15) not null,
+    gk varchar(15) not null, 
+    ownScore int not null, 
+    oppScore int not null, 
+    gaShotIn int,
+    gsShotIn int, 
+    gaTotalShots int, 
+    gsTotalShots int, 
+    ownCpCount int,
+    oppCpCount int, 
+    oppSelfError int, 
+    goodTeamD int, 
+    oppMissShot int, 
+    interceptions text, 
+    lostSelfError int, 
+    lostByIntercept int,
+    quarterSequence text,
+    constraint fullGameData_pk primary key (id),
+    constraint fullGameData_fk foreign key (game_id) references GameData(game_id)
+);

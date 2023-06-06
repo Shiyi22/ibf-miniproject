@@ -1,3 +1,6 @@
+<div>
+  <button mat-raised-button (click)="saveDB()">Save in Database</button>
+</div>
 <div class="quarter-container">
   <div *ngFor="let quarter of fullGameData; let i = index" class="quarter">
     <h2 style="color: blueviolet;">Quarter {{i + 1}}</h2>
@@ -15,13 +18,18 @@
     <span>{{quarter.ownScore}} - {{ quarter.oppScore}}</span>
     <br><br>
 
+    <h3>Shooting Percentage: </h3>
+    <span>GA: {{gaPercentage[i] | number: '1.2-2'}}%</span><br>
+    <span>GS: {{gsPercentage[i] | number: '1.2-2'}}%</span>
+    <br><br>
+
     <h3>Merits: </h3>
-    <span>Good Team Defence: {{quarter.goodTeamD}}</span>
+    <span>Good Team Defence: {{quarter.goodTeamD}}</span><br>
     <span>Interceptions: {{interceptions[i]}}</span>
     <br><br>
-    
+
     <h3>Room for improvement: </h3>
-    <span>Lost possession due to self error: {{quarter.lostSelfError}}</span>
+    <span>Lost possession due to self error: {{quarter.lostSelfError}}</span><br>
     <span>Lost possession due to interception: {{quarter.lostByIntercept}}</span>
   </div>
 </div>

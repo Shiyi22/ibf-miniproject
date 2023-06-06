@@ -37,6 +37,14 @@ export class BackendService {
     return lastValueFrom(this.http.get('/playerProfiles'))
   }
 
+  saveGameData(gameData: GameData) {
+    return lastValueFrom(this.http.post('/saveGameData', gameData))
+  }
+  
+  saveFullGameData(fullGameData: QuarterData[]) {
+    return lastValueFrom(this.http.post('/saveFullGameData', fullGameData))
+  }
+
   initVariables(quarter: string) {
     const qtr = this.getQuarterData(quarter)!; 
     qtr.ownScore = 0; 

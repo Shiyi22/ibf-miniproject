@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import ibfbatch2miniproject.backend.model.Login;
 import ibfbatch2miniproject.backend.model.PlayerProfile;
-import ibfbatch2miniproject.backend.repository.SQLMemberRepository;
 import ibfbatch2miniproject.backend.repository.SQLProfileRepository;
+import ibfbatch2miniproject.backend.repository.SQLStatisticsRepository;
 import ibfbatch2miniproject.backend.utils.JWTUtils;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -27,7 +27,7 @@ public class BackendService {
     private JWTUtils utils;
 
     @Autowired
-    private SQLMemberRepository memberRepo; 
+    private SQLStatisticsRepository statsRepo; 
     private static final String BASE64_PREFIX = "data:image/jpg;base64,";
     
     public String getLoginCreds(Login login) {
@@ -44,7 +44,7 @@ public class BackendService {
     }
 
     public JsonArray getPlayerProfiles() {
-        List<PlayerProfile> profiles = memberRepo.getPlayerProfiles();
+        List<PlayerProfile> profiles = statsRepo.getPlayerProfiles();
         JsonArrayBuilder arrB = Json.createArrayBuilder(); 
         
         for (PlayerProfile player: profiles) {

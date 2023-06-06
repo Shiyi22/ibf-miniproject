@@ -1,1 +1,55 @@
-<p>display-stats works!</p>
+<style>
+    .table {
+      border-collapse: collapse;
+    }
+  
+    .table td {
+      border: 1px solid black;
+      padding: 5px;
+      position: relative;
+    }
+  
+    .circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: blue;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  
+    .line {
+      position: relative;
+    }
+  
+    .line::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 2px;
+      background-color: black;
+      width: 100%;
+    }
+  </style>
+  
+  <br><br><br><br>
+  <table class="table">
+    <colgroup>
+      <col style="width: 50%">
+      <col style="width: 50%">
+    </colgroup>
+    <tr class="line">
+      <td colspan="2">
+        <div class="circle"></div>
+      </td>
+    </tr>
+    <tr>
+      <td>Data 1</td>
+      <td>Data 2</td>
+    </tr>
+  </table>
+  

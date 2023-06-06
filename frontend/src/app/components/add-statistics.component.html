@@ -4,39 +4,38 @@
         <h2>Kryptonite</h2>
         <!-- Buttons for Team A -->
         <div class="buttons-container">
-          <button mat-raised-button (click)="addCP('own')">Center pass</button><br><br>
-          <button mat-raised-button (click)="addScore('GA')">GA shot in</button>
+          <button mat-raised-button (click)="handleButtonsClick('A-cp')">Center pass</button><br><br>
+          <button mat-raised-button (click)="handleButtonsClick('A-score-ga')">GA shot in</button>
           &nbsp;
-          <button mat-raised-button (click)="addAttempt('GA')">GA attempt failed</button><br><br>
-          <button mat-raised-button (click)="addScore('GS')">GS shot in</button>
+          <button mat-raised-button (click)="handleButtonsClick('A-attempt-ga')">GA attempt failed</button><br><br>
+          <button mat-raised-button (click)="handleButtonsClick('A-score-gs')">GS shot in</button>
           &nbsp;
-          <button mat-raised-button (click)="addAttempt('GS')">GS attempt failed</button><br><br><br><br>
+          <button mat-raised-button (click)="handleButtonsClick('A-attempt-gs')">GS attempt failed</button><br><br><br><br>
 
-          <button mat-raised-button (click)="addConversion('Opp self error')">K's possession: Opponent's self error</button><br><br>
-          <button mat-raised-button (click)="addConversion('Good team defense')">K's possession: Good team defense</button><br><br>
-          <button mat-raised-button (click)="addConversion('Opp miss shot')">K's possession: Opponent miss shot</button>
+          <button mat-raised-button (click)="handleButtonsClick('A-Opp self error')">K's possession: Opponent's self error</button><br><br>
+          <button mat-raised-button (click)="handleButtonsClick('A-Good team defense')">K's possession: Good team defense</button><br><br>
+          <button mat-raised-button (click)="handleButtonsClick('A-Opp miss shot')">K's possession: Opponent miss shot</button>
           
           <br><br><br>
           <span style="color: darkgreen;">Interception by: </span>
           <br><br>
-          <button mat-raised-button (click)="addIntercept('GS')">GS</button>&nbsp;
-          <button mat-raised-button (click)="addIntercept('GA')">GA</button>&nbsp;
-          <button mat-raised-button (click)="addIntercept('WA')">WA</button>&nbsp;
-          <button mat-raised-button (click)="addIntercept('C')">C</button><br><br>
-          <button mat-raised-button (click)="addIntercept('WD')">WD</button>&nbsp;
-          <button mat-raised-button (click)="addIntercept('GD')">GD</button>&nbsp;
-          <button mat-raised-button (click)="addIntercept('GK')">GK</button>
+          <button mat-raised-button (click)="handleButtonsClick('A-intercept-GS')">GS</button>&nbsp;
+          <button mat-raised-button (click)="handleButtonsClick('A-intercept-GA')">GA</button>&nbsp;
+          <button mat-raised-button (click)="handleButtonsClick('A-intercept-WA')">WA</button>&nbsp;
+          <button mat-raised-button (click)="handleButtonsClick('A-intercept-C')">C</button><br><br>
+          <button mat-raised-button (click)="handleButtonsClick('A-intercept-WD')">WD</button>&nbsp;
+          <button mat-raised-button (click)="handleButtonsClick('A-intercept-GD')">GD</button>&nbsp;
+          <button mat-raised-button (click)="handleButtonsClick('A-intercept-GK')">GK</button>
         </div>
       </div>
       <div class="team">
         <h2>{{opponent}}</h2>
         <!-- Buttons for Team B -->
         <div class="buttons-container">
-          <button mat-raised-button (click)="addCP('opp')">Center pass</button><br><br>
-          <button mat-raised-button (click)="addScore('opp')">Opponent scored</button><br><br><br><br><br><br><br>
-          <button mat-raised-button (click)="addConversion('Lost on self error')">Opp's possession: K's self error</button><br><br>
-          <button mat-raised-button (click)="addConversion('Lost on opp intercept')">Opp's possession: Opponent intercept</button>
-          <!-- Add more buttons for Team B as needed -->
+          <button mat-raised-button (click)="handleButtonsClick('B-cp')">Center pass</button><br><br>
+          <button mat-raised-button (click)="handleButtonsClick('B-score')">Opponent scored</button><br><br><br><br><br><br><br>
+          <button mat-raised-button (click)="handleButtonsClick('B-Lost on self error')">Opp's possession: K's self error</button><br><br>
+          <button mat-raised-button (click)="handleButtonsClick('B-Lost on opp intercept')">Opp's possession: Opponent intercept</button>
         </div>
       </div>
     </div>
@@ -45,21 +44,21 @@
         &nbsp;
         <h3>Quarter {{currentQ}} Statistics</h3>
         <button mat-raised-button (click)="startTimer()" *ngIf="quarterStarted == false">Start Quarter Clock</button>
-        <h4>{{timer}}</h4>
+        <h4 style="color: red;">{{timer}}</h4>
         <h4 *ngIf="quarterEnded" style="color: red;">Quarter Ended! Press "End" button to proceed & save data</h4>
         <!-- Display scores here -->
-        <table>
+        <table style="color: coral; font-weight: bold; text-align: center;">
             <tr>
                 <td>Kryptonite</td>
-                <td>-</td>
                 <td>Team B</td>
             </tr>
             <tr>
                 <td>{{qData.ownScore}}</td>
-                <td>-</td>
                 <td>{{qData.oppScore}}</td>
             </tr>
         </table>
+        <br><br><br>
+        <table id="live-stats-table" style="text-align: center;"></table>
         <button mat-raised-button (click)="saveQuarterData(currentQ)">End</button>
       </mat-card>
     </div>

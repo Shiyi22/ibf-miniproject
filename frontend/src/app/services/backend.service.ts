@@ -13,6 +13,7 @@ export class BackendService {
   q2Data!: QuarterData 
   q3Data!: QuarterData 
   q4Data!: QuarterData
+  historicalSequence: string[][] = []
 
   constructor(private http: HttpClient) { }
 
@@ -53,27 +54,6 @@ export class BackendService {
     qtr.interceptions = new Map<string, number>([['GS', 0], ['GA', 0], ['WA', 0], ['C', 0], ['WD', 0], ['GD', 0], ['GK', 0]]);
     qtr.lostByIntercept = 0;
     qtr.lostSelfError = 0;
-
-    // switch (quarter) {
-    //   case '1':
-    //     this.q1Data.ownScore = 0; 
-    //     this.q1Data.oppScore = 0; 
-    //     this.q1Data.gaShotIn = 0; 
-    //     this.q1Data.gsShotIn = 0; 
-    //     this.q1Data.gaTotalShots = 0; 
-    //     this.q1Data.gsTotalShots = 0; 
-    //     this.q1Data.ownCpCount = 0; 
-    //     this.q1Data.oppCpCount = 0; 
-    //     this.q1Data.oppSelfError = 0; 
-    //     this.q1Data.goodTeamD = 0; 
-    //     this.q1Data.oppMissShot = 0; 
-    //     this.q1Data.interceptions = new Map<string, number>([['GS', 0], ['GA', 0], ['WA', 0], ['C', 0], ['WD', 0], ['GD', 0], ['GK', 0]]);
-    //     this.q1Data.lostByIntercept = 0;
-    //     this.q1Data.lostSelfError = 0;
-    //     break;
-    //   case '2': 
-    //     break; 
-    //   }
   }
 
   getQuarterData(quarter: string) {

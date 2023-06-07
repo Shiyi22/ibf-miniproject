@@ -46,13 +46,13 @@ export class AddStatisticsComponent implements OnInit {
         const toRemoveIdTag = document.getElementById('B-cp-row')
         if (toRemoveIdTag)
           toRemoveIdTag.id = ''
-      } else if (events === 'B-cp' && this.buttonSequence != undefined) { // previous was A-cp
+      } else if (events === 'B-cp') { // previous was A-cp
         const toRemoveIdTag = document.getElementById('A-cp-row')!
         if (toRemoveIdTag)
           toRemoveIdTag.id = ''
       }
       this.qData.quarterSequence.push(this.buttonSequence)
-      this.buttonSequence = [] // empty current sequence
+      this.buttonSequence = []   // empty current sequence
       this.buttonSequence.push(events); // push cp event as start
     } else {
       this.buttonSequence.push(events); 
@@ -83,8 +83,8 @@ export class AddStatisticsComponent implements OnInit {
       }
       // find out the player who intercepted and add to stats 
       const player = event.split('-')[2] 
-      const count = this.qData.interceptions.get(player) || 0
-      this.qData.interceptions.set(player, count + 1)
+      const count = this.qData.interception.get(player) || 0
+      this.qData.interception.set(player, count + 1)
     }
 
     switch (event) {
@@ -273,6 +273,8 @@ export class AddStatisticsComponent implements OnInit {
   // }
 
   saveQuarterData(quarter : string) {
+    // push last center pass sequence to QuarterSequence
+    this.qData.quarterSequence.push(this.buttonSequence)
     // save details to backend svc
     switch(quarter) {
       case '1': 

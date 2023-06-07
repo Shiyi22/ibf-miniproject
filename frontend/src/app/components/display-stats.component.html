@@ -1,5 +1,6 @@
 <div>
   <button mat-raised-button (click)="saveDB()">Save in Database</button>
+  <span *ngIf="isSaved">Saved!</span>
 </div>
 <div class="quarter-container">
   <div *ngFor="let quarter of fullGameData; let i = index" class="quarter">

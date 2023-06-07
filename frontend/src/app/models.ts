@@ -60,7 +60,8 @@ export interface QuarterData {
     oppSelfError: number;
     goodTeamD: number;
     oppMissShot: number;
-    interceptions: Map<string, number> 
+    interception: Map<string, number> // convert to json object before sending over to backend 
+    interceptions: object
     lostSelfError: number;
     lostByIntercept: number;
     quarterSequence: string[][]

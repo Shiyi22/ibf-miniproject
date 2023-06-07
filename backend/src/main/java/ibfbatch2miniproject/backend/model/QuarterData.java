@@ -34,5 +34,10 @@ public class QuarterData {
     private Integer lostSelfError;
     private Integer lostByIntercept;
     private String[][] quarterSequence; 
+
+    // @JsonAnySetter
+    // public void setInterceptions(String key, Integer value) {
+    //     interceptions.put(key, value); 
+    // }
     
 }

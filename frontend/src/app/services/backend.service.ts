@@ -58,7 +58,7 @@ export class BackendService {
     qtr.oppSelfError = 0; 
     qtr.goodTeamD = 0; 
     qtr.oppMissShot = 0; 
-    qtr.interceptions = new Map<string, number>([['GS', 0], ['GA', 0], ['WA', 0], ['C', 0], ['WD', 0], ['GD', 0], ['GK', 0]]);
+    qtr.interception = new Map<string, number>([['GS', 0], ['GA', 0], ['WA', 0], ['C', 0], ['WD', 0], ['GD', 0], ['GK', 0]]);
     qtr.lostByIntercept = 0;
     qtr.lostSelfError = 0;
     qtr.quarterSequence = []

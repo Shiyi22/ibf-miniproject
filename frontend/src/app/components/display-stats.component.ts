@@ -14,6 +14,8 @@ export class DisplayStatsComponent implements OnInit {
   gaPercentage: number[] = []
   gsPercentage: number[] = []
 
+  isSaved: boolean = false 
+
   constructor(private backendSvc: BackendService) {}
 
   ngOnInit(): void {
@@ -25,10 +27,11 @@ export class DisplayStatsComponent implements OnInit {
     // count interceptions
     let count = 0; 
     this.fullGameData.forEach(quarter => {
-      quarter.interceptions.forEach(intercept => {
+      quarter.interception.forEach(intercept => {
         count += intercept; 
       })
       this.interceptions.push(count); // there should be 4 counts of interception for each quarter 
+      count = 0; // reset to 0 
     })
 
     // count shooting percentage 
@@ -43,13 +46,27 @@ export class DisplayStatsComponent implements OnInit {
   }
 
   saveDB() {
+    // convert Map<string, number> to JsonObject first 
+    let data: any = {} 
+    this.fullGameData.forEach(quarter => {
+      quarter.interception.forEach((value, key) => {
+        data[key] = value;
+      })
+      quarter.interceptions = data
+      data = {}
+      console.info('>>> interceptions object: ', quarter.interceptions)
+    })
     // save GameData and fullGameData (4 parts of QuarterData)
     this.backendSvc.saveGameData(this.backendSvc.gameData).then((results) => {
       console.info('>>> Returned response from saving game data: ', results) // game_id : integer 
+      // only when game data is saved, then full game data can be inserted/saved
+      this.backendSvc.saveFullGameData(this.fullGameData).then((results: any) => {
+        console.info('>>> Returned response from saving full game data: ', results) // is saved : boolean
+        if (results['is saved'] == 'true')
+          this.isSaved = true;
+      })
     }) 
-    this.backendSvc.saveFullGameData(this.fullGameData).then((results) => {
-      console.info('>>> Returned response from saving full game data: ', results) // is saved : boolean 
-    })
+
   }
 
 }

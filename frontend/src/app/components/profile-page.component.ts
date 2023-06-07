@@ -132,6 +132,7 @@ export class ProfilePageComponent implements OnInit {
     localStorage.removeItem('username')
     localStorage.removeItem('jwt')
     this.loginSvc.isLoggedIn = false; 
+    this.loginSvc.checked = false;
   }
 
 }

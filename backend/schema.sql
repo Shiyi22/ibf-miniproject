@@ -73,7 +73,7 @@ create table GameData (
 insert into GameData (label, against, date) values (?, ?, ?); 
 select * from GameData; 
 select * from FullGameData;
-select quarterSequence from FullGameData;
+select interceptions, quarterSequence from FullGameData where game_id = 9;
 
 create table FullGameData(
 	id int not null auto_increment, 
@@ -103,3 +103,21 @@ create table FullGameData(
     constraint fullGameData_pk primary key (id),
     constraint fullGameData_fk foreign key (game_id) references GameData(game_id)
 );
+
+create table playerStats (
+	stats_id int not null auto_increment,
+    id varchar(8) not null, 
+    cap int, 
+    avgShootingPercent decimal,
+    avgInterceptionPerGame decimal,
+    lastUpdated date, 
+    constraint playerStats_pk primary key (stats_id),
+    constraint playerStats_fk foreign key (id) references playerInfo(id)
+);
+insert into playerStats (id) values ('abcd1234');
+insert into playerStats (id) values ('efgh5678');
+select * from playerStats;
+select avgInterceptionPerGame from playerStats where id = 'abcd1234';
+select cap from playerStats where id = 'abcd1234';
+update playerStats set avgInterceptionPerGame = 2.0 where id = 'abcd1234';
+update playerStats set avgShootingPercent = 83.3 where id = 'abcd1234';

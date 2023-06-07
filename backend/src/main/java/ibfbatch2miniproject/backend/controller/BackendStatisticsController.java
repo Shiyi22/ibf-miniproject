@@ -49,6 +49,10 @@ public class BackendStatisticsController {
     // save full game data to SQL
     @PostMapping(path="/saveFullGameData")
     public ResponseEntity<String> saveFullGameData(@RequestBody QuarterData[] fullGameData) {
+        for (QuarterData qtr : fullGameData)
+            System.out.printf(">>> Full Game Data from Angular: %s\n", qtr); 
+        
+        // TODO: Change to backendSvc
         boolean isSaved = statsRepo.saveFullGameData(fullGameData); 
         JsonObject jo = Json.createObjectBuilder().add("is saved", isSaved).build(); 
         return ResponseEntity.ok().body(jo.toString());

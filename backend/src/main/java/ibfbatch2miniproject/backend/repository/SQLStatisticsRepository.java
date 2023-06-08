@@ -153,13 +153,20 @@ public class SQLStatisticsRepository {
         return false;
     }
 
-    // TODO: complete this
     public boolean updateShootingPercentage(ShooterCount shooterCount) {
         String userId = profileRepo.getPlayerId(shooterCount.getName()); 
-        // get prev shooting percent 
 
-        // calc new shooting percent 
+        // get prev shooting percent and cap
+        BigDecimal prevAvgShootingPercent = template.queryForObject(GET_AVG_SHOOT_PERCENT_SQL, BigDecimal.class, userId);
+        Integer prevCap = template.queryForObject(GET_CAP_SQL, Integer.class, userId); 
 
-        // update SQL table 
+        // calc new shooting percent: ((prevAvg%*prevCap)+new%)/newCap
+        BigDecimal newAvgShootingPercent = prevAvgShootingPercent.multiply(BigDecimal.valueOf(prevCap)).add(shooterCount.getShootingPercent()).divide(BigDecimal.valueOf(prevCap+1)); 
+
+        // update SQL table (just the shooting %)
+        Integer rowsAffected = template.update(UPDATE_SHOOT_PERCENT_SQL, newAvgShootingPercent, userId); 
+        if (rowsAffected > 0)
+            return true;
+        return false; 
     }   
 }

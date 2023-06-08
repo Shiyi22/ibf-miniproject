@@ -88,8 +88,19 @@ public class BackendService {
     // For every game stats saved, update individual player stats 
     public boolean saveFullGameAndUpdateIndvStats(QuarterData[] fullGameData) {
         boolean isSaved = statsRepo.saveFullGameData(fullGameData); 
+        if (!isSaved)
+            return false; // early terminate 
 
         List<String> playersToAddCap = new LinkedList<>(); 
+        Map<String, Integer> interceptionTotalCountInGame = new HashMap<>() {{
+            put("GS", 0);
+            put("GA", 0);
+            put("WA", 0);
+            put("C", 0);
+            put("WD", 0);
+            put("GD", 0);
+            put("GK", 0);
+        }};
         List<ShooterCount> shooters = new LinkedList<>();
         
         // update indv stats by each quarter
@@ -110,11 +121,11 @@ public class BackendService {
             else if (!playersToAddCap.contains(qtr.getGs()))
                 playersToAddCap.add(qtr.getGs());
 
-            // update interceptions per game
+            // update interceptions to game total
             Map<String, Integer> interceptions = qtr.getInterceptions();
             for (Map.Entry<String, Integer> entry : interceptions.entrySet()) {
                 if (entry.getValue() > 0) {
-                    String position = entry.getKey();
+                    String position = entry.getKey(); 
                     String name = ""; // find name 
                     switch (position) {
                         case "GS": 
@@ -139,12 +150,10 @@ public class BackendService {
                             name = qtr.getGk(); 
                             break;                          
                     }
-                    // get userId and update interceptions per game
-                    String userId = profileRepo.getPlayerId(name); 
-                    boolean interceptUpdated = statsRepo.updateInterception(userId, entry.getValue());
-                    if (!interceptUpdated)
-                        return false ; // early terminate 
-                } 
+                    // interception count goes by name instead of position in total game 
+                    Integer prevCount = interceptionTotalCountInGame.get(position) != null? interceptionTotalCountInGame.get(position) : 0;
+                    interceptionTotalCountInGame.put(name, prevCount + entry.getValue());
+                }
             }
 
             // update shooting percentage (shooters only) into HashMap
@@ -182,9 +191,24 @@ public class BackendService {
             // TODO: date saved 
 
         }
+        
         // update shooting percentage by game 
         for (ShooterCount shooter : shooters) {
-            statsRepo.updateShootingPercentage(shooter);
+            boolean shootingPercentUpdated = statsRepo.updateShootingPercentage(shooter);
+            if (!shootingPercentUpdated)
+                return false; // early terminate
+        }
+
+        // update avg interceptions percentage by game 
+        System.out.printf(">>> Total Interceptions by player in game: %s\n", interceptionTotalCountInGame); 
+        for (Map.Entry<String, Integer> entry : interceptionTotalCountInGame.entrySet()) {
+            // get userId and update player avgInterception if count > 0
+            if (entry.getValue() > 0) {
+                String userId = profileRepo.getPlayerId(entry.getKey());
+                boolean interceptUpdated = statsRepo.updateInterception(userId, entry.getValue());
+                if (!interceptUpdated)
+                    return false ; // early terminate 
+            }
         }
 
         // cap updated last 
@@ -196,5 +220,7 @@ public class BackendService {
                 return false; // early terminate 
         }
 
+        // if there is no early termination, return true [Success]
+        return true; 
     }
 }

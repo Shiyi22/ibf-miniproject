@@ -71,9 +71,9 @@ export class AddStatisticsComponent implements OnInit {
     // list all actions for each event
     const event = this.buttonSequence[this.buttonSequence.length-1]
     console.info('>>> current event:', event)
+
     // account for intercepts 'A-intercept-GS'
     if(event.includes('A-intercept')) {
-      console.info('+++ Reached this line of code!')
       if (this.buttonSequence[this.buttonSequence.length-2] === 'B-cp') {
         const specificRow = document.getElementById('B-cp-row') as HTMLTableRowElement
         specificRow.cells[0].innerHTML = '<span class="material-symbols-outlined">west</span>'; 

@@ -62,6 +62,7 @@ export class DisplayStatsComponent implements OnInit {
       // only when game data is saved, then full game data can be inserted/saved
       this.backendSvc.saveFullGameData(this.fullGameData).then((results: any) => {
         console.info('>>> Returned response from saving full game data: ', results) // is saved : boolean
+        console.info(">>> is saved: ", results['is saved']);
         if (results['is saved'] == 'true')
           this.isSaved = true;
       })

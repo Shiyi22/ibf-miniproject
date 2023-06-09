@@ -1,6 +1,8 @@
 package ibfbatch2miniproject.backend.repository;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,6 +34,7 @@ public class SQLStatisticsRepository {
     private SQLProfileRepository profileRepo; 
 
     private Integer gameId; 
+    private Date lastUpdated; 
 
     private final String GET_LIST_PLAYER_PROFILES_SQL = "select id, name, playerPhoto from playerInfo"; 
     private final String GET_PLAYER_POSITIONS_SQL = "select position from playerPosition where id = ?"; 
@@ -39,7 +42,7 @@ public class SQLStatisticsRepository {
 
     private final String SAVE_FULL_GAME_DATA_SQL = "insert into FullGameData (game_id, gs, ga, wa, c, wd, gd, gk, ownScore, oppScore, gaShotIn, gsShotIn, gaTotalShots, gsTotalShots, ownCpCount, oppCpCount, oppSelfError, goodTeamD, oppMissShot, interceptions, lostSelfError, lostByIntercept, quarterSequence) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    private final String UPDATE_CAP_SQL = "update playerStats set cap = cap + 1 where id = ?"; 
+    private final String UPDATE_CAP_SQL = "update playerStats set cap = COALESCE(cap, 0) + 1, lastUpdated = ? where id = ?"; // FIX
     private final String GET_AVG_INTERCEPT_SQL = "select avgInterceptionPerGame from playerStats where id = ?";
     private final String GET_CAP_SQL = "select cap from playerStats where id = ?";
     private final String UPDATE_INTERCEPT_SQL = "update playerStats set avgInterceptionPerGame = ? where id = ?"; 
@@ -73,6 +76,7 @@ public class SQLStatisticsRepository {
     
         // Retrieve the generated game_id
         gameId = keyHolder.getKey().intValue();
+        lastUpdated = gameData.getDate(); 
         System.out.printf(">>> Game Id retrieved: %s\n", gameId); 
         return gameId;
     }
@@ -126,8 +130,8 @@ public class SQLStatisticsRepository {
         return true; 
     }
     
-    public boolean updateCap(String userId) {
-        Integer rowsAffected = template.update(UPDATE_CAP_SQL, userId);
+    public boolean updateCapAndDate(String userId) {
+        Integer rowsAffected = template.update(UPDATE_CAP_SQL, lastUpdated, userId);
         if (rowsAffected == 1)
             return true; 
         return false;  
@@ -139,7 +143,7 @@ public class SQLStatisticsRepository {
         Integer prevCap = template.queryForObject(GET_CAP_SQL, Integer.class, userId); // cap is updated last 
         
         // update with new interception
-        if (prevCap == null) {
+        if (prevCap == null || prevAvgInterceptionPerGame == null) {
             Integer rowsAffected = template.update(UPDATE_INTERCEPT_SQL, intercepts, userId); // if start from null, just add first intercept stats
             if (rowsAffected > 0)
                 return true; 
@@ -161,7 +165,14 @@ public class SQLStatisticsRepository {
         Integer prevCap = template.queryForObject(GET_CAP_SQL, Integer.class, userId); 
 
         // calc new shooting percent: ((prevAvg%*prevCap)+new%)/newCap
-        BigDecimal newAvgShootingPercent = prevAvgShootingPercent.multiply(BigDecimal.valueOf(prevCap)).add(shooterCount.getShootingPercent()).divide(BigDecimal.valueOf(prevCap+1)); 
+        if (prevCap == null) {
+            Integer rowsAffected = template.update(UPDATE_SHOOT_PERCENT_SQL, shooterCount.getShootingPercent(), userId);
+            if (rowsAffected > 0)
+                return true; 
+            return false; 
+        }
+        // else prevCap and shooting % is not null 
+        BigDecimal newAvgShootingPercent = prevAvgShootingPercent.multiply(BigDecimal.valueOf(prevCap)).add(shooterCount.getShootingPercent()).divide(BigDecimal.valueOf(prevCap+1), 2, RoundingMode.HALF_UP); 
 
         // update SQL table (just the shooting %)
         Integer rowsAffected = template.update(UPDATE_SHOOT_PERCENT_SQL, newAvgShootingPercent, userId); 

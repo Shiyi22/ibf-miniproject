@@ -119,5 +119,5 @@ insert into playerStats (id) values ('efgh5678');
 select * from playerStats;
 select avgInterceptionPerGame from playerStats where id = 'abcd1234';
 select cap from playerStats where id = 'abcd1234';
-update playerStats set avgInterceptionPerGame = 2.0 where id = 'abcd1234';
+update playerStats set avgInterceptionPerGame = 2.0, cap = 3 where id = 'abcd1234';
 update playerStats set avgShootingPercent = 83.3 where id = 'abcd1234';

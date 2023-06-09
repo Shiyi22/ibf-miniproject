@@ -52,9 +52,8 @@ public class BackendStatisticsController {
         for (QuarterData qtr : fullGameData)
             System.out.printf(">>> Full Game Data from Angular: %s\n", qtr); 
         
-        // TODO: Change to backendSvc
-        boolean isSaved = statsRepo.saveFullGameData(fullGameData); 
-        JsonObject jo = Json.createObjectBuilder().add("is saved", isSaved).build(); 
+        boolean isSavedAndUpdatedStats = backendSvc.saveFullGameAndUpdateIndvStats(fullGameData); 
+        JsonObject jo = Json.createObjectBuilder().add("is saved", isSavedAndUpdatedStats).build(); 
         return ResponseEntity.ok().body(jo.toString());
     }
 }

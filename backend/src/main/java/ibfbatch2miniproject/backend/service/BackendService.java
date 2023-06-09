@@ -1,8 +1,10 @@
 package ibfbatch2miniproject.backend.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -92,15 +94,7 @@ public class BackendService {
             return false; // early terminate 
 
         List<String> playersToAddCap = new LinkedList<>(); 
-        Map<String, Integer> interceptionTotalCountInGame = new HashMap<>() {{
-            put("GS", 0);
-            put("GA", 0);
-            put("WA", 0);
-            put("C", 0);
-            put("WD", 0);
-            put("GD", 0);
-            put("GK", 0);
-        }};
+        Map<String, Integer> interceptionTotalCountInGame = new HashMap<>();
         List<ShooterCount> shooters = new LinkedList<>();
         
         // update indv stats by each quarter
@@ -151,75 +145,94 @@ public class BackendService {
                             break;                          
                     }
                     // interception count goes by name instead of position in total game 
-                    Integer prevCount = interceptionTotalCountInGame.get(position) != null? interceptionTotalCountInGame.get(position) : 0;
+                    Integer prevCount = interceptionTotalCountInGame.get(name) != null? interceptionTotalCountInGame.get(name) : 0; // FIXED
                     interceptionTotalCountInGame.put(name, prevCount + entry.getValue());
                 }
             }
 
-            // update shooting percentage (shooters only) into HashMap
-            String gaName = qtr.getGa();
-            String gsName = qtr.getGs();
-            BigDecimal gaPercent = BigDecimal.valueOf(qtr.getGaShotIn() / qtr.getGaTotalShots() * 100);
-            BigDecimal gsPercent = BigDecimal.valueOf(qtr.getGsShotIn() / qtr.getGsTotalShots() * 100);
+            // update shooting percentage (shooters only) into HashMap to collate into full game % 
+            String gaName = qtr.getGa(); BigDecimal gaPercent = BigDecimal.valueOf(-1); 
+            String gsName = qtr.getGs(); BigDecimal gsPercent = BigDecimal.valueOf(-1); 
 
-            for (ShooterCount shooter : shooters) {
-                // Goal Attack
-                if (shooter.getName().equals(gaName)) {
-                    // set new shooting % 
-                    BigDecimal prevPercentage = shooter.getShootingPercent(); 
-                    BigDecimal prevQtrPlayedInGame = BigDecimal.valueOf(shooter.getQtrPlayedInGame()); 
-                    shooter.setShootingPercent(prevPercentage.multiply(prevQtrPlayedInGame).add(gaPercent).divide(prevQtrPlayedInGame.add(BigDecimal.valueOf(1))));
-                    // set qtr played + 1
-                    shooter.setQtrPlayedInGame(shooter.getQtrPlayedInGame() + 1);
-                } else { // add to the list 
-                    shooters.add(new ShooterCount(gaName, 1, gaPercent)); 
-                }
-                
-                // Goal Shooter
-                if (shooter.getName().equals(gsName)) {
-                    // set new shooting % 
-                    BigDecimal prevPercentage = shooter.getShootingPercent(); 
-                    BigDecimal prevQtrPlayedInGame = BigDecimal.valueOf(shooter.getQtrPlayedInGame()); 
-                    shooter.setShootingPercent(prevPercentage.multiply(prevQtrPlayedInGame).add(gsPercent).divide(prevQtrPlayedInGame.add(BigDecimal.valueOf(1))));
-                    // set qtr played + 1
-                    shooter.setQtrPlayedInGame(shooter.getQtrPlayedInGame() + 1);
-                } else { // add to the list 
-                    shooters.add(new ShooterCount(gsName, 1, gsPercent)); 
-                }
+            if (qtr.getGaTotalShots() > 0) {
+                if (qtr.getGaShotIn() > 0) 
+                    gaPercent = BigDecimal.valueOf((qtr.getGaShotIn() * 100 / qtr.getGaTotalShots())); 
+                else 
+                    gaPercent = BigDecimal.valueOf(0); 
+            }  
+            if (qtr.getGsTotalShots() > 0) {
+                if (qtr.getGsShotIn() > 0)
+                    gsPercent = BigDecimal.valueOf((qtr.getGsShotIn() * 100/ qtr.getGsTotalShots()));
+                else
+                    gsPercent = BigDecimal.valueOf(0);
             }
-
-            // TODO: date saved 
-
+            
+            boolean gaFound = false;
+            boolean gsFound = false; 
+            if (shooters.size() == 0 && !gaPercent.equals(BigDecimal.valueOf(-1)) && !gsPercent.equals(BigDecimal.valueOf(-1))) {
+                shooters.add(new ShooterCount(gaName, 1, gaPercent)); 
+                shooters.add(new ShooterCount(gsName, 1, gsPercent));
+            } else if (shooters.size() == 0 && !gaPercent.equals(BigDecimal.valueOf(-1))) {
+                shooters.add(new ShooterCount(gaName, 1, gaPercent)); 
+            } else if (shooters.size() == 0 && !gsPercent.equals(BigDecimal.valueOf(-1))) {
+                shooters.add(new ShooterCount(gsName, 1, gsPercent));
+            } else if (shooters.size() > 0) {
+                for (ShooterCount shooter : shooters) {
+                    // Goal Attack
+                    if (shooter.getName().equals(gaName) && !gaPercent.equals(BigDecimal.valueOf(-1))) {
+                        // set new shooting % 
+                        BigDecimal prevPercentage = shooter.getShootingPercent(); 
+                        BigDecimal prevQtrPlayedInGame = BigDecimal.valueOf(shooter.getQtrPlayedInGame()); 
+                        shooter.setShootingPercent(prevPercentage.multiply(prevQtrPlayedInGame).add(gaPercent).divide(prevQtrPlayedInGame.add(BigDecimal.valueOf(1)), 2, RoundingMode.HALF_UP));
+                        // set qtr played + 1
+                        shooter.setQtrPlayedInGame(shooter.getQtrPlayedInGame() + 1);
+                        gaFound = true; 
+                    } 
+                    // Goal Shooter
+                    if (shooter.getName().equals(gsName) && !gsPercent.equals(BigDecimal.valueOf(-1))) {
+                        // set new shooting % 
+                        BigDecimal prevPercentage = shooter.getShootingPercent(); 
+                        BigDecimal prevQtrPlayedInGame = BigDecimal.valueOf(shooter.getQtrPlayedInGame()); 
+                        shooter.setShootingPercent(prevPercentage.multiply(prevQtrPlayedInGame).add(gsPercent).divide(prevQtrPlayedInGame.add(BigDecimal.valueOf(1)), 2, RoundingMode.HALF_UP));
+                        // set qtr played + 1
+                        shooter.setQtrPlayedInGame(shooter.getQtrPlayedInGame() + 1);
+                        gsFound = true; 
+                    } 
+                }
+                if (!gaFound && !gaPercent.equals(BigDecimal.valueOf(-1))) 
+                    shooters.add(new ShooterCount(gaName, 1, gaPercent)); 
+                if (!gsFound && !gsPercent.equals(BigDecimal.valueOf(-1)))
+                    shooters.add(new ShooterCount(gsName, 1, gsPercent)); 
+            }
         }
         
         // update shooting percentage by game 
+        System.out.printf(">>> Shooting percentage update: %s\n", shooters.toString());
         for (ShooterCount shooter : shooters) {
             boolean shootingPercentUpdated = statsRepo.updateShootingPercentage(shooter);
             if (!shootingPercentUpdated)
                 return false; // early terminate
         }
 
-        // update avg interceptions percentage by game 
+        // update avg interceptions percentage by game (all entries will have > 0 interceptions) // removed if entry.getValue() > 0 
         System.out.printf(">>> Total Interceptions by player in game: %s\n", interceptionTotalCountInGame); 
         for (Map.Entry<String, Integer> entry : interceptionTotalCountInGame.entrySet()) {
             // get userId and update player avgInterception if count > 0
-            if (entry.getValue() > 0) {
-                String userId = profileRepo.getPlayerId(entry.getKey());
-                boolean interceptUpdated = statsRepo.updateInterception(userId, entry.getValue());
-                if (!interceptUpdated)
-                    return false ; // early terminate 
-            }
+            String userId = profileRepo.getPlayerId(entry.getKey());
+            boolean interceptUpdated = statsRepo.updateInterception(userId, entry.getValue());
+            if (!interceptUpdated)
+                return false ; // early terminate 
         }
 
-        // cap updated last 
+        // update cap and lastUpdate (date) last 
+        System.out.printf(">>> All the players in this game to add cap: %s\n", playersToAddCap.toString());
         for (String name: playersToAddCap) {
             // update indv stats table
             String userId = profileRepo.getPlayerId(name);
-            boolean capUpdated = statsRepo.updateCap(userId);
+            boolean capUpdated = statsRepo.updateCapAndDate(userId);
             if (!capUpdated)
                 return false; // early terminate 
         }
-
         // if there is no early termination, return true [Success]
         return true; 
     }

@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="gameId == undefined">
   <button mat-raised-button (click)="saveDB()">Save in Database</button>
   <span *ngIf="isSaved">Saved!</span>
 </div>

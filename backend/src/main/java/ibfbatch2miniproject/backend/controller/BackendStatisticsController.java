@@ -1,13 +1,20 @@
 package ibfbatch2miniproject.backend.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import ibfbatch2miniproject.backend.model.GameData;
+import ibfbatch2miniproject.backend.model.PlayerStats;
 import ibfbatch2miniproject.backend.model.QuarterData;
 import ibfbatch2miniproject.backend.repository.SQLStatisticsRepository;
 import ibfbatch2miniproject.backend.service.BackendService;
@@ -32,10 +39,11 @@ public class BackendStatisticsController {
         return ResponseEntity.ok().body(arr.toString()); 
     }
 
-    // TODO: get individual statistics when clicked on profile 
-    @GetMapping(path="/{name}/stats")
-    public ResponseEntity<String> getPlayerStats() {
-        return ResponseEntity.ok().body("");
+    // get individual statistics when clicked on profile 
+    @GetMapping(path="/{userId}/stats")
+    public ResponseEntity<String> getPlayerStats(@PathVariable String userId) {
+        PlayerStats stats = statsRepo.getPlayerStats(userId); 
+        return ResponseEntity.ok().body(stats.toJson().toString());
     }
 
     //save game data to SQL 
@@ -53,7 +61,28 @@ public class BackendStatisticsController {
             System.out.printf(">>> Full Game Data from Angular: %s\n", qtr); 
         
         boolean isSavedAndUpdatedStats = backendSvc.saveFullGameAndUpdateIndvStats(fullGameData); 
-        JsonObject jo = Json.createObjectBuilder().add("is saved", isSavedAndUpdatedStats).build(); 
+        JsonObject jo = Json.createObjectBuilder().add("isSaved", isSavedAndUpdatedStats).build(); 
         return ResponseEntity.ok().body(jo.toString());
+    }
+
+    // get list of game data for display
+    @GetMapping(path="/getGameList")
+    public ResponseEntity<String> getGameDataList() {
+        Optional<List<GameData>> opt = statsRepo.getGameDataList();
+        if (opt.isEmpty()) {
+            JsonObject jo = Json.createObjectBuilder().add("message", "no game records").build(); 
+            return ResponseEntity.ok().body(jo.toString());
+        }
+        List<GameData> list = opt.get();
+        return ResponseEntity.ok().body(GameData.toJsonArray(list).toString());
+    }
+
+    // get full game data using game id
+    @GetMapping(path="/getFullGameData/{gameId}")
+    public ResponseEntity<String> getFullGameData(@PathVariable Integer gameId) throws JsonProcessingException {
+        List<QuarterData> qtrs = statsRepo.getFullGameData(gameId); 
+        // convert QuarterData[] to jsonArray 
+        return ResponseEntity.ok().body(QuarterData.toJsonArray(qtrs).toString());
+
     }
 }

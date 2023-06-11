@@ -4,23 +4,33 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.swing.text.html.Option;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ibfbatch2miniproject.backend.model.GameData;
 import ibfbatch2miniproject.backend.model.PlayerProfile;
+import ibfbatch2miniproject.backend.model.PlayerStats;
 import ibfbatch2miniproject.backend.model.QuarterData;
 import ibfbatch2miniproject.backend.model.ShooterCount;
 
@@ -39,8 +49,10 @@ public class SQLStatisticsRepository {
     private final String GET_LIST_PLAYER_PROFILES_SQL = "select id, name, playerPhoto from playerInfo"; 
     private final String GET_PLAYER_POSITIONS_SQL = "select position from playerPosition where id = ?"; 
     private final String SAVE_GAME_DATA_SQL = "insert into GameData (label, against, date) values (?, ?, ?)"; 
+    private final String GET_GAME_DATA_LIST_SQL = "select * from GameData"; 
 
     private final String SAVE_FULL_GAME_DATA_SQL = "insert into FullGameData (game_id, gs, ga, wa, c, wd, gd, gk, ownScore, oppScore, gaShotIn, gsShotIn, gaTotalShots, gsTotalShots, ownCpCount, oppCpCount, oppSelfError, goodTeamD, oppMissShot, interceptions, lostSelfError, lostByIntercept, quarterSequence) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private final String GET_FULL_GAME_DATA_SQL = "select * from FullGameData where game_id = ?"; 
 
     private final String UPDATE_CAP_SQL = "update playerStats set cap = COALESCE(cap, 0) + 1, lastUpdated = ? where id = ?"; // FIX
     private final String GET_AVG_INTERCEPT_SQL = "select avgInterceptionPerGame from playerStats where id = ?";
@@ -48,6 +60,7 @@ public class SQLStatisticsRepository {
     private final String UPDATE_INTERCEPT_SQL = "update playerStats set avgInterceptionPerGame = ? where id = ?"; 
     private final String GET_AVG_SHOOT_PERCENT_SQL = "select avgShootingPercent from playerStats where id = ?";
     private final String UPDATE_SHOOT_PERCENT_SQL = "update playerStats set avgShootingPercent = ? where id = ?"; 
+    private final String GET_INDV_STATS_SQL = "select * from playerStats where id = ?"; 
 
     public List<PlayerProfile> getPlayerProfiles() {
         List<PlayerProfile> profiles = template.query(GET_LIST_PLAYER_PROFILES_SQL, BeanPropertyRowMapper.newInstance(PlayerProfile.class)); 
@@ -180,4 +193,76 @@ public class SQLStatisticsRepository {
             return true;
         return false; 
     }   
+
+    public Optional<List<GameData>> getGameDataList() {
+        List<GameData> list = template.query(GET_GAME_DATA_LIST_SQL, BeanPropertyRowMapper.newInstance(GameData.class)); 
+        if (list == null)
+            return Optional.empty();
+        return Optional.of(list);  
+    }
+
+    public List<QuarterData> getFullGameData(Integer gameId) {
+        return template.query(GET_FULL_GAME_DATA_SQL, new ResultSetExtractor<List<QuarterData>>() {
+
+            @Override
+            public List<QuarterData> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                List<QuarterData> fullGameData = new ArrayList<>(); 
+                while (rs.next()) {
+                    QuarterData qtr = new QuarterData(); 
+
+                    // retrieve player pos 
+                    qtr.setGs(rs.getString("gs"));
+                    qtr.setGa(rs.getString("ga"));
+                    qtr.setWa(rs.getString("wa"));
+                    qtr.setC(rs.getString("c"));
+                    qtr.setWd(rs.getString("wd"));
+                    qtr.setGd(rs.getString("gd"));
+                    qtr.setGk(rs.getString("gk"));
+
+                    // retrieve stats 
+                    qtr.setOwnScore(rs.getInt("ownScore"));
+                    qtr.setOppScore(rs.getInt("oppScore"));
+                    qtr.setGaShotIn(rs.getInt("gaShotIn"));
+                    qtr.setGsShotIn(rs.getInt("gsShotIn"));
+                    qtr.setGaTotalShots(rs.getInt("gaTotalShots"));
+                    qtr.setGsTotalShots(rs.getInt("gsTotalShots"));
+                    qtr.setOwnCpCount(rs.getInt("ownCpCount"));
+                    qtr.setOppCpCount(rs.getInt("oppCpCount"));
+                    qtr.setOppSelfError(rs.getInt("oppSelfError"));
+                    qtr.setGoodTeamD(rs.getInt("goodTeamD"));
+                    qtr.setOppMissShot(rs.getInt("oppMissShot"));
+                    qtr.setLostSelfError(rs.getInt("lostSelfError"));
+                    qtr.setLostByIntercept(rs.getInt("lostByIntercept"));
+
+                    // retrieve interceptions as Map<String, Integer>
+                    String interceptionsJson = rs.getString("interceptions");
+                     ObjectMapper objectMapper = new ObjectMapper();
+                    try {
+                        Map<String, Integer> interceptions = objectMapper.readValue(interceptionsJson, new TypeReference<Map<String, Integer>>() {});
+                        qtr.setInterceptions(interceptions);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+
+                    // retrieve quarter sequence as String[][]
+                    String quarterSequenceJson = rs.getString("quarterSequence");
+                    try {
+                        String[][] quarterSequence = objectMapper.readValue(quarterSequenceJson, String[][].class);
+                        qtr.setQuarterSequence(quarterSequence);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Add qtr to list 
+                    fullGameData.add(qtr);
+                }
+                return fullGameData; 
+            }
+        }, gameId);
+    }
+
+    // get player stats 
+    public PlayerStats getPlayerStats(String userId) {
+        return template.queryForObject(GET_INDV_STATS_SQL, BeanPropertyRowMapper.newInstance(PlayerStats.class), userId);
+    }
 }

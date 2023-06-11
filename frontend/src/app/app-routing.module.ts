@@ -23,6 +23,7 @@ const routes: Routes = [
   {path: 'addGame', component: AddGameComponent}, 
   {path: 'addStats/:quarter', component: AddStatisticsComponent},
   {path: 'displayStats', component: DisplayStatsComponent}, 
+  {path: 'displayStats/:gameId', component: DisplayStatsComponent}, 
   {path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 

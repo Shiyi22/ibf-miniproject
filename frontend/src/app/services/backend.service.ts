@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs'
+import { last, lastValueFrom } from 'rxjs'
 import { GameData, PlayerInfo, QuarterData } from '../models';
 
 @Injectable({
@@ -43,6 +43,18 @@ export class BackendService {
   
   saveFullGameData(fullGameData: QuarterData[]) {
     return lastValueFrom(this.http.post('/saveFullGameData', fullGameData))
+  }
+
+  getGameDataList() {
+    return lastValueFrom(this.http.get('/getGameList')); 
+  }
+  
+  getFullGameData(gameId: number) {
+    return lastValueFrom(this.http.get(`/getFullGameData/${gameId}`))
+  }
+
+  getPlayerStats(userId: string) {
+    return lastValueFrom(this.http.get(`/${userId}/stats`))
   }
 
   initVariables(quarter: string) {

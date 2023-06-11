@@ -4,30 +4,31 @@
         <button type="button" mat-raised-button [routerLink]="['/addGame']">Add Game!</button>
     </div>  
     <br>
-    <table *ngIf="games != undefined" mat-table [dataSource]="games" class="mat-elevation-z8">
-    
-        <!-- Game Column -->
-        <ng-container matColumnDef="game">
-        <th mat-header-cell *matHeaderCellDef> Game </th>
-        <td mat-cell *matCellDef="let element"> {{element.game}} </td>
-        </ng-container>
+    <div style="width: 1000px">
+        <table *ngIf="games != undefined" mat-table [dataSource]="games" class="mat-elevation-z8">
+        
+            <!-- Game Column -->
+            <ng-container matColumnDef="game">
+            <th mat-header-cell *matHeaderCellDef> Game </th>
+            <td mat-cell *matCellDef="let element"> {{element.label}} against {{element.against}} </td>
+            </ng-container>
 
-        <!-- Goal Column -->
-        <ng-container matColumnDef="goal">
-            <th mat-header-cell *matHeaderCellDef> Goal </th>
-            <td mat-cell *matCellDef="let element"> {{element.goal}} </td>
-        </ng-container>
-    
-        <!-- Date Column -->
-        <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-        </ng-container>
-    
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
+            <!-- Goal Column
+            <ng-container matColumnDef="goal">
+                <th mat-header-cell *matHeaderCellDef> Goal </th>
+                <td mat-cell *matCellDef="let element"> {{element.goal}} </td>
+            </ng-container> -->
+        
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef> Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="displayStats(row.game_id)"></tr>
+        </table>
+    </div>
     <div *ngIf="games == undefined">
         No game records for Kryptonite, start adding game statistics using the button above. 
     </div>

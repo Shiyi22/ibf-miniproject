@@ -1,1 +1,22 @@
-<p>statistics works!</p>
+<mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>{{playerInfo.name}}</mat-card-title>
+      <mat-card-subtitle>Positions: {{playerInfo.positions}}</mat-card-subtitle>
+    </mat-card-header>
+    <div style="margin-left: 45px;">
+        <mat-card-content>
+            <img mat-card-image src="{{playerInfo.playerPhoto}}" width="100">
+            <p>Role: {{playerInfo.role}}</p>
+            <p>Year Joined: {{playerInfo.yearJoined}}</p>
+            <p>DOB: {{playerInfo.dob}}</p>
+            <p>Height: {{playerInfo.height}}</p>
+            <br>
+            
+            <p>Competition cap: {{playerStats.cap}}</p>
+            <p>Average Shooting Percentage: {{playerStats.avgShootingPercent}}</p>
+            <p>Average Interception per game: {{playerStats.avgInterceptionPerGame}}</p>
+        </mat-card-content>
+    </div>
+
+  </mat-card>

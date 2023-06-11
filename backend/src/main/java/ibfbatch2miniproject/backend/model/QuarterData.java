@@ -1,7 +1,15 @@
 package ibfbatch2miniproject.backend.model;
 
+import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,9 +43,36 @@ public class QuarterData {
     private Integer lostByIntercept;
     private String[][] quarterSequence; 
 
-    // @JsonAnySetter
-    // public void setInterceptions(String key, Integer value) {
-    //     interceptions.put(key, value); 
-    // }
-    
+    // convert QuarterData to JsonArray
+    public static JsonArray toJsonArray(List<QuarterData> qtrs) throws JsonProcessingException {
+        JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
+        for (QuarterData qtr : qtrs) {
+            JsonObject jo = Json.createObjectBuilder()
+                                .add("gs", qtr.getGs())
+                                .add("ga", qtr.getGa())
+                                .add("wa", qtr.getWa())
+                                .add("c", qtr.getC())
+                                .add("wd", qtr.getWd())
+                                .add("gd", qtr.getGd())
+                                .add("gk", qtr.getGk())
+                                .add("ownScore", qtr.getOwnScore())
+                                .add("oppScore", qtr.getOppScore())
+                                .add("gaShotIn", qtr.getGaShotIn())
+                                .add("gsShotIn", qtr.getGsShotIn())
+                                .add("gaTotalShots", qtr.getGaTotalShots())
+                                .add("gsTotalShots", qtr.getGsTotalShots())
+                                .add("ownCpCount", qtr.getOwnCpCount())
+                                .add("oppCpCount", qtr.getOppCpCount())
+                                .add("oppSelfError", qtr.getOppSelfError())
+                                .add("goodTeamD", qtr.getGoodTeamD())
+                                .add("oppMissShot", qtr.getOppMissShot())
+                                .add("interceptions", new ObjectMapper().writeValueAsString(qtr.getInterceptions()))
+                                .add("lostSelfError", qtr.getLostSelfError())
+                                .add("lostByIntercept", qtr.getLostByIntercept())
+                                .add("quarterSequence",  new ObjectMapper().writeValueAsString(qtr.getQuarterSequence()))
+                                .build(); 
+            arrBuilder.add(jo);
+        }
+        return arrBuilder.build();
+    }
 }

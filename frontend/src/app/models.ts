@@ -9,7 +9,6 @@ export interface BlockDate {
 }
 
 export interface PlayerInfo {
-    //TODO: add model 
     name : string,
     weight : number,
     height : number, 
@@ -33,7 +32,15 @@ export interface PlayerProfile {
     positions: string[]
 }
 
+export interface PlayerStats {
+    cap: number, 
+    avgShootingPercent: number, 
+    avgInterceptionPerGame: number,
+    lastUpdated: Date
+}
+
 export interface GameData {
+    game_id: number,
     label: string,
     against: string,
     date: Date

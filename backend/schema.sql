@@ -73,6 +73,7 @@ create table GameData (
 insert into GameData (label, against, date) values (?, ?, ?); 
 select * from GameData; 
 select * from FullGameData;
+select * from FullGameData where game_id = 50;
 select interceptions, quarterSequence from FullGameData where game_id = 9;
 
 create table FullGameData(

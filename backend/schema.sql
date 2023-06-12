@@ -68,6 +68,8 @@ create table GameData (
     label varchar(10) not null, 
     against varchar(20) not null,
     date date not null,
+    photoUrl text, 
+    videoUrl text,
     constraint gameData_pk primary key (game_id)
 ); 
 insert into GameData (label, against, date) values (?, ?, ?); 

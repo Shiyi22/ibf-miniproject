@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../services/backend.service';
-import { QuarterData } from '../models';
+import { GameData, QuarterData } from '../models';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -17,6 +17,7 @@ export class DisplayStatsComponent implements OnInit {
 
   isSaved: boolean = false 
   gameId!: number; 
+  game!: GameData
 
   constructor(private backendSvc: BackendService, private router: Router, private actRoute: ActivatedRoute) {}
 
@@ -58,6 +59,12 @@ export class DisplayStatsComponent implements OnInit {
             this.gsPercentage.push(gs)
           })
         })
+
+        // retrieve gamedata
+        this.backendSvc.getGameDataById(this.gameId).then((results:any) => {
+          console.info('>>> game data by id: ', results)
+          this.game = results
+        }) 
       } else {
         this.fullGameData.push(this.backendSvc.q1Data)
         this.fullGameData.push(this.backendSvc.q2Data)

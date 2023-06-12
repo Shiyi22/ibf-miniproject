@@ -11,6 +11,7 @@ import { CompetitionComponent } from './components/competition.component';
 import { AddGameComponent } from './components/add-game.component';
 import { AddStatisticsComponent } from './components/add-statistics.component';
 import { DisplayStatsComponent } from './components/display-stats.component';
+import { UsefulLinksComponent } from './components/useful-links.component';
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path: 'addStats/:quarter', component: AddStatisticsComponent},
   {path: 'displayStats', component: DisplayStatsComponent}, 
   {path: 'displayStats/:gameId', component: DisplayStatsComponent}, 
+  {path: 'links', component: UsefulLinksComponent},
   {path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 

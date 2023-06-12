@@ -17,11 +17,12 @@ import { CompetitionComponent } from './components/competition.component';
 import { AddGameComponent } from './components/add-game.component';
 import { AddStatisticsComponent } from './components/add-statistics.component';
 import { DisplayStatsComponent } from './components/display-stats.component';
+import { UsefulLinksComponent } from './components/useful-links.component';
 
 @NgModule({
   declarations: [
     AppComponent, HomePageComponent, LoginPageComponent, ProfilePageComponent, MembersComponent, StatisticsComponent, CompetitionComponent,
-    AddGameComponent, AddStatisticsComponent, DisplayStatsComponent
+    AddGameComponent, AddStatisticsComponent, DisplayStatsComponent, UsefulLinksComponent
   ],
   imports: [
     BrowserModule,

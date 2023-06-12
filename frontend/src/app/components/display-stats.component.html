@@ -34,3 +34,14 @@
     <span>Lost possession due to interception: {{quarter.lostByIntercept}}</span>
   </div>
 </div>
+<br><br>
+<div *ngIf="game != undefined">
+  <div *ngFor="let photo of game.photoUrl">
+    <img src="{{photo}}" width="400px">
+  </div>
+  <div *ngFor="let video of game.videoUrl; let i = index">
+    <h3>Link to game recordings</h3>
+    <a href="{{video}}">Link {{i+1}}</a>
+  </div>
+</div>
+<br><br><br>

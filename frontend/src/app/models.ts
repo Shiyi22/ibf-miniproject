@@ -43,7 +43,9 @@ export interface GameData {
     game_id: number,
     label: string,
     against: string,
-    date: Date
+    date: Date, 
+    photoUrl: string[], 
+    videoUrl: string[] 
 }
 
 export interface QuarterData {
@@ -72,4 +74,11 @@ export interface QuarterData {
     lostSelfError: number;
     lostByIntercept: number;
     quarterSequence: string[][]
+}
+
+export interface WeatherForecast {
+    start: string,
+    end: string,
+    area: string,
+    forecast: string
 }

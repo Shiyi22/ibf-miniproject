@@ -1,0 +1,41 @@
+<mat-tab-group animationDuration="0ms">
+    <div *ngIf="weatherArea != undefined">
+        <mat-tab label="Weather Forecast">
+            <br><br>
+            <form [formGroup]="weatherArea" (ngSubmit)="displayForecast()">
+                <table>
+                    <tr>
+                        <td>Area of forecast: </td>
+                        <td>
+                            <mat-form-field>
+                                <mat-select formControlName="area">
+                                    <mat-option *ngFor="let region of areaNames" [value]="region">{{region}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button mat-raised-button type="submit">Search</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <br>
+            <div *ngIf="areaForecast != undefined">
+                <mat-card class="example-card">
+                    <mat-card-content>
+                        <p><strong>Forecast period:</strong> {{areaForecast.start}} - {{areaForecast.end}} (SGT)</p>
+                        <br>
+                        <p><strong>Forecast area:</strong> {{areaForecast.area}}</p>
+                        <br>
+                        <p><strong>Forecast:</strong> {{areaForecast.forecast}}</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-tab>
+    </div>
+    <mat-tab label="Fitness Recommendations">Content 2</mat-tab>
+    <mat-tab label="Court Booking">Content 3</mat-tab>
+  </mat-tab-group>

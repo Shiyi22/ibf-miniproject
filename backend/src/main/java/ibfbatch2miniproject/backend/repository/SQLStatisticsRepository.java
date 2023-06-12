@@ -2,6 +2,7 @@ package ibfbatch2miniproject.backend.repository;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,6 +51,7 @@ public class SQLStatisticsRepository {
     private final String GET_PLAYER_POSITIONS_SQL = "select position from playerPosition where id = ?"; 
     private final String SAVE_GAME_DATA_SQL = "insert into GameData (label, against, date) values (?, ?, ?)"; 
     private final String GET_GAME_DATA_LIST_SQL = "select * from GameData"; 
+    private final String GET_GAME_DATA_BY_ID_SQL = "select * from GameData where game_id = ?";
 
     private final String SAVE_FULL_GAME_DATA_SQL = "insert into FullGameData (game_id, gs, ga, wa, c, wd, gd, gk, ownScore, oppScore, gaShotIn, gsShotIn, gaTotalShots, gsTotalShots, ownCpCount, oppCpCount, oppSelfError, goodTeamD, oppMissShot, interceptions, lostSelfError, lostByIntercept, quarterSequence) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private final String GET_FULL_GAME_DATA_SQL = "select * from FullGameData where game_id = ?"; 
@@ -61,6 +63,11 @@ public class SQLStatisticsRepository {
     private final String GET_AVG_SHOOT_PERCENT_SQL = "select avgShootingPercent from playerStats where id = ?";
     private final String UPDATE_SHOOT_PERCENT_SQL = "update playerStats set avgShootingPercent = ? where id = ?"; 
     private final String GET_INDV_STATS_SQL = "select * from playerStats where id = ?"; 
+
+    private final String GET_LIST_OF_PHOTOURL_SQL = "select photoUrl from GameData where game_id = ?"; 
+    private final String GET_LIST_OF_VIDEOURL_SQL = "select videoUrl from GameData where game_id = ?";
+    private final String ADD_PHOTOURL_SQL = "update GameData set photoUrl = ? where game_id = ?"; 
+    private final String ADD_VIDEOURL_SQL = "update GameData set videoUrl = ? where game_id = ?"; 
 
     public List<PlayerProfile> getPlayerProfiles() {
         List<PlayerProfile> profiles = template.query(GET_LIST_PLAYER_PROFILES_SQL, BeanPropertyRowMapper.newInstance(PlayerProfile.class)); 
@@ -201,6 +208,43 @@ public class SQLStatisticsRepository {
         return Optional.of(list);  
     }
 
+    public GameData getGameDataById(Integer gameId) {
+        return template.query(GET_GAME_DATA_BY_ID_SQL, new ResultSetExtractor<GameData>() {
+
+            @Override
+            public GameData extractData(ResultSet rs) throws SQLException, DataAccessException {
+                if (rs.next()) {
+                    GameData game = new GameData(); 
+                    game.setGame_id(rs.getInt("game_id"));
+                    game.setLabel(rs.getString("label"));
+                    game.setAgainst(rs.getString("against"));
+                    game.setDate(rs.getDate("date"));
+
+                    String photoUrlString = rs.getString("photoUrl"); 
+                    List<String> photoUrl = new ArrayList<>(); 
+                    if (photoUrlString != null) {
+                        String[] photoUrls = photoUrlString.split(", ");
+                        for (String url : photoUrls)
+                            photoUrl.add(url);
+                    }
+                    game.setPhotoUrl(photoUrl);
+
+                    String videoUrlString = rs.getString("videoUrl"); 
+                    List<String> videoUrl = new ArrayList<>(); 
+                    if (videoUrlString != null) {
+                        String[] videoUrls = videoUrlString.split(", ");
+                        for (String url : videoUrls)
+                            videoUrl.add(url);
+                    }
+                    game.setVideoUrl(videoUrl);
+                    return game; 
+                } else {
+                    return null; 
+                }
+            }
+        }, gameId);
+    }
+
     public List<QuarterData> getFullGameData(Integer gameId) {
         return template.query(GET_FULL_GAME_DATA_SQL, new ResultSetExtractor<List<QuarterData>>() {
 
@@ -265,4 +309,41 @@ public class SQLStatisticsRepository {
     public PlayerStats getPlayerStats(String userId) {
         return template.queryForObject(GET_INDV_STATS_SQL, BeanPropertyRowMapper.newInstance(PlayerStats.class), userId);
     }
+
+    // update s3url to List<String> 
+    public boolean updateS3UrlToSql(String s3Url, String mediaTypeToUpload, Integer gameId) {
+        // get the existing list of url 
+        String UrlsRetrieved = "nil"; 
+        if (mediaTypeToUpload == "photo")
+            UrlsRetrieved = template.queryForObject(GET_LIST_OF_PHOTOURL_SQL, String.class, gameId);
+        else if (mediaTypeToUpload == "video") 
+            UrlsRetrieved = template.queryForObject(GET_LIST_OF_VIDEOURL_SQL, String.class, gameId);
+
+        if (UrlsRetrieved.equals("nil")) {
+            // add the first url to the list 
+            Integer rowsAffected = 0; 
+            if (mediaTypeToUpload.equals("photo")) {
+                System.out.printf(">>> Url retrieved = null and mediatype to upload is photo!");
+                rowsAffected = template.update(ADD_PHOTOURL_SQL, s3Url, gameId);
+            } else if (mediaTypeToUpload.equals("video")) {
+                rowsAffected = template.update(ADD_VIDEOURL_SQL, s3Url, gameId);
+            }
+            if (rowsAffected > 0)
+                return true;
+            return false; 
+        } else {
+            System.out.printf(">>> Url retrieved is not empty");
+            String newUrlToAdd = UrlsRetrieved + ", " + s3Url;
+            Integer rowsAffected = 0;
+            if (mediaTypeToUpload == "photo")
+                template.update(ADD_PHOTOURL_SQL, newUrlToAdd, gameId);
+            else if (mediaTypeToUpload == "video") 
+                template.update(ADD_VIDEOURL_SQL, newUrlToAdd, gameId);
+            
+            if (rowsAffected > 0)
+                return true;
+            return false; 
+        }
+    }
+
 }

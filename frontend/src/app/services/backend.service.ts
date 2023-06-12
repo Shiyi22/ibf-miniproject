@@ -14,6 +14,8 @@ export class BackendService {
   q3Data!: QuarterData 
   q4Data!: QuarterData
 
+  games!: GameData[]
+
   constructor(private http: HttpClient) { }
 
   getPlayerId(username: string) {
@@ -33,6 +35,15 @@ export class BackendService {
     return lastValueFrom(this.http.put(`/updatePhoto/${username}`, formData));
   }
 
+  uploadToS3(formData: FormData, game_id: number) {
+    const params = new HttpParams().set('game_id', game_id.toString()); 
+    return lastValueFrom(this.http.post('/uploadToS3', formData, {params}));
+  }
+
+  updateS3UrlToSql(s3Url: string, mediaTypeToUpload: string, gameId : number) {
+    return lastValueFrom(this.http.post(`/updateS3UrlToSql/${mediaTypeToUpload}/${gameId}`, s3Url));
+  }
+
   getPlayerProfiles() {
     return lastValueFrom(this.http.get('/playerProfiles'))
   }
@@ -49,6 +60,10 @@ export class BackendService {
     return lastValueFrom(this.http.get('/getGameList')); 
   }
   
+  getGameDataById(gameId: number) {
+    return lastValueFrom(this.http.get(`/getGameData/${gameId}`))
+  }
+
   getFullGameData(gameId: number) {
     return lastValueFrom(this.http.get(`/getFullGameData/${gameId}`))
   }

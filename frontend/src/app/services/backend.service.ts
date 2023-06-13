@@ -19,7 +19,7 @@ export class BackendService {
   constructor(private http: HttpClient) { }
 
   getPlayerId(username: string) {
-    return lastValueFrom(this.http.get(`/${username}`))
+    return lastValueFrom(this.http.get(`/getId/${username}`))
   }
 
   getPlayerInfo(userId: string): Promise<any> {

@@ -88,6 +88,22 @@
 			<version>2.4.0-b180830.0359</version>
 		</dependency>
 
+		<!-- gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<!--
+		For Maven, add the following dependency to your POM and replace with the
+		version number you want to use from:
+		- https://mvnrepository.com/artifact/com.stripe/stripe-java or
+		- https://github.com/stripe/stripe-java/releases/latest
+		-->
+		<dependency>
+		<groupId>com.stripe</groupId>
+		<artifactId>stripe-java</artifactId>
+		<version>22.0.0</version>
+		</dependency>
 
 	</dependencies>
 

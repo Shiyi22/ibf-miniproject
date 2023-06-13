@@ -42,7 +42,7 @@ public class BackendProfileController {
     }
 
     // PROFILE 
-    @GetMapping(path="/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path="/getId/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getPlayerId(@PathVariable String username) {
         String userId = profileRepo.getPlayerId(username);
         JsonObject json = Json.createObjectBuilder().add("userId", userId).build(); 

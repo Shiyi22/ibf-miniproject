@@ -18,9 +18,11 @@ import { AddGameComponent } from './components/add-game.component';
 import { AddStatisticsComponent } from './components/add-statistics.component';
 import { DisplayStatsComponent } from './components/display-stats.component';
 import { UsefulLinksComponent } from './components/useful-links.component';
-import { TeamfundsComponent } from './components/teamfunds.component';
 import { CancelComponent } from './components/cancel.component';
 import { SuccessComponent } from './components/success.component';
+import { TeamfundsComponent } from './components/teamfunds.component';
+import { NgxStripeModule, StripeService } from 'ngx-stripe';
+import { environment } from './environment';
 
 @NgModule({
   declarations: [
@@ -39,9 +41,10 @@ import { SuccessComponent } from './components/success.component';
       registrationStrategy: 'registerWhenStable:30000'
     }), 
     ReactiveFormsModule, 
-    HttpClientModule
+    HttpClientModule,
+    NgxStripeModule.forRoot(environment.stripe)
   ],
-  providers: [],
+  providers: [StripeService, NgxStripeModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

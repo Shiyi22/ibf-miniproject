@@ -1,0 +1,14 @@
+.calendar {
+    margin-top: 1cm;
+    margin-left: 3cm;
+    width: 50%
+}
+
+.form-row {
+    display: flex;
+}
+
+.form-field-width {
+    width: 25%; 
+    margin-right: 10px;
+}

@@ -124,3 +124,14 @@ select avgInterceptionPerGame from playerStats where id = 'abcd1234';
 select cap from playerStats where id = 'abcd1234';
 update playerStats set avgInterceptionPerGame = 2.0, cap = 3 where id = 'abcd1234';
 update playerStats set avgShootingPercent = 83.3 where id = 'abcd1234';
+
+-- SQL Table for Calendar Event 
+create table CalendarEvent (
+	eventId varchar(10) not null,
+    selectedDate date,
+    title varchar(20),
+	startTime varchar(20),
+    endTime varchar(20),
+    constraint calendarEvent_pk primary key (eventId)
+); 
+select * from CalendarEvent;

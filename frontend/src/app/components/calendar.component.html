@@ -1,0 +1,31 @@
+<div class="calendar">
+    <mat-card>
+        <mat-card-content>
+            <full-calendar [options]="calendarOptions"></full-calendar>
+            <br>
+            <div class="form-row">
+                <mat-form-field class="form-field-width">
+                    <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                  <mat-form-field class="form-field-width">
+                    <mat-select placeholder="Title" [(ngModel)]="title">
+                        <mat-option *ngFor="let option of eventOptions" [value]="option">{{option}}</mat-option>
+                      </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="form-field-width">
+                    <mat-select placeholder="Start Time" [(ngModel)]="startTime">
+                        <mat-option *ngFor="let time of timeOptions" [value]="time">{{ time }}</mat-option>
+                      </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="form-field-width">
+                    <mat-select placeholder="End Time" [(ngModel)]="endTime">
+                      <mat-option *ngFor="let time of timeOptions" [value]="time">{{ time }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+              <button mat-raised-button color="primary" (click)="addEvent()">Add Event</button>    
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -82,3 +82,11 @@ export interface WeatherForecast {
     area: string,
     forecast: string
 }
+
+export interface Event {
+    eventId: string,
+    selectedDate: Date,
+    title: string,
+    startTime: string,
+    endTime: string
+}

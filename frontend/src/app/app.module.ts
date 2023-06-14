@@ -7,7 +7,7 @@ import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { HomePageComponent } from './components/home-page.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginPageComponent } from './components/login-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfilePageComponent } from './components/profile-page.component';
@@ -23,11 +23,16 @@ import { SuccessComponent } from './components/success.component';
 import { TeamfundsComponent } from './components/teamfunds.component';
 import { NgxStripeModule, StripeService } from 'ngx-stripe';
 import { environment } from './environment';
+import { CalendarComponent } from './components/calendar.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import interactionPlugin from '@fullcalendar/interaction'; 
+import dayGridPlugin from '@fullcalendar/daygrid';
 
 @NgModule({
   declarations: [
     AppComponent, HomePageComponent, LoginPageComponent, ProfilePageComponent, MembersComponent, StatisticsComponent, CompetitionComponent,
-    AddGameComponent, AddStatisticsComponent, DisplayStatsComponent, UsefulLinksComponent, TeamfundsComponent, CancelComponent, SuccessComponent
+    AddGameComponent, AddStatisticsComponent, DisplayStatsComponent, UsefulLinksComponent, TeamfundsComponent, CancelComponent, SuccessComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -42,9 +47,12 @@ import { environment } from './environment';
     }), 
     ReactiveFormsModule, 
     HttpClientModule,
-    NgxStripeModule.forRoot(environment.stripe)
+    NgxStripeModule.forRoot(environment.stripe), 
+    FormsModule,
+    FullCalendarModule
   ],
   providers: [StripeService, NgxStripeModule],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

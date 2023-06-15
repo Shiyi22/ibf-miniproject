@@ -47,7 +47,7 @@ public class SQLStatisticsRepository {
     private Integer gameId; 
     private Date lastUpdated; 
 
-    private final String GET_LIST_PLAYER_PROFILES_SQL = "select id, name, playerPhoto from playerInfo"; 
+    private final String GET_LIST_PLAYER_PROFILES_SQL = "select id, email, name, playerPhoto from playerInfo"; 
     private final String GET_PLAYER_POSITIONS_SQL = "select position from playerPosition where id = ?"; 
     private final String SAVE_GAME_DATA_SQL = "insert into GameData (label, against, date) values (?, ?, ?)"; 
     private final String GET_GAME_DATA_LIST_SQL = "select * from GameData"; 
@@ -80,7 +80,7 @@ public class SQLStatisticsRepository {
         }
 
         // check if all fields are in place
-        System.out.printf(">>> Player Profile retrieved: %s\n", profiles); 
+        // System.out.printf(">>> Player Profile retrieved: %s\n", profiles); 
         return profiles; 
     }
 

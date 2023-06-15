@@ -83,6 +83,7 @@ public class BackendCalendarController {
             JsonObject jo = Json.createObjectBuilder().add("emailSent", true).build();
             return ResponseEntity.ok().body(jo.toString()); 
         } catch (MailException ex) {
+            ex.printStackTrace();
             JsonObject jo = Json.createObjectBuilder().add("emailSent", false).build();
             return ResponseEntity.ok().body(jo.toString()); 
         }

@@ -73,7 +73,7 @@ export class NotificationsComponent implements OnInit {
       // subject 
       const subject = 'New notification from Kryptonite App'
       // body
-      const body = this.notif.name + this.notif.action + '(Date: ' + this.notif.date + ')'
+      const body = 'Message: ' + this.notif.name + ' '+ this.notif.action + '. Please login to the app to see details. ' + '(Date: ' + this.notif.date + ')'
 
       const emailReq: EmailRequest = {to: emails, subject: subject, body: body}
       this.backend2Svc.sendEmailUsingSB(emailReq).then((result:any) => {

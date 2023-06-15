@@ -39,5 +39,11 @@ public class BackendCalendarController {
         return ResponseEntity.ok().body(jo.toString());
     }
 
+    // save notification 
+    @PostMapping("/saveNotifications")
+    public ResponseEntity<String> saveNotif(@RequestBody Notif notif) {
+
+    }
+
     
 }

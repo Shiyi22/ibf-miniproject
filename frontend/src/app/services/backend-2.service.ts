@@ -1,12 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { Event } from '../models';
+import { Event, Notif } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Backend2Service {
+
+  // save notification message to backend
+  notifType!: string
+  notifEvent!: string
 
   constructor(private http: HttpClient) { }
 
@@ -18,5 +22,9 @@ export class Backend2Service {
 
   storeEventToDB(event: Event) {
     return lastValueFrom(this.http.post('/storeEventToDB', event))
+  }
+
+  saveNotif(notif: Notif) {
+    return lastValueFrom(this.http.post('/saveNotification', notif))
   }
 }

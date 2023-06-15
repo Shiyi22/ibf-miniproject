@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventInput } from '@fullcalendar/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CalendarOptions, DateSelectArg, EventApi, EventContentArg } from '@fullcalendar/core';
 import { Backend2Service } from '../services/backend-2.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -14,19 +14,24 @@ import { v4 as uuidv4 } from 'uuid';
 export class CalendarComponent implements OnInit {
 
   events: Event[] = [];
-  calEvents: EventInput[] = []
+  calEvents: any[] = []
   selectedDate!: Date
   title!: string
   startTime!: string
   endTime!: string
   eventOptions: string[] = ['Training', 'Friendly', 'Competition']
+  eventAdded: boolean = false; 
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     selectable: true,
     select: this.handleDateSelect.bind(this),
-    plugins: [interactionPlugin, dayGridPlugin]
+    plugins: [interactionPlugin, dayGridPlugin],
+    eventDisplay: 'block',
+    eventBackgroundColor: 'darkblue'
   }
+
+  @ViewChild('calendar') calendar: any; 
 
   constructor(private backend2Svc: Backend2Service) {}
 
@@ -40,17 +45,16 @@ export class CalendarComponent implements OnInit {
         console.info('>>> Event in DB: ', result)
         this.events = result; 
         // convert events to suitable reading by calendarOptions
-        this.calEvents.push(this.events.map(event => {
-
+        this.events.forEach(event => {
           // convert time (8:30) to 2023-06-15T08:30:00
-          const eventInput: EventInput = {
+          const eventInput = {
             title: event.title,
             start: this.convertDateTime(event.startTime, event.selectedDate), 
             end: this.convertDateTime(event.endTime, event.selectedDate),
             allDay: false
           }
-          return eventInput
-        }))
+          this.calEvents.push(eventInput)
+        })
         console.info('>>> Calendar Events created: ', this.calEvents);
         this.calendarOptions.events = this.calEvents; // on change in calendarOptions, refresh the page?
       }
@@ -70,42 +74,36 @@ export class CalendarComponent implements OnInit {
       allDay: false 
     }
     this.calEvents.push(eventInput);
-    this.calendarOptions.events = this.calEvents;
+    this.calendarOptions = { ... this.calendarOptions, events: this.calEvents}
+    // TODO: How to auto re-render page 
 
     // send to backend to save in list of events 
     this.backend2Svc.storeEventToDB(event).then((result:any) => {
       console.info('>>> Store event to DB: ', result.isAdded);
     })
+
+    // Direct to send notification page 
+    this.eventAdded = true; 
+    this.backend2Svc.notifType = 'add'; 
+    this.backend2Svc.notifEvent = this.title;
+  }
+  
+  // TODO: function to cancel event 
+  cancelEvent() {
+
   }
 
   handleDateSelect(selectInfo: DateSelectArg) {
-
     this.selectedDate = selectInfo.start
-
-    // const calendarApi = selectInfo.view.calendar
-    // const startDate = selectInfo.startStr
-    // const endDate = selectInfo.endStr
-
-    // // action on selected date range
-    // console.info('>>> Selected date range: ', startDate, 'to', endDate)
-
-    // // add event to calendar
-    // calendarApi.addEvent({
-    //   title: 'New Event',
-    //   start: startDate,
-    //   end: endDate
-    // })
   }
 
   convertDateTime(time:string, selectedDate:Date) {
     const [hours, minutes] = time.split(':');
     const date = new Date(selectedDate);
-    
     date.setHours(Number(hours))
     date.setMinutes(Number(minutes))
-    date.setSeconds(0)
-    // date.setMilliseconds(0);
-    return date.toISOString().substring(0,19);
+
+    return date.toISOString();
   }
 
   timeOptions: string[] = [

@@ -27,12 +27,14 @@ import { CalendarComponent } from './components/calendar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import interactionPlugin from '@fullcalendar/interaction'; 
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { MatIconModule } from '@angular/material/icon';
+import { NotificationsComponent } from './components/notifications.component';
 
 @NgModule({
   declarations: [
     AppComponent, HomePageComponent, LoginPageComponent, ProfilePageComponent, MembersComponent, StatisticsComponent, CompetitionComponent,
     AddGameComponent, AddStatisticsComponent, DisplayStatsComponent, UsefulLinksComponent, TeamfundsComponent, CancelComponent, SuccessComponent,
-    CalendarComponent
+    CalendarComponent, NotificationsComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
     HttpClientModule,
     NgxStripeModule.forRoot(environment.stripe), 
     FormsModule,
-    FullCalendarModule
+    FullCalendarModule,
+    MatIconModule
   ],
   providers: [StripeService, NgxStripeModule],
   bootstrap: [AppComponent]

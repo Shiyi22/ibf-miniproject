@@ -1,1 +1,18 @@
-<p>notifications works!</p>
+<h2 style="margin-left: 2cm; margin-top: 1cm;">Notifications <mat-icon>notifications</mat-icon></h2>
+
+<div *ngIf="notifType == 'add'">
+    <button mat-raised-button (click)="sendNotif()">Send notification to inform members of new {{notifEvent}} date</button>
+</div>
+<div *ngIf="notifType == 'cancel'">
+    <button mat-raised-button (click)="sendNotif()">Send notification to inform members of cancelled {{notifEvent}} date</button>
+</div>
+<br>
+<mat-card>
+    <mat-card-content *ngFor="let notif of notifs; let i = index" class="card-content-container">
+        <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + notif.imageUrl + ')'"></div>
+        <div class="text-container">
+            <p><strong>{{notif.name}}</strong> {{notif.action}}</p>
+            <p><small>{{notif.date}}</small></p>
+        </div>
+    </mat-card-content>
+</mat-card>

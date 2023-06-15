@@ -1,7 +1,7 @@
 <div class="calendar">
-    <mat-card>
+    <mat-card title="Calendar">
         <mat-card-content>
-            <full-calendar [options]="calendarOptions"></full-calendar>
+            <full-calendar #calendar [options]="calendarOptions"></full-calendar>
             <br>
             <div class="form-row">
                 <mat-form-field class="form-field-width">
@@ -26,6 +26,11 @@
                   </mat-form-field>
             </div>
               <button mat-raised-button color="primary" (click)="addEvent()">Add Event</button>    
+            <br>
+            <div *ngIf="eventAdded">
+              <p>New {{title}} added! Click below to inform all members in notification (and email)</p>
+              <button mat-raised-button [routerLink]="['/notifications']">Send notifications</button>
+            </div>
         </mat-card-content>
     </mat-card>
 </div>

@@ -90,3 +90,10 @@ export interface Event {
     startTime: string,
     endTime: string
 }
+
+export interface Notif {
+    imageUrl: string,
+    name: string, // shiyi
+    action: string, // added a new event to the team's schedule OR cancelled an event on the team's schedule
+    date: Date
+}

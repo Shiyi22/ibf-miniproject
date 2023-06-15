@@ -28,7 +28,11 @@
               <button mat-raised-button color="primary" (click)="addEvent()">Add Event</button>    
             <br>
             <div *ngIf="eventAdded">
-              <p>New {{title}} added! Click below to inform all members in notification (and email)</p>
+              <p>New {{title}} added! Click below to inform all members in notification</p>
+              <button mat-raised-button [routerLink]="['/notifications']">Send notifications</button>
+            </div>
+            <div *ngIf="eventDeleted">
+              <p>One {{notifEvent}} deleted! Click below to inform all members in notification</p>
               <button mat-raised-button [routerLink]="['/notifications']">Send notifications</button>
             </div>
         </mat-card-content>

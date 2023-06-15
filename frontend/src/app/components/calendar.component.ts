@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventApi, EventContentArg } from '@fullcalendar/core';
+import { Calendar, CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventContentArg } from '@fullcalendar/core';
 import { Backend2Service } from '../services/backend-2.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -21,6 +21,8 @@ export class CalendarComponent implements OnInit {
   endTime!: string
   eventOptions: string[] = ['Training', 'Friendly', 'Competition']
   eventAdded: boolean = false; 
+  eventDeleted: boolean = false; 
+  notifEvent!: string
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
@@ -28,7 +30,8 @@ export class CalendarComponent implements OnInit {
     select: this.handleDateSelect.bind(this),
     plugins: [interactionPlugin, dayGridPlugin],
     eventDisplay: 'block',
-    eventBackgroundColor: 'darkblue'
+    eventBackgroundColor: 'darkblue',
+    eventClick: this.handleEventClick.bind(this)
   }
 
   @ViewChild('calendar') calendar: any; 
@@ -48,6 +51,7 @@ export class CalendarComponent implements OnInit {
         this.events.forEach(event => {
           // convert time (8:30) to 2023-06-15T08:30:00
           const eventInput = {
+            id: event.eventId,
             title: event.title,
             start: this.convertDateTime(event.startTime, event.selectedDate), 
             end: this.convertDateTime(event.endTime, event.selectedDate),
@@ -68,6 +72,7 @@ export class CalendarComponent implements OnInit {
     // add to list of events 
     this.events.push(event); 
     const eventInput = {
+      id: event.eventId,
       title: event.title,
       start: this.convertDateTime(event.startTime, event.selectedDate),
       end: this.convertDateTime(event.endTime, event.selectedDate),
@@ -75,7 +80,11 @@ export class CalendarComponent implements OnInit {
     }
     this.calEvents.push(eventInput);
     this.calendarOptions = { ... this.calendarOptions, events: this.calEvents}
+    console.info('>>> New calendar options: ', this.calendarOptions)
+    console.info('>>> New calendar events: ', this.calEvents)
+
     // TODO: How to auto re-render page 
+    this.calendar.getApi().addEvent(eventInput);
 
     // send to backend to save in list of events 
     this.backend2Svc.storeEventToDB(event).then((result:any) => {
@@ -88,9 +97,23 @@ export class CalendarComponent implements OnInit {
     this.backend2Svc.notifEvent = this.title;
   }
   
-  // TODO: function to cancel event 
-  cancelEvent() {
+  // cancel event 
+  handleEventClick(clickInfo: EventClickArg) {
+    if (confirm('Are you sure you want to delete this event?')) {
+      // remove event from calendar
+      clickInfo.event.remove();
 
+      // update database 
+      const eventId = clickInfo.event.id 
+      this.backend2Svc.removeEventFromDB(eventId).then((result:any) => {
+        console.info('>>> Remove event from DB: ', result.isRemoved)
+      })
+
+      // send to notification page
+      this.eventDeleted = true; 
+      this.backend2Svc.notifType = 'cancel'
+      this.notifEvent = this.backend2Svc.notifEvent = clickInfo.event.title
+    }
   }
 
   handleDateSelect(selectInfo: DateSelectArg) {

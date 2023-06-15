@@ -27,6 +27,7 @@ export interface PlayerInfo {
 
 export interface PlayerProfile {
     id: string,
+    email: string,
     name: string,
     playerPhoto: string,
     positions: string[]
@@ -96,4 +97,10 @@ export interface Notif {
     name: string, // shiyi
     action: string, // added a new event to the team's schedule OR cancelled an event on the team's schedule
     date: Date
+}
+
+export interface EmailRequest {
+    to: string[],
+    subject: string,
+    body: string
 }

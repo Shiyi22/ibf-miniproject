@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class PlayerProfile {
 
     private String id;
+    private String email;
     private String name;
     private byte[] playerPhoto; 
     private List<String> positions; 

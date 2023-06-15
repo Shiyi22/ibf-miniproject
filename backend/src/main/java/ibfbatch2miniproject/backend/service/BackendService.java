@@ -64,6 +64,7 @@ public class BackendService {
             
                 JsonObject jo = Json.createObjectBuilder()
                                     .add("id", player.getId())
+                                    .add("email", player.getEmail())
                                     .add("name", player.getName())
                                     .add("positions", arrBuilder.build())
                                     .build();
@@ -77,6 +78,7 @@ public class BackendService {
                 
                 JsonObject jo = Json.createObjectBuilder()
                                     .add("id", player.getId())
+                                    .add("email", player.getEmail())
                                     .add("name", player.getName())
                                     .add("playerPhoto", BASE64_PREFIX + encodedString)
                                     .add("positions", arrBuilder.build())

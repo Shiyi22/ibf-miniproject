@@ -80,7 +80,7 @@ public class SQLStatisticsRepository {
         }
 
         // check if all fields are in place
-        // System.out.printf(">>> Player Profile retrieved: %s\n", profiles); 
+        System.out.printf(">>> Player Profile retrieved: %s\n", profiles); 
         return profiles; 
     }
 

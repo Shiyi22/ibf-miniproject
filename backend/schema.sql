@@ -135,3 +135,13 @@ create table CalendarEvent (
     constraint calendarEvent_pk primary key (eventId)
 ); 
 select * from CalendarEvent;
+
+create table Notifications (
+	notifId int not null auto_increment,
+	imageUrl text,
+    name varchar(15) not null,
+	action text not null,
+	date date not null,
+    constraint notification_pk primary key (notifId)
+);	
+select * from Notifications

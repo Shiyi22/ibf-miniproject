@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { Event, Notif } from '../models';
+import { EmailRequest, Event, Notif } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +9,8 @@ import { Event, Notif } from '../models';
 export class Backend2Service {
 
   // save notification message to backend
-  notifType!: string
-  notifEvent!: string
+  notifType: string = ''
+  notifEvent: string = ''
 
   constructor(private http: HttpClient) { }
 
@@ -24,7 +24,19 @@ export class Backend2Service {
     return lastValueFrom(this.http.post('/storeEventToDB', event))
   }
 
+  removeEventFromDB(eventId: string) {
+    return lastValueFrom(this.http.delete(`/removeEventFromDB/${eventId}`))
+  }
+
   saveNotif(notif: Notif) {
     return lastValueFrom(this.http.post('/saveNotification', notif))
+  }
+
+  getNotifs() {
+    return lastValueFrom(this.http.get('/getNotifications'))
+  }
+
+  sendEmailUsingSB(req: EmailRequest) {
+    return lastValueFrom(this.http.post('/sendEmail', req))
   }
 }

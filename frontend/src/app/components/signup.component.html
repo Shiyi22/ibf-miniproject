@@ -1,81 +1,81 @@
 <mat-card>
     <mat-card-content>
-        <form [formGroup]="profileForm">
+        <form [formGroup]="profileForm" (ngSubmit)="save()">
             <table>
                 <tr>
                     <td>
                         <mat-form-field>
-                            <input type="text" formControlName="name" placeholder="Name">
+                            <input matInput type="text" formControlName="name" placeholder="Name">
                         </mat-form-field>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <mat-form-field>
-                            <input type="number" formControlName="weight" placeholder="Weight">
+                            <input matInput type="number" formControlName="weight" placeholder="Weight">
                         </mat-form-field>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <mat-form-field>
-                            <input type="number" formControlName="Height" placeholder="Height (cm)">
+                            <input matInput type="number" formControlName="height" placeholder="Height (cm)">
                         </mat-form-field>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <mat-form-field>
-                            <input type="email" formControlName="email" placeholder="Email">
+                            <input matInput type="email" formControlName="email" placeholder="Email">
                         </mat-form-field>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <mat-form-field>
-                            <input type="number" formControlName="phoneNumber" placeholder="Phone Number">
+                            <input matInput type="number" formControlName="phoneNumber" placeholder="Phone Number">
                         </mat-form-field>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <mat-form-field>
-                            <input type="date" formControlName="DOB" placeholder="Date of Birth">
+                            <input matInput type="date" formControlName="DOB" placeholder="Date of Birth">
                         </mat-form-field>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <mat-form-field>
-                            <input type="number" formControlName="eContact" placeholder="Emergency Contact">
+                            <input matInput type="number" formControlName="eContact" placeholder="Emergency Contact">
                         </mat-form-field>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <mat-form-field>
-                            <input type="text" formControlName="eName" placeholder="Name of Contact Person">
+                            <input matInput type="text" formControlName="eName" placeholder="Name of Contact Person">
                         </mat-form-field>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <mat-form-field>
-                            <input type="text" formControlName="homeAdd" placeholder="Home Address">
+                            <input matInput type="text" formControlName="homeAdd" placeholder="Home Address">
                         </mat-form-field>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <mat-form-field>
-                            <input type="text" formControlName="injuries" placeholder="Past Injuries">
+                            <input matInput type="text" formControlName="injuries" placeholder="Past Injuries">
                         </mat-form-field>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <mat-form-field>
-                            <mat-select formControlName="role">
+                            <mat-select formControlName="role" placeholder="Role">
                                 <mat-option value="Player">Player</mat-option>
                                 <mat-option value="Coach">Coach</mat-option>
                                 <mat-option value="Co-Coach">Co-Coach</mat-option>
@@ -89,14 +89,14 @@
                 <tr>
                     <td>
                         <mat-form-field>
-                            <input type="number" formControlName="year" placeholder="Year Joined">
+                            <input matInput type="number" formControlName="year" placeholder="Year Joined">
                         </mat-form-field>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <mat-form-field>
-                            <mat-select multiple formControlName="positions">
+                            <mat-select multiple formControlName="positions" placeholder="Positions">
                                 <mat-option value="GS">GS</mat-option>
                                 <mat-option value="GA">GA</mat-option>
                                 <mat-option value="WA">WA</mat-option>
@@ -108,14 +108,16 @@
                         </mat-form-field>
                     </td>
                 </tr>
-                <!-- To add profile photo -->
                 <tr>
-
+                    <td>
+                        <input type="file" accept="image/*" #picture>
+                    </td>
                 </tr>
                 <!-- To add submit button -->
-                <tr>
-
-                </tr>
+                <br>
+                <td>
+                    <button mat-raised-button type="submit">Submit</button>
+                </td>
             </table>
         </form>
     </mat-card-content>

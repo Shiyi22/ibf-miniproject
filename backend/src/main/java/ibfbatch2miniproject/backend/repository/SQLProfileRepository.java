@@ -1,10 +1,13 @@
 package ibfbatch2miniproject.backend.repository;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ibfbatch2miniproject.backend.model.Login;
 import ibfbatch2miniproject.backend.model.PlayerInfo;
+import ibfbatch2miniproject.backend.model.PlayerInfo2;
 
 @Repository
 public class SQLProfileRepository {
@@ -33,6 +37,7 @@ public class SQLProfileRepository {
     private final String GET_ID_SQL = "select id from logincreds where username = ?";
     private final String GET_PLAYER_INFO_SQL = "select * from playerInfo where id = ?";
     private final String GET_PLAYER_POSITION_SQL = "select position from playerPosition where id = ?";
+    private final String SAVE_PLAYER_INFO_SQL = "insert into playerInfo values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
     private final String UPDATE_PLAYER_INFO_SQL = """
         update playerInfo set name = ?, weight = ?, height = ?, playerPhoto = ?, email = ?, phoneNumber = ?, DOB = ?, emergencyContact = ?, 
         emergencyName = ?, address = ?, pastInjuries = ?, role = ?, yearJoined = ? where id = ?
@@ -90,6 +95,57 @@ public class SQLProfileRepository {
         // TODO: get list of block out dates 
 
         return info; 
+    }
+
+    // save player info 
+    public boolean savePlayerInfo(PlayerInfo2 info, String userId) throws IOException {
+        // change photo from encoded string to InputStream
+        InputStream is = info.getPlayerPhoto().getInputStream();
+
+        // change string date to date 
+        Date dob = Date.valueOf(info.getDob());
+
+        // add to player info table 
+        Integer rowsAffected = template.update(SAVE_PLAYER_INFO_SQL, new PreparedStatementSetter() {
+
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setString(1, userId);
+                ps.setString(2, info.getName());
+                ps.setInt(3, info.getWeight());
+                ps.setInt(4, info.getHeight());
+                ps.setBinaryStream(5, is, info.getPlayerPhoto().getSize());
+                ps.setString(6, info.getEmail());
+                ps.setInt(7, info.getPhoneNumber());
+                ps.setDate(8, dob);
+                ps.setInt(9, info.getEmergencyContact());
+                ps.setString(10, info.getEmergencyName());
+                ps.setString(11, info.getAddress());
+                ps.setString(12, info.getPastInjuries());
+                ps.setString(13, info.getRole());
+                ps.setInt(14, info.getYearJoined());
+            }            
+        }); 
+    
+        // add to positions table 
+        int[] arrAffected = template.batchUpdate(INSERT_PLAYER_POSITION_SQL, new BatchPreparedStatementSetter() {
+
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ps.setString(1, userId);
+                ps.setString(2, info.getPositions().get(i));
+            }
+            @Override
+            public int getBatchSize() {
+                return info.getPositions().size();
+            }
+        });
+
+        // return boolean 
+        if (rowsAffected > 0 && arrAffected.length > 0) 
+            return true; 
+        return false;
+    
     }
 
     // update player info 

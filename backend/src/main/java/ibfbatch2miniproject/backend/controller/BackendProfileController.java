@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ibfbatch2miniproject.backend.model.Login;
 import ibfbatch2miniproject.backend.model.PlayerInfo;
+import ibfbatch2miniproject.backend.model.PlayerInfo2;
 import ibfbatch2miniproject.backend.repository.SQLProfileRepository;
 import ibfbatch2miniproject.backend.service.BackendService;
 import jakarta.json.Json;
@@ -57,6 +59,16 @@ public class BackendProfileController {
         return ResponseEntity.ok().body(json.toString());
     }
 
+    // save player profile from sign up 
+    @PostMapping("/saveProfile")
+    public ResponseEntity<String> savePlayerInfo(@ModelAttribute PlayerInfo2 info) throws IOException {
+        System.out.printf(">>> Player Info sent from Angular to Backend: %s\n", info.toString()); 
+        String userId = profileRepo.getPlayerId(info.getUsername());
+        boolean isSaved = profileRepo.savePlayerInfo(info, userId);
+        JsonObject jo = Json.createObjectBuilder().add("isSaved", isSaved).build(); 
+        return ResponseEntity.ok().body(jo.toString());
+    }
+    
     @GetMapping(path="/playerInfo", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getPlayerInfo(@RequestParam String userId) {
         PlayerInfo info = profileRepo.getPlayerInfo(userId); 

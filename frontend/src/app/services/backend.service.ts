@@ -27,6 +27,10 @@ export class BackendService {
     return lastValueFrom( this.http.get('/playerInfo', {params}))
   }
 
+  savePlayerInfo(formData: FormData) {
+    return lastValueFrom(this.http.post(`/saveProfile`, formData))
+  }
+
   updatePlayerInfo(info: PlayerInfo, username: string) {
     return lastValueFrom(this.http.post(`/updatePlayerInfo/${username}`, info)); // return Integer on num of rows affected
   }

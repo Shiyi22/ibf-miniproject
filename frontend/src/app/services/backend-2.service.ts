@@ -12,6 +12,9 @@ export class Backend2Service {
   notifType: string = ''
   notifEvent: string = ''
 
+  // new member sign up
+  
+
   constructor(private http: HttpClient) { }
 
   // SERVE NON NETBALL STATS Http Request 

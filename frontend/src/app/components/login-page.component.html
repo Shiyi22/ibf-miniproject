@@ -1,52 +1,105 @@
-<div *ngIf="signupActivated == false">
-  <form [formGroup]="form" class="example-form" (ngSubmit)="login()">
-    <table class="login-form">
-      <tr>
-        <td>Username:</td>
-        <td>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="username" formControlName="username">
-          </mat-form-field>
-        </td>
-      </tr>
-      <tr>
-        <td>Password:</td>
-        <td>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="password" formControlName="password">
-          </mat-form-field>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>
-          <button mat-raised-button type="submit" [disabled]="form.invalid">Login</button>&nbsp;
-          <button mat-raised-button (click)="signup()">Sign up request</button>
-        </td>
-      </tr>
-      <tr *ngIf="errorMsg !== undefined">
-        <td></td>
-        <td>{{ errorMsg }}</td>
-      </tr>
-    </table>
-  </form>
+<div class="example-form">
+  <mat-card>
+    <mat-card-content class="card">
+      <div *ngIf="setupActivated == false">
+        <div *ngIf="signupActivated == false" class="login-form">
+          <form [formGroup]="form"  (ngSubmit)="login()">
+            <table>
+              <tr>
+                <td>Username:</td>
+                <td>
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="username" formControlName="username">
+                  </mat-form-field>
+                </td>
+              </tr>
+              <tr>
+                <td>Password:</td>
+                <td>
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="password" formControlName="password">
+                  </mat-form-field>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <button mat-raised-button type="submit" [disabled]="form.invalid">Login</button>&nbsp;
+                </td>
+              </tr>
+              <br>
+              <tr>
+                <td>
+                  <button mat-flat-button (click)="signup()" type="button">Request for signup</button>
+                </td>
+                <td style="text-align: center;">
+                  <button mat-flat-button (click)="setup()" type="button">First time login</button>
+                </td>
+              </tr>
+              <tr *ngIf="errorMsg !== undefined">
+                <td></td>
+                <td>{{ errorMsg }}</td>
+              </tr>
+            </table>
+          </form>
+        </div>
+  
+        <div *ngIf="signupActivated">
+          <form [formGroup]="verification" (ngSubmit)="sendReqToCaptain()" class="login-form">
+            <table>
+              <tr>
+                <td>
+                  <mat-form-field>
+                    <input matInput type="text" placeholder="email" formControlName="email">
+                  </mat-form-field>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button mat-raised-button type="submit">Send Request To Kryptonite Management</button>
+                </td>
+              </tr>
+            </table>
+          </form>
+        </div>
+      </div>
+
+      <div *ngIf="setupActivated">
+          <form [formGroup]="signupForm" (ngSubmit)="createAccount()">
+            <table>
+              <tr>
+                <td>
+                  <mat-form-field>
+                    <input matInput type="text" placeholder="Verification code" formControlName="email">
+                  </mat-form-field>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <mat-form-field>
+                    <input matInput type="text" placeholder="Choose username" formControlName="user">
+                  </mat-form-field>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <mat-form-field>
+                    <input matInput type="text" placeholder="Choose password" formControlName="pass">
+                  </mat-form-field>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button mat-raised-button type="submit" [disabled]="signupForm.invalid">Create Account</button>
+                </td>
+              </tr>
+            </table>
+          </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
 </div>
 
-<div *ngIf="signupActivated">
-  <form [formGroup]="verification" (ngSubmit)="sendReqToCaptain()">
-    <table>
-      <tr>
-        <td>
-          <mat-form-field>
-            <input type="text" placeholder="email" formControlName="email">
-          </mat-form-field>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button mat-raised-button type="submit">Send Request To Team Captains</button>
-        </td>
-      </tr>
-    </table>
-  </form>
-</div>
+
+

@@ -12,7 +12,7 @@
     background-image: url("../../assets/login.jpg");
     background-size: cover;
     background-position: center;
-    height: 100vh;
+    height: 100%;
   }
   
   /* .example-full-width {
@@ -27,8 +27,16 @@
     height: 100vh;
   } */
 
-  .login-form {
-    /* justify-content: center; */
-    /* align-items: center; */
-    background-color: darkcyan;
+  /* .login-form {
+    justify-content: center;
+    align-items: center;
+    background-color: #1a578f;
+    color: white;
+  } */
+
+.card {
+    background-color: #1a578f;
+    color: white;
+    align-self: center;
+    width: 10cm;
   }

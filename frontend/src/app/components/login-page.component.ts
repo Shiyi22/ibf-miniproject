@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Login } from '../models';
+import { EmailRequest, Login } from '../models';
 import { lastValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
+import { Backend2Service } from '../services/backend-2.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login-page',
@@ -14,10 +16,13 @@ export class LoginPageComponent implements OnInit {
 
   form!: FormGroup
   verification!: FormGroup
+  signupForm!: FormGroup
   errorMsg!: string
   signupActivated: boolean = false 
+  setupActivated: boolean = false; 
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {}
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, 
+                private backend2Svc: Backend2Service, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.form = this.createForm()
@@ -53,20 +58,39 @@ export class LoginPageComponent implements OnInit {
 
   signup() {
     this.signupActivated = true; 
-    this.verification = this.createVerification() 
+    this.verification = this.fb.group({
+      email: this.fb.control('', [Validators.required]) 
+    })
   }
 
-  // TODO: to be continued 
   sendReqToCaptain() {
     // store email address 
     const email = this.verification.value['email']
-    // fire notification to captain 
-  }
+    // fire email to captain 
+    const emailReq: EmailRequest = {to: ['teamkryptonite2008@gmail.com'], subject: 'New user signup request', 
+                                    body: 'Notification: A new user with email: ' + email + ' requested to be added as a member. Please add new user email on app and reply to the email if approved.'}
 
-  createVerification() {
-    return this.fb.group({
-      code: this.fb.control('', [Validators.required])
+    this.backend2Svc.sendEmailUsingSB(emailReq).then((result:any) => {
+      console.info('>>> Email sent: ', result.emailSent)
+      if (result.emailSent == true) {
+        this.snackBar.open('Request successful, please check your email for verification code from teamkryptonite2008@gmail.com', 'Dismiss', {duration: 5000})
+      }
     })
   }
+
+  setup() {
+    this.setupActivated = true; 
+    this.signupForm = this.fb.group({
+      email: this.fb.control('', [Validators.required]),
+      user: this.fb.control('', [Validators.required, Validators.minLength(5)]),
+      pass: this.fb.control('', [Validators.required, Validators.minLength(8)])
+    })
+  }
+
+  createAccount() {
+
+  }
+
+
 
 }

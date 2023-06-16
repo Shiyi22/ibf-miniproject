@@ -11,9 +11,10 @@ create table logincreds (
 
 insert into logincreds values ('abcd1234', 'shiyi', 'kryptonite');
 insert into logincreds values ('efgh5678', 'sokyee', 'test1234');
+insert into logincreds values ('8asf2221', 'elaine', 'krypt123');
 
 -- get login creds
-select * from logincreds where username = 'shiyi'; 
+select * from logincreds; 
 select id from logincreds where username = 'shiyi';
 
 create table playerInfo (
@@ -38,6 +39,7 @@ create table playerInfo (
 insert into playerInfo values ('abcd1234', 'shiyi', 49, 164, null, 'yeoshiyi22@gmail.com', 87846863, '1997-09-02', 91234567, 'Mom, Goh', '22 Greenwich Lane', 'nil', 'Player', 2015); 
 insert into playerInfo values ('efgh5678', 'sokyee', 49, 164, null, 'sokyee@gmail.com', 81234567, '1995-10-01', 91234567, 'Husband, Shawn', 'Sembawang Drive xxx', 'nil', 'Treasurer', 2017); 
 insert into playerInfo values ('efgh5678', 'sokyee', 49, 164, null, 'sokyee@gmail.com', 81234567, '1995-10-01', 91234567, 'Husband, Shawn', 'Sembawang Drive xxx', 'nil', 'Treasurer', 2017); 
+insert into playerInfo values ('8asf2221', 'elaine', 55, 169, null, 'ele@gmail.com', 81234567, '1995-10-01', 91234567, 'Mom, Janet', 'Bukit Panjang Road #12-45', 'nil', 'Captain', 2010); 
 select * from logincreds inner join playerInfo on logincreds.id = playerInfo.id;
 select * from playerInfo;
 select id, name, playerPhoto from playerInfo; 
@@ -55,6 +57,7 @@ insert into playerPosition (id, position) values ('abcd1234', 'GS');
 insert into playerPosition (id, position) values ('abcd1234', 'WA');
 insert into playerPosition (id, position) values ('efgh5678', 'C');
 insert into playerPosition (id, position) values ('efgh5678', 'WA');
+insert into playerPosition (id, position) values ('8asf2221', 'GD');
 select * from playerPosition;
 select * from playerInfo inner join playerPosition on playerInfo.id = playerPosition.id;
 update playerInfo set name = ?, weight = ?, height = ?, playerPhoto = ?, email = ?, phoneNumber = ?, DOB = ?, emergencyContact = ?, emergencyName = ?, 

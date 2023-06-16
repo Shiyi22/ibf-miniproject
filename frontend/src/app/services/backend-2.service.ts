@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { EmailRequest, Event, Notif } from '../models';
@@ -11,9 +11,6 @@ export class Backend2Service {
   // save notification message to backend
   notifType: string = ''
   notifEvent: string = ''
-
-  // new member sign up
-  
 
   constructor(private http: HttpClient) { }
 

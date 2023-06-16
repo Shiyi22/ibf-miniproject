@@ -3,6 +3,7 @@ import { PlayerInfo, PlayerProfile } from '../models';
 import { BackendService } from '../services/backend.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Backend2Service } from '../services/backend-2.service';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-members',
@@ -15,8 +16,9 @@ export class MembersComponent implements OnInit {
   playerInfo!: PlayerInfo
   captainAddon: boolean = false
   memberForm!: FormGroup
+  memberAdded: boolean = false
 
-  constructor(private backendSvc: BackendService, private fb: FormBuilder, private backend2Svc: Backend2Service) {}
+  constructor(private backendSvc: BackendService, private fb: FormBuilder, private loginSvc: LoginService) {}
 
   ngOnInit(): void {
     this.backendSvc.getPlayerProfiles().then((result:any) => {
@@ -40,6 +42,12 @@ export class MembersComponent implements OnInit {
 
   addMember() {
     const emailToValidate = this.memberForm.value.email
+    console.info('>>> email to validate: ', emailToValidate)
+    this.loginSvc.addEmailToMemberList(emailToValidate).then((result:any) => {
+      if (result.isSaved == true) {
+        this.memberAdded = true;
+      }
+    })
   }
 
 

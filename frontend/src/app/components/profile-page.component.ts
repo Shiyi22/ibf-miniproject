@@ -4,6 +4,7 @@ import { BlockDate, PlayerInfo } from '../models';
 import { BackendService } from '../services/backend.service';
 import { lastValueFrom } from 'rxjs';
 import { LoginService } from '../services/login.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-page',
@@ -21,10 +22,11 @@ export class ProfilePageComponent implements OnInit {
   photoForm!: FormGroup
   blockdates!: BlockDate[]
   playerInfo!: PlayerInfo
+  newSignup: boolean = false; 
 
   @ViewChild('picture') playerPhoto!: ElementRef;
 
-  constructor(private fb: FormBuilder, private backendSvc: BackendService, private loginSvc: LoginService) {}
+  constructor(private fb: FormBuilder, private backendSvc: BackendService, private loginSvc: LoginService, private router: Router) {}
 
   ngOnInit(): void {
     this.getPlayerInfo(); // will fill playerInfo property up 
@@ -94,7 +96,10 @@ export class ProfilePageComponent implements OnInit {
   }
 
   createIdentityForm() {  
-    const combinedString = this.playerInfo.positions.join(",");  
+    let combinedString = ''; 
+    if (this.playerInfo)
+      combinedString = this.playerInfo.positions.join(",");  
+    
     return this.fb.group({
       name: this.fb.control(this.playerInfo? this.playerInfo.name : '', [Validators.required, Validators.minLength(5)]),
       weight: this.fb.control(this.playerInfo? this.playerInfo.weight : ''), 
@@ -133,6 +138,7 @@ export class ProfilePageComponent implements OnInit {
     localStorage.removeItem('jwt')
     this.loginSvc.isLoggedIn = false; 
     this.loginSvc.checked = false;
+    this.router.navigate(['/'])
   }
 
 }

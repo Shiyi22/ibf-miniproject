@@ -16,6 +16,7 @@ import { TeamfundsComponent } from './components/teamfunds.component';
 import { CancelComponent } from './components/cancel.component';
 import { SuccessComponent } from './components/success.component';
 import { CalendarComponent } from './components/calendar.component';
+import { SignupComponent } from './components/signup.component';
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
@@ -34,6 +35,7 @@ const routes: Routes = [
   {path: 'cancel', component: CancelComponent }, // TODO: to be modified
   {path: 'success', component: SuccessComponent }, // TOOD: to be modified
   {path: 'calendar' , component: CalendarComponent},
+  {path: 'signup', component: SignupComponent},
   {path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 

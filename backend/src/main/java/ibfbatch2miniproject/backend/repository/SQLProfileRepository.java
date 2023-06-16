@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class SQLProfileRepository {
     private JdbcTemplate template;
 
     private final String GET_CREDS_SQL = "select * from logincreds where username = ?";
+    private final String SAVE_CREDS_SQL = "insert into logincreds values (?, ?, ?)";
     private final String GET_ID_SQL = "select id from logincreds where username = ?";
     private final String GET_PLAYER_INFO_SQL = "select * from playerInfo where id = ?";
     private final String GET_PLAYER_POSITION_SQL = "select position from playerPosition where id = ?";
@@ -40,9 +42,12 @@ public class SQLProfileRepository {
     private final String UPDATE_PLAYER_PHOTO_SQL = "update playerInfo set playerPhoto = ? where id = ?"; 
     
     // save user credentials, use hash algo to store hashed passwords eg. bcrypt
-    // create a login cred 8 digit id as well (UUID)
-    public void saveLoginCreds(Login login) {
-
+    public boolean saveLoginCreds(Login signup) {
+        String idToAdd = UUID.randomUUID().toString().substring(0, 8);
+        Integer rowsAffected = template.update(SAVE_CREDS_SQL, idToAdd, signup.getUsername(), signup.getPassword());
+        if (rowsAffected > 0) 
+            return true;
+        return false; 
     }
 
     // get login credentials 

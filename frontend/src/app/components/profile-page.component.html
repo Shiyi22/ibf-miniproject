@@ -146,24 +146,26 @@
             </table>
         </form>
       </div>
+      
       <div *ngIf="selectedSection === 'team'" style="margin-left: 10px;">
-        <!-- Display team-related details here -->
-        <ng-container *ngIf="playerInfo">
-            <mat-card>
-              <mat-card-content>
-                <div class="player-info">
-                  <div>
-                    <strong>Role:</strong> {{ playerInfo.role }}
-                  </div>
-                  <br>
-                  <div>
-                    <strong>Year Joined:</strong> {{ playerInfo.yearJoined }}
-                  </div>
-                </div>
-              </mat-card-content>
-            </mat-card>
-          </ng-container>
-      </div>
+            <!-- Display team-related details here -->
+            <ng-container *ngIf="playerInfo">
+                <mat-card>
+                    <mat-card-content>
+                    <div class="player-info">
+                        <div>
+                        <strong>Role:</strong> {{ playerInfo.role }}
+                        </div>
+                        <br>
+                        <div>
+                        <strong>Year Joined:</strong> {{ playerInfo.yearJoined }}
+                        </div>
+                    </div>
+                    </mat-card-content>
+                </mat-card>
+                </ng-container>
+    </div>
+
       <div *ngIf="selectedSection === 'blockout'" style="margin-left: 10px;">
         <!-- Display blockout dates details here -->
         <!-- <div class="demo-button-container">

@@ -28,6 +28,11 @@
                 </td>
               </tr>
               <br>
+              <tr *ngIf="errorMsg !== undefined">
+                <td></td>
+                <td>{{ errorMsg }}</td>
+              </tr>
+              <br>
               <tr>
                 <td>
                   <button mat-flat-button (click)="signup()" type="button">Request for signup</button>
@@ -36,10 +41,7 @@
                   <button mat-flat-button (click)="setup()" type="button">First time login</button>
                 </td>
               </tr>
-              <tr *ngIf="errorMsg !== undefined">
-                <td></td>
-                <td>{{ errorMsg }}</td>
-              </tr>
+
             </table>
           </form>
         </div>
@@ -70,27 +72,32 @@
               <tr>
                 <td>
                   <mat-form-field>
-                    <input matInput type="text" placeholder="Verification code" formControlName="email">
+                    <input matInput type="text" placeholder="Email" formControlName="email">
                   </mat-form-field>
                 </td>
               </tr>
               <tr>
                 <td>
                   <mat-form-field>
-                    <input matInput type="text" placeholder="Choose username" formControlName="user">
+                    <input matInput type="text" placeholder="Choose username" formControlName="username">
                   </mat-form-field>
                 </td>
               </tr>
               <tr>
                 <td>
                   <mat-form-field>
-                    <input matInput type="text" placeholder="Choose password" formControlName="pass">
+                    <input matInput type="text" placeholder="Choose password" formControlName="password">
                   </mat-form-field>
                 </td>
               </tr>
               <tr>
                 <td>
                   <button mat-raised-button type="submit" [disabled]="signupForm.invalid">Create Account</button>
+                </td>
+              </tr>
+              <tr *ngIf="verificationEnded">
+                <td>
+                  <p *ngIf="verified == false">Sign up failed. Please check your email or submit a new request to join as member.</p>
                 </td>
               </tr>
             </table>

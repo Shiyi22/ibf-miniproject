@@ -29,12 +29,13 @@ import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { MatIconModule } from '@angular/material/icon';
 import { NotificationsComponent } from './components/notifications.component';
+import { SignupComponent } from './components/signup.component';
 
 @NgModule({
   declarations: [
     AppComponent, HomePageComponent, LoginPageComponent, ProfilePageComponent, MembersComponent, StatisticsComponent, CompetitionComponent,
     AddGameComponent, AddStatisticsComponent, DisplayStatsComponent, UsefulLinksComponent, TeamfundsComponent, CancelComponent, SuccessComponent,
-    CalendarComponent, NotificationsComponent
+    CalendarComponent, NotificationsComponent, SignupComponent
   ],
   imports: [
     BrowserModule,

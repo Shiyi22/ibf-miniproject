@@ -41,6 +41,14 @@ public class BackendProfileController {
         return ResponseEntity.ok().body(json.toString());
     }
 
+    // save login creds
+    @PostMapping(path="/saveLoginCreds")
+    public ResponseEntity<String> saveLoginCreds(@RequestBody Login signup) {
+        boolean isSaved = profileRepo.saveLoginCreds(signup);
+        JsonObject jo = Json.createObjectBuilder().add("isSaved", isSaved).build();
+        return ResponseEntity.ok().body(jo.toString());
+    }
+
     // PROFILE 
     @GetMapping(path="/getId/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getPlayerId(@PathVariable String username) {

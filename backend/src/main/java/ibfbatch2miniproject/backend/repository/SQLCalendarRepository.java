@@ -21,6 +21,8 @@ public class SQLCalendarRepository {
     private String INSERT_EVENT_SQL = "insert into CalendarEvent values (?, ?, ?, ?, ?)";
     private String INSERT_NOTIF_SQL = "insert into Notifications (imageUrl, name, action, date) values (?, ?, ?, ?)";
     private String DELETE_EVENT_SQL = "delete from CalendarEvent where eventId = ?"; 
+    private String INSERT_EMAIL_SQL = "insert into emailTable (email) values (?)"; 
+    private String GET_EMAIL_LIST_SQL = "select email from emailTable";
 
     // retrieve list of events 
     public List<Event> getCalEvents() {
@@ -54,5 +56,18 @@ public class SQLCalendarRepository {
     // get notifs 
     public List<Notif> getNotif() {
         return template.query(GET_LIST_NOTIF_SQL, BeanPropertyRowMapper.newInstance(Notif.class)); 
+    }
+
+    // save email to new member sign up list 
+    public boolean saveEmailToList(String email) {
+        Integer rowsAffected = template.update(INSERT_EMAIL_SQL, email);
+        if (rowsAffected > 0)
+            return true; 
+        return false; 
+    }
+
+    // get approved email list 
+    public List<String> getApprovedEmailList() {
+        return template.queryForList(GET_EMAIL_LIST_SQL, String.class); 
     }
 }

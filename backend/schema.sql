@@ -147,4 +147,13 @@ create table Notifications (
 	date date not null,
     constraint notification_pk primary key (notifId)
 );	
-select * from Notifications
+select * from Notifications;
+
+-- appproved emails for sign up
+
+create table emailTable (
+	id int not null auto_increment,
+    email varchar(30),
+    constraint email_pk primary key (id)
+);
+select * from emailTable;

@@ -116,3 +116,13 @@ export interface TeamFund {
     name: string,
     paid: boolean
 }
+
+export interface EventResult {
+    eventId: string,
+    response: string
+}
+
+export interface EventData {
+    result: EventResult[], 
+    username: string
+}

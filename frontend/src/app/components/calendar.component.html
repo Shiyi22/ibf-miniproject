@@ -1,40 +1,76 @@
 <div class="calendar">
-    <mat-card title="Calendar">
-        <mat-card-content>
-            <full-calendar #calendar [options]="calendarOptions"></full-calendar>
-            <br>
-            <div class="form-row">
+  <div class="card-container">
+    <mat-card title="Calendar" style="width: 40%;">
+      <mat-card-content>
+          <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+          <br>
+          <div class="form-row">
+              <mat-form-field class="form-field-width">
+                  <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDate">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
                 <mat-form-field class="form-field-width">
-                    <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDate">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                  </mat-form-field>
-                  <mat-form-field class="form-field-width">
-                    <mat-select placeholder="Title" [(ngModel)]="title">
-                        <mat-option *ngFor="let option of eventOptions" [value]="option">{{option}}</mat-option>
-                      </mat-select>
-                  </mat-form-field>
-                  <mat-form-field class="form-field-width">
-                    <mat-select placeholder="Start Time" [(ngModel)]="startTime">
-                        <mat-option *ngFor="let time of timeOptions" [value]="time">{{ time }}</mat-option>
-                      </mat-select>
-                  </mat-form-field>
-                  <mat-form-field class="form-field-width">
-                    <mat-select placeholder="End Time" [(ngModel)]="endTime">
+                  <mat-select placeholder="Title" [(ngModel)]="title">
+                      <mat-option *ngFor="let option of eventOptions" [value]="option">{{option}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="form-field-width">
+                  <mat-select placeholder="Start Time" [(ngModel)]="startTime">
                       <mat-option *ngFor="let time of timeOptions" [value]="time">{{ time }}</mat-option>
                     </mat-select>
-                  </mat-form-field>
-            </div>
-              <button mat-raised-button color="primary" (click)="addEvent()">Add Event</button>    
-            <br>
-            <div *ngIf="eventAdded">
-              <p>New {{title}} added! Click below to inform all members in notification</p>
-              <button mat-raised-button [routerLink]="['/notifications']">Send notifications</button>
-            </div>
-            <div *ngIf="eventDeleted">
-              <p>One {{notifEvent}} deleted! Click below to inform all members in notification</p>
-              <button mat-raised-button [routerLink]="['/notifications']">Send notifications</button>
-            </div>
-        </mat-card-content>
-    </mat-card>
+                </mat-form-field>
+                <mat-form-field class="form-field-width">
+                  <mat-select placeholder="End Time" [(ngModel)]="endTime">
+                    <mat-option *ngFor="let time of timeOptions" [value]="time">{{ time }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+          </div>
+            <button mat-raised-button color="primary" (click)="addEvent()">Add Event</button>    
+          <br>
+          <div *ngIf="eventAdded">
+            <p>New {{title}} added! Click below to inform all members in notification</p>
+            <button mat-raised-button [routerLink]="['/notifications']">Send notifications</button>
+          </div>
+          <div *ngIf="eventDeleted">
+            <p>One {{notifEvent}} deleted! Click below to inform all members in notification</p>
+            <button mat-raised-button [routerLink]="['/notifications']">Send notifications</button>
+          </div>
+      </mat-card-content>
+  </mat-card>
+  <mat-card style="width: 30%;">
+    <mat-card-header>
+      <mat-card-title>Event Attendance</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table>
+        <tr *ngFor="let event of events">
+          <td>
+            <mat-icon>event</mat-icon>
+          </td>
+          <td><p></p></td>
+          <td>
+            <p>{{event.title}}</p>
+            <p>{{event.selectedDate}}</p>
+          </td>
+          <td><p></p></td>
+          <td>
+            <button mat-raised-button [color]="getButtonColor('yes', event.eventId)" (click)="choice('yes', event.eventId)">Yes</button>&nbsp;
+            <button mat-raised-button [color]="getButtonColor('no', event.eventId)" (click)="choice('no', event.eventId)">No</button>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            <button mat-raised-button (click)="save()">Save</button>
+          </td>
+        </tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  </div>
 </div>

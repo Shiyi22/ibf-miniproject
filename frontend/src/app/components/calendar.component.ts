@@ -3,7 +3,7 @@ import { Calendar, CalendarOptions, DateSelectArg, EventApi, EventClickArg, Even
 import { Backend2Service } from '../services/backend-2.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { Event } from '../models';
+import { Event, EventData, EventResult } from '../models';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
@@ -47,6 +47,9 @@ export class CalendarComponent implements OnInit {
       } else {
         console.info('>>> Event in DB: ', result)
         this.events = result; 
+        // sort by date 
+        this.events.sort(this.sortByDate)
+
         // convert events to suitable reading by calendarOptions
         this.events.forEach(event => {
           // convert time (8:30) to 2023-06-15T08:30:00
@@ -62,6 +65,32 @@ export class CalendarComponent implements OnInit {
         console.info('>>> Calendar Events created: ', this.calEvents);
         this.calendarOptions.events = this.calEvents; // on change in calendarOptions, refresh the page?
       }
+    })
+  }
+
+  eventResults: EventResult[] = []
+
+  choice(response:string, eventId: string) {
+    // check existing array 
+    const existingResult = this.eventResults.find((result) => result.eventId === eventId )
+    if (existingResult)
+      existingResult.response = response; 
+    else 
+      this.eventResults.push({eventId, response})
+  }
+
+  getButtonColor(value:string, eventId: string) {
+    const eventResult = this.eventResults.find((result) => result.eventId === eventId)
+    return eventResult && eventResult.response === value ? 'primary' : '';
+  }
+
+  save() {
+    // update database 
+    const username = localStorage.getItem('username')!
+    const eventData: EventData = {result: this.eventResults, username: username}
+    this.backend2Svc.saveAttendance(eventData).then((result) => {
+      console.info('>>> Save attendance: ', result);
+      
     })
   }
 
@@ -139,4 +168,17 @@ export class CalendarComponent implements OnInit {
     '18:00', '18:15', '18:30', '18:45', '19:00', '19:15', '19:30', '19:45', '20:00', '20:15', '20:30', '20:45', 
     '21:00', '21:15', '21:30', '21:45', '22:00', '22:15', '22:30', '22:45', '23:00', '23:15', '23:30', '23:45'
   ];
+
+  sortByDate(a: Event, b: Event) {
+    const dateA = new Date(a.selectedDate)
+    const dateB = new Date(b.selectedDate);
+
+    if (dateA < dateB) {
+      return -1; 
+    } else if (dateA > dateB) {
+      return 1; 
+    } else {
+      return 0; 
+    }
+  }
 }

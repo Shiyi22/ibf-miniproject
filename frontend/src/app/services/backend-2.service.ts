@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { last, lastValueFrom } from 'rxjs';
-import { EmailRequest, Event, Notif, PlayerProfile, TeamFund } from '../models';
+import { EmailRequest, Event, EventData, EventResult, Notif, PlayerProfile, TeamFund } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +51,9 @@ export class Backend2Service {
 
   updateFundList(tf : TeamFund) {
     return lastValueFrom(this.http.post('/api/updateFundList', tf))
+  }
+
+  saveAttendance(data: EventData) {
+    return lastValueFrom(this.http.post('/saveAttendance', data))
   }
 }

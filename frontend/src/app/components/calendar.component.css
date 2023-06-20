@@ -1,7 +1,7 @@
 .calendar {
     margin-top: 1cm;
-    margin-left: 3cm;
-    width: 50%
+    margin-left: 1cm;
+    width: 90%
 }
 
 .form-row {
@@ -11,4 +11,13 @@
 .form-field-width {
     width: 25%; 
     margin-right: 10px;
+}
+
+.card-container {
+    display: flex;
+}
+
+mat-card {
+    flex: 1;
+    margin: 10px;
 }

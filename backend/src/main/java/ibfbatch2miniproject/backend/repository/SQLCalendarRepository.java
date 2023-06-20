@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import ibfbatch2miniproject.backend.model.Event;
+import ibfbatch2miniproject.backend.model.EventData;
 import ibfbatch2miniproject.backend.model.Notif;
 import ibfbatch2miniproject.backend.model.PlayerProfile;
 import ibfbatch2miniproject.backend.model.TeamFund;
@@ -32,6 +33,7 @@ public class SQLCalendarRepository {
     private String DELETE_FUNDS_LIST_SQL = "delete from teamFunds"; 
     private String REPOPULATE_FUNDS_LIST_SQL = "insert into teamFunds values (?, ?, ?)";
     private String UPDATE_FUNDS_LIST_SQL = "update teamFunds set paid = true where id = ?"; 
+    private String SAVE_ATTENDANCE_SQL = "insert into eventResponse (userId, eventId, attending) values (?, ?, ?)"; 
 
     // retrieve list of events 
     public List<Event> getCalEvents() {
@@ -116,6 +118,29 @@ public class SQLCalendarRepository {
         Integer rowsAffected = template.update(UPDATE_FUNDS_LIST_SQL, tf.getId());
         if (rowsAffected > 0)
             return true; 
+        return false; 
+    }
+
+    // save attendance
+    public boolean saveAttendance(EventData data, String userId) {
+
+        int[] arrAffected = template.batchUpdate(SAVE_ATTENDANCE_SQL, new BatchPreparedStatementSetter() {
+
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ps.setString(1, userId);
+                ps.setString(2, data.getResults().get(i).getEventId());
+                ps.setString(3, data.getResults().get(i).getResponse());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return data.getResults().size();
+            }
+        });
+        
+        if (arrAffected.length > 0)
+            return true;
         return false; 
     }
 

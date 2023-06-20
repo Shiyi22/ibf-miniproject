@@ -18,7 +18,6 @@ import { AddGameComponent } from './components/add-game.component';
 import { AddStatisticsComponent } from './components/add-statistics.component';
 import { DisplayStatsComponent } from './components/display-stats.component';
 import { UsefulLinksComponent } from './components/useful-links.component';
-import { SuccessComponent } from './components/success.component';
 import { TeamfundsComponent } from './components/teamfunds.component';
 import { NgxStripeModule, StripeService } from 'ngx-stripe';
 import { environment } from './environment';
@@ -29,11 +28,12 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { MatIconModule } from '@angular/material/icon';
 import { NotificationsComponent } from './components/notifications.component';
 import { SignupComponent } from './components/signup.component';
+import { AttendanceComponent } from './components/attendance.component';
 
 @NgModule({
   declarations: [
     AppComponent, HomePageComponent, LoginPageComponent, ProfilePageComponent, MembersComponent, StatisticsComponent, CompetitionComponent,
-    AddGameComponent, AddStatisticsComponent, DisplayStatsComponent, UsefulLinksComponent, TeamfundsComponent, SuccessComponent,
+    AddGameComponent, AddStatisticsComponent, DisplayStatsComponent, UsefulLinksComponent, TeamfundsComponent, AttendanceComponent,
     CalendarComponent, NotificationsComponent, SignupComponent
   ],
   imports: [

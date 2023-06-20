@@ -141,6 +141,15 @@ create table CalendarEvent (
 ); 
 select * from CalendarEvent;
 
+create table eventResponse (
+	id int auto_increment, 
+    userId varchar(8),
+    eventId varchar(5),
+    attending varchar(3),
+    constraint eventresponse_pk primary key (id)
+);
+select * from eventResponse;
+
 create table Notifications (
 	notifId int not null auto_increment,
 	imageUrl text,

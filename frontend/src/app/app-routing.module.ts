@@ -13,9 +13,9 @@ import { AddStatisticsComponent } from './components/add-statistics.component';
 import { DisplayStatsComponent } from './components/display-stats.component';
 import { UsefulLinksComponent } from './components/useful-links.component';
 import { TeamfundsComponent } from './components/teamfunds.component';
-import { SuccessComponent } from './components/success.component';
 import { CalendarComponent } from './components/calendar.component';
 import { SignupComponent } from './components/signup.component';
+import { AttendanceComponent } from './components/attendance.component';
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
@@ -31,9 +31,9 @@ const routes: Routes = [
   {path: 'displayStats/:gameId', component: DisplayStatsComponent}, 
   {path: 'links', component: UsefulLinksComponent},
   {path: 'funds', component: TeamfundsComponent},
-  {path: 'success', component: SuccessComponent }, // TOOD: to be modified
   {path: 'calendar' , component: CalendarComponent},
   {path: 'signup', component: SignupComponent},
+  {path: 'attendance', component: AttendanceComponent},
   {path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 

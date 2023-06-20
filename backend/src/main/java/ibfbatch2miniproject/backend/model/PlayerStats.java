@@ -1,12 +1,10 @@
 package ibfbatch2miniproject.backend.model;
 
-import java.io.StringReader;
 import java.math.BigDecimal;
 import java.sql.Date;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-import jakarta.json.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

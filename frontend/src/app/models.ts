@@ -110,3 +110,9 @@ export interface EmailRequest {
     subject: string,
     body: string
 }
+
+export interface TeamFund {
+    id: string,
+    name: string,
+    paid: boolean
+}

@@ -13,8 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PlayerInfo2 {
 
-    private static final String BASE64_PREFIX = "data:image/jpg;base64,";
-
     private String name;
     private Integer weight;
     private Integer height;

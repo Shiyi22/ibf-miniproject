@@ -1,14 +1,19 @@
 package ibfbatch2miniproject.backend.repository;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import ibfbatch2miniproject.backend.model.Event;
 import ibfbatch2miniproject.backend.model.Notif;
+import ibfbatch2miniproject.backend.model.PlayerProfile;
+import ibfbatch2miniproject.backend.model.TeamFund;
 
 @Repository
 public class SQLCalendarRepository {
@@ -23,6 +28,10 @@ public class SQLCalendarRepository {
     private String DELETE_EVENT_SQL = "delete from CalendarEvent where eventId = ?"; 
     private String INSERT_EMAIL_SQL = "insert into emailTable (email) values (?)"; 
     private String GET_EMAIL_LIST_SQL = "select email from emailTable";
+    private String GET_TEAM_FUNDS_LIST_SQL = "select * from teamFunds";
+    private String DELETE_FUNDS_LIST_SQL = "delete from teamFunds"; 
+    private String REPOPULATE_FUNDS_LIST_SQL = "insert into teamFunds values (?, ?, ?)";
+    private String UPDATE_FUNDS_LIST_SQL = "update teamFunds set paid = true where id = ?"; 
 
     // retrieve list of events 
     public List<Event> getCalEvents() {
@@ -70,4 +79,44 @@ public class SQLCalendarRepository {
     public List<String> getApprovedEmailList() {
         return template.queryForList(GET_EMAIL_LIST_SQL, String.class); 
     }
+
+    // get team funds list 
+    public List<TeamFund> getTeamFunds() {
+        return template.query(GET_TEAM_FUNDS_LIST_SQL, BeanPropertyRowMapper.newInstance(TeamFund.class)); 
+    }
+
+    // repopulate funds list
+    public boolean repopulateList(PlayerProfile[] players) {
+        // delete list 
+        Integer rowsAffected = template.update(DELETE_FUNDS_LIST_SQL);
+    
+        // batch update
+        int[] arrAffected = template.batchUpdate(REPOPULATE_FUNDS_LIST_SQL, new BatchPreparedStatementSetter() {
+
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ps.setString(1, players[i].getId());
+                ps.setString(2, players[i].getName());
+                ps.setBoolean(3, false);
+            }
+
+            @Override
+            public int getBatchSize() {
+                return players.length; 
+            }
+        });
+        
+        if (rowsAffected > 0 && arrAffected.length > 0)
+            return true;
+        return false;
+    }
+
+    // update team fund
+    public boolean updateFund(TeamFund tf) {
+        Integer rowsAffected = template.update(UPDATE_FUNDS_LIST_SQL, tf.getId());
+        if (rowsAffected > 0)
+            return true; 
+        return false; 
+    }
+
 }

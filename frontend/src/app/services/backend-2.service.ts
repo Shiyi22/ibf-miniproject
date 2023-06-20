@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
-import { EmailRequest, Event, Notif } from '../models';
+import { last, lastValueFrom } from 'rxjs';
+import { EmailRequest, Event, Notif, PlayerProfile, TeamFund } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +38,18 @@ export class Backend2Service {
 
   sendEmailUsingSB(req: EmailRequest) {
     return lastValueFrom(this.http.post('/sendEmail', req))
+  }
+
+  checkFundsPaid() {
+    return lastValueFrom(this.http.get('/api/teamFundsList'))
+  }
+
+  repopulateFundList(players: PlayerProfile[]) {
+    players.forEach((player)=> {player.playerPhoto = ''})
+    return lastValueFrom(this.http.post('/api/repopulateList', players))
+  }
+
+  updateFundList(tf : TeamFund) {
+    return lastValueFrom(this.http.post('/api/updateFundList', tf))
   }
 }

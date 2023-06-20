@@ -1,17 +1,23 @@
 <mat-card class="example-card">
     <mat-card-content>
-        <p>Current team funds: S$</p>
+        <p>Current team funds: S$500</p>
         <br>
         <p>Semi-annual fees: S$20</p>
         <br>
-        <!-- <ng-container *ngIf="elementsOptions?.clientSecret as clientSecret">
-            <ngx-stripe-payment [clientSecret]="clientSecret" [elementsOptions]="elementsOptions"></ngx-stripe-payment>
-        </ng-container>
-        <br> -->
         <p>
             <button mat-raised-button (click)="pay()">Pay team funds</button>
         </p>
-
+        <br><br><br>
+        <h3>List of players who have yet to pay team funds:</h3>
+        <!-- To add players -->
+        <div *ngFor="let team of teamfunds">
+            <ul *ngIf="team.paid == false">
+                <li>{{team.name}}</li>
+            </ul>
+        </div>
+        <p>
+            <button mat-raised-button (click)="refresh()">New Semi-annual Period</button>
+        </p>
     </mat-card-content>
 </mat-card>
 

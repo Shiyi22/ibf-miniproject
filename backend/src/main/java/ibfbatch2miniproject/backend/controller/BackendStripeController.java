@@ -1,8 +1,12 @@
 package ibfbatch2miniproject.backend.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,16 +19,21 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 
 import ibfbatch2miniproject.backend.model.CheckoutPayment;
+import ibfbatch2miniproject.backend.model.PlayerProfile;
+import ibfbatch2miniproject.backend.model.TeamFund;
+import ibfbatch2miniproject.backend.repository.SQLCalendarRepository;
 
 @RestController
 @RequestMapping(path="/api")
-// @CrossOrigin(origins="*")
+@CrossOrigin(origins="*")
 public class BackendStripeController {
+
+    @Autowired
+    private SQLCalendarRepository calRepo; 
 
     // gson object
     private static Gson gson = new Gson();
 
-    // Method 1 
     // Post mapping from checkout
     @PostMapping("/payment")
     public String paymentWithCheckoutPage(@RequestBody CheckoutPayment payment) throws StripeException {
@@ -59,5 +68,24 @@ public class BackendStripeController {
     private static void init() {
 		Stripe.apiKey = "sk_test_51NIPDNC2ajusx5ahIPDHxipzN66jId8IqvbrEHcxofUDqFCrjBRFmjiB0OxdWAFllDJdyeyJZX6jOI3bDQPlzVI500gQMpLmGw";
 	}
+
+    // get team funds list
+    @GetMapping("/teamFundsList")
+    public List<TeamFund> getTeamFundsList() {
+        List<TeamFund> funds = calRepo.getTeamFunds(); 
+        return funds; 
+    }
     
+    // Repopulate team funds list
+    @PostMapping("/repopulateList")
+    public boolean repopulateList(@RequestBody PlayerProfile[] players) {
+        boolean isRepopulated = calRepo.repopulateList(players);
+        return isRepopulated;
+    }
+
+    // update team fund 
+    @PostMapping("/updateFundList")
+    public boolean updateFundList(@RequestBody TeamFund tf) {
+        return calRepo.updateFund(tf);
+    }
 }

@@ -159,3 +159,14 @@ create table emailTable (
     constraint email_pk primary key (id)
 );
 select * from emailTable;
+
+-- team funds table
+create table teamFunds(
+	id varchar(8) not null, 
+    name varchar(15) not null,
+	paid boolean not null,
+    constraint teamfunds_pk primary key (id)
+); 
+select * from teamFunds;
+delete from teamFunds;
+update teamFunds set paid = true where id = ?

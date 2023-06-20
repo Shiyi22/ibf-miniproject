@@ -1,13 +1,11 @@
 package ibfbatch2miniproject.backend.repository;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,12 +37,13 @@ public class SQLProfileRepository {
     private final String GET_PLAYER_POSITION_SQL = "select position from playerPosition where id = ?";
     private final String SAVE_PLAYER_INFO_SQL = "insert into playerInfo values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";
     private final String UPDATE_PLAYER_INFO_SQL = """
-        update playerInfo set name = ?, weight = ?, height = ?, playerPhoto = ?, email = ?, phoneNumber = ?, DOB = ?, emergencyContact = ?, 
+        update playerInfo set name = ?, weight = ?, height = ?, email = ?, phoneNumber = ?, DOB = ?, emergencyContact = ?, 
         emergencyName = ?, address = ?, pastInjuries = ?, role = ?, yearJoined = ? where id = ?
             """;
     private final String DELETE_PLAYER_POSITION_SQL = "delete from playerPosition where id = ?"; 
     private final String INSERT_PLAYER_POSITION_SQL = "insert into playerPosition (id, position) values (?, ?)"; 
     private final String UPDATE_PLAYER_PHOTO_SQL = "update playerInfo set playerPhoto = ? where id = ?"; 
+    private final String INSERT_PLAYER_STATS_SQL = "insert into playerStats (id) values (?)";
     
     // save user credentials, use hash algo to store hashed passwords eg. bcrypt
     public boolean saveLoginCreds(Login signup) {
@@ -141,8 +140,11 @@ public class SQLProfileRepository {
             }
         });
 
+        // add to player stats table 
+        Integer rowsAffected2 = template.update(INSERT_PLAYER_STATS_SQL, userId);
+
         // return boolean 
-        if (rowsAffected > 0 && arrAffected.length > 0) 
+        if (rowsAffected > 0 && arrAffected.length > 0 && rowsAffected2 > 0) 
             return true; 
         return false;
     
@@ -150,7 +152,7 @@ public class SQLProfileRepository {
 
     // update player info 
     public boolean updatePlayerInfo(PlayerInfo info, String userId) {
-        Integer rowsAffected1 =  template.update(UPDATE_PLAYER_INFO_SQL, info.getName(), info.getWeight(), info.getHeight(), null, info.getEmail(), info.getPhoneNumber(),
+        Integer rowsAffected1 =  template.update(UPDATE_PLAYER_INFO_SQL, info.getName(), info.getWeight(), info.getHeight(), info.getEmail(), info.getPhoneNumber(),
         info.getDob(), info.getEmergencyContact(), info.getEmergencyName(), info.getAddress(), info.getPastInjuries(), info.getRole(), info.getYearJoined(), userId);
    
         // delete previously saved positions, then add new positions 

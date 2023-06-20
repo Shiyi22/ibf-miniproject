@@ -77,7 +77,7 @@ export class LoginPageComponent implements OnInit {
     this.backend2Svc.sendEmailUsingSB(emailReq).then((result:any) => {
       console.info('>>> Email sent: ', result.emailSent)
       if (result.emailSent == true) {
-        this.snackBar.open('Request successful, please check your email for verification code from teamkryptonite2008@gmail.com', 'Dismiss', {duration: 5000})
+        this.snackBar.open('Request successful, please check your email for approval from teamkryptonite2008@gmail.com', 'Dismiss', {duration: 5000})
       }
     })
   }

@@ -122,6 +122,8 @@ create table playerStats (
 );
 insert into playerStats (id) values ('abcd1234');
 insert into playerStats (id) values ('efgh5678');
+insert into playerStats (id) values ('8asf2221');
+insert into playerStats (id) values ('8a62014f');
 select * from playerStats;
 select avgInterceptionPerGame from playerStats where id = 'abcd1234';
 select cap from playerStats where id = 'abcd1234';

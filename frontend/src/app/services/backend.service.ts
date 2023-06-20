@@ -32,6 +32,8 @@ export class BackendService {
   }
 
   updatePlayerInfo(info: PlayerInfo, username: string) {
+    // remove playerphoto before sending over 
+    info.playerPhoto = '';
     return lastValueFrom(this.http.post(`/updatePlayerInfo/${username}`, info)); // return Integer on num of rows affected
   }
 

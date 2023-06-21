@@ -123,6 +123,12 @@ export interface EventResult {
 }
 
 export interface EventData {
-    result: EventResult[], 
+    results: EventResult[], 
+    username: string
+}
+
+export interface EventGroupAttd {
+    eventId: string,
+    response: string, 
     username: string
 }

@@ -15,7 +15,6 @@ import { UsefulLinksComponent } from './components/useful-links.component';
 import { TeamfundsComponent } from './components/teamfunds.component';
 import { CalendarComponent } from './components/calendar.component';
 import { SignupComponent } from './components/signup.component';
-import { AttendanceComponent } from './components/attendance.component';
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
@@ -33,7 +32,6 @@ const routes: Routes = [
   {path: 'funds', component: TeamfundsComponent},
   {path: 'calendar' , component: CalendarComponent},
   {path: 'signup', component: SignupComponent},
-  {path: 'attendance', component: AttendanceComponent},
   {path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 

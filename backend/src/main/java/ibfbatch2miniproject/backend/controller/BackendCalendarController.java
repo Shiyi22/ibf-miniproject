@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ibfbatch2miniproject.backend.model.EmailRequest;
 import ibfbatch2miniproject.backend.model.Event;
 import ibfbatch2miniproject.backend.model.EventData;
+import ibfbatch2miniproject.backend.model.EventResult;
 import ibfbatch2miniproject.backend.model.Notif;
 import ibfbatch2miniproject.backend.repository.SQLCalendarRepository;
-import ibfbatch2miniproject.backend.repository.SQLProfileRepository;
 import ibfbatch2miniproject.backend.service.EmailService;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
@@ -28,9 +28,6 @@ public class BackendCalendarController {
 
     @Autowired
     private SQLCalendarRepository calRepo;
-
-    @Autowired
-    private SQLProfileRepository profileRepo;
 
     @Autowired
     private EmailService emailSvc;
@@ -122,10 +119,31 @@ public class BackendCalendarController {
     // save attendance
     @PostMapping("/saveAttendance")
     public ResponseEntity<String> saveAttendance(@RequestBody EventData data) {
-        String userId = profileRepo.getPlayerId(data.getUsername());
-        boolean isSaved = calRepo.saveAttendance(data, userId);
+        System.out.printf(">>> Event Data sent from Angular to backend: %s\n", data.toString());
+        boolean isSaved = calRepo.saveAttendance(data, data.getUsername());
         JsonObject jo = Json.createObjectBuilder().add("isSaved", isSaved).build();
         return ResponseEntity.ok().body(jo.toString());
     }
 
+    // get individual attendance 
+    @GetMapping("/getIndvAttendance/{username}")
+    public ResponseEntity<String> getIndvAttendance(@PathVariable String username) {
+        List<EventResult> results = calRepo.getIndvAttendance(username);
+        if (results.isEmpty()) {
+            JsonObject jo = Json.createObjectBuilder().add("message", "empty").build();
+            return ResponseEntity.ok().body(jo.toString());
+        }
+        return ResponseEntity.ok().body(EventResult.toJsonArray(results).toString());
+    }
+
+    // get group attendance
+    @GetMapping("/getGroupAttendance/{eventId}")
+    public ResponseEntity<String> getGroupAttendance(@PathVariable String eventId) {
+        List<EventResult> results = calRepo.getGroupAttendance(eventId);
+        if (results.isEmpty()) {
+            JsonObject jo = Json.createObjectBuilder().add("message", "empty").build();
+            return ResponseEntity.ok().body(jo.toString());
+        }
+        return ResponseEntity.ok().body(EventResult.toJsonArray(results).toString());
+    }
 }

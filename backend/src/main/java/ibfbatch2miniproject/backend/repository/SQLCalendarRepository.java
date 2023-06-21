@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import ibfbatch2miniproject.backend.model.Event;
 import ibfbatch2miniproject.backend.model.EventData;
+import ibfbatch2miniproject.backend.model.EventResult;
 import ibfbatch2miniproject.backend.model.Notif;
 import ibfbatch2miniproject.backend.model.PlayerProfile;
 import ibfbatch2miniproject.backend.model.TeamFund;
@@ -33,7 +34,9 @@ public class SQLCalendarRepository {
     private String DELETE_FUNDS_LIST_SQL = "delete from teamFunds"; 
     private String REPOPULATE_FUNDS_LIST_SQL = "insert into teamFunds values (?, ?, ?)";
     private String UPDATE_FUNDS_LIST_SQL = "update teamFunds set paid = true where id = ?"; 
-    private String SAVE_ATTENDANCE_SQL = "insert into eventResponse (userId, eventId, attending) values (?, ?, ?)"; 
+    private String SAVE_ATTENDANCE_SQL = "insert into eventResponse (username, eventId, response) values (?, ?, ?)"; 
+    private String GET_ATTENDANCE_SQL = "select * from eventResponse where username = ?";
+    private String GET_GRP_ATTENDANCE_SQL = "select * from eventResponse where eventId = ?";
 
     // retrieve list of events 
     public List<Event> getCalEvents() {
@@ -122,13 +125,13 @@ public class SQLCalendarRepository {
     }
 
     // save attendance
-    public boolean saveAttendance(EventData data, String userId) {
+    public boolean saveAttendance(EventData data, String username) {
 
         int[] arrAffected = template.batchUpdate(SAVE_ATTENDANCE_SQL, new BatchPreparedStatementSetter() {
 
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                ps.setString(1, userId);
+                ps.setString(1, username);
                 ps.setString(2, data.getResults().get(i).getEventId());
                 ps.setString(3, data.getResults().get(i).getResponse());
             }
@@ -144,4 +147,13 @@ public class SQLCalendarRepository {
         return false; 
     }
 
+    // get indv attendance 
+    public List<EventResult> getIndvAttendance(String username) {
+        return template.query(GET_ATTENDANCE_SQL, BeanPropertyRowMapper.newInstance(EventResult.class), username);
+    }
+
+    // get group attendance
+    public List<EventResult> getGroupAttendance(String eventId) {
+        return template.query(GET_GRP_ATTENDANCE_SQL, BeanPropertyRowMapper.newInstance(EventResult.class), eventId); 
+    }
 }

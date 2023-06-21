@@ -56,4 +56,13 @@ export class Backend2Service {
   saveAttendance(data: EventData) {
     return lastValueFrom(this.http.post('/saveAttendance', data))
   }
+
+  getIndvAttendance(username:string) {
+    return lastValueFrom(this.http.get(`/getIndvAttendance/${username}`))
+  }
+
+  getGroupAttendance(eventId:string) {
+    return lastValueFrom(this.http.get(`/getGroupAttendance/${eventId}`))
+  }
+
 }

@@ -21,3 +21,7 @@ mat-card {
     flex: 1;
     margin: 10px;
 }
+
+.table-cell {
+    padding: 10px;
+}

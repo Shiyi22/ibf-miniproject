@@ -3,7 +3,7 @@ import { Calendar, CalendarOptions, DateSelectArg, EventApi, EventClickArg, Even
 import { Backend2Service } from '../services/backend-2.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { Event, EventData, EventResult } from '../models';
+import { Event, EventData, EventGroupAttd, EventResult } from '../models';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
@@ -24,6 +24,11 @@ export class CalendarComponent implements OnInit {
   eventDeleted: boolean = false; 
   notifEvent!: string
 
+  eventGrpAttd: EventGroupAttd[] = []
+  eventYes: string[] = []
+  eventNo: string[] = []
+  eventResults: EventResult[] = []
+
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     selectable: true,
@@ -41,7 +46,6 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     // get events 
     this.backend2Svc.getCalEvents().then((result:any) => {
-      
       if (result.message == 'empty') {
         console.info('>>> Message: ', result.message);
       } else {
@@ -49,7 +53,6 @@ export class CalendarComponent implements OnInit {
         this.events = result; 
         // sort by date 
         this.events.sort(this.sortByDate)
-
         // convert events to suitable reading by calendarOptions
         this.events.forEach(event => {
           // convert time (8:30) to 2023-06-15T08:30:00
@@ -66,9 +69,38 @@ export class CalendarComponent implements OnInit {
         this.calendarOptions.events = this.calEvents; // on change in calendarOptions, refresh the page?
       }
     })
+
+    // get previously saved attendance
+    const username = localStorage.getItem('username')!
+    this.backend2Svc.getIndvAttendance(username).then((result:any) => {
+      if (result.message == 'empty') {
+        console.info('>>> Message: ', result.message)
+      } else {
+        this.eventResults = result
+      }
+    })
   }
 
-  eventResults: EventResult[] = []
+  attendance(eventId:string) {
+    // get attendance of eventId
+    this.backend2Svc.getGroupAttendance(eventId).then((result:any) => {
+      if (result.message == 'empty') {
+        console.info('>>> Message: ', result.message)
+      } else {
+        this.eventGrpAttd = result;
+        // go thru the list to see who wrote 'yes' and 'no'
+        this.eventGrpAttd.forEach((user) => {
+          if (user.response === 'yes') {
+            this.eventYes.push(user.username); 
+          } else { // will be no
+            this.eventNo.push(user.username);
+          }
+        })
+        console.info('>>> grp attendance (yes): ', this.eventYes)
+        console.info('>>> grp attendance (no): ', this.eventNo)
+      }
+    })
+  }
 
   choice(response:string, eventId: string) {
     // check existing array 
@@ -87,10 +119,9 @@ export class CalendarComponent implements OnInit {
   save() {
     // update database 
     const username = localStorage.getItem('username')!
-    const eventData: EventData = {result: this.eventResults, username: username}
+    const eventData: EventData = {results: this.eventResults, username: username}
     this.backend2Svc.saveAttendance(eventData).then((result) => {
       console.info('>>> Save attendance: ', result);
-      
     })
   }
 

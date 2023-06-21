@@ -42,34 +42,75 @@
     <mat-card-header>
       <mat-card-title>Event Attendance</mat-card-title>
     </mat-card-header>
+    <br>
     <mat-card-content>
       <table>
-        <tr *ngFor="let event of events">
-          <td>
-            <mat-icon>event</mat-icon>
-          </td>
-          <td><p></p></td>
-          <td>
-            <p>{{event.title}}</p>
-            <p>{{event.selectedDate}}</p>
-          </td>
-          <td><p></p></td>
-          <td>
-            <button mat-raised-button [color]="getButtonColor('yes', event.eventId)" (click)="choice('yes', event.eventId)">Yes</button>&nbsp;
-            <button mat-raised-button [color]="getButtonColor('no', event.eventId)" (click)="choice('no', event.eventId)">No</button>
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>
-            <button mat-raised-button (click)="save()">Save</button>
-          </td>
-        </tr>
+        <thead style="font-weight: bold;">
+          <tr>
+            <td></td>
+            <td></td>
+            <td class="table-cell">Event</td>
+            <td class="table-cell">Date</td>
+            <td class="table-cell">View Attendance</td>
+            <td class="table-cell">Attending?</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let event of events">
+            <td class="table-cell">
+              <mat-icon>event</mat-icon>
+            </td>
+            <td class="table-cell"><p></p></td>
+            <td class="table-cell">
+              <p>{{event.title}}</p>
+            </td>
+            <td class="table-cell">
+              <p>{{event.selectedDate}}</p>
+            </td>
+            <td style="text-align: center; vertical-align: middle;">
+              <button mat-mini-fab color="primary" (click)="attendance(event.eventId)">
+                <mat-icon>assignment_turned_in</mat-icon>
+              </button>
+            </td>
+            <td class="table-cell">
+              <button mat-flat-button [color]="getButtonColor('yes', event.eventId)" (click)="choice('yes', event.eventId)">Yes</button>&nbsp;
+              <button mat-flat-button [color]="getButtonColor('no', event.eventId)" (click)="choice('no', event.eventId)">No</button>
+            </td>
+          </tr>
+          <br>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="table-cell">
+              <button mat-raised-button (click)="save()">Save</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
+
+      <!-- Display attendance for particular event -->
+      <table *ngIf="eventGrpAttd.length > 0">
+        <thead>
+          <tr style="font-weight: bold;">
+            <td></td>
+            <td class="table-cell">Coming</td>
+            <td class="table-cell">Not Coming</td>
+            <td class="table-cell">Yet to Reply</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td class="table-cell" *ngFor="let yes of eventYes">{{yes}}</td>
+            <td class="table-cell" *ngFor="let no of eventNo">{{no}}</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
     </mat-card-content>
   </mat-card>
   </div>

@@ -144,7 +144,7 @@ create table eventResponse (
 	id int auto_increment, 
     username varchar(8),
     eventId varchar(5),
-    attending varchar(3),
+    response varchar(3),
     constraint eventresponse_pk primary key (id)
 );
 

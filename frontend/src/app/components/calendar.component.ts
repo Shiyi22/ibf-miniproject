@@ -55,6 +55,10 @@ export class CalendarComponent implements OnInit {
         this.events.sort(this.sortByDate)
         // convert events to suitable reading by calendarOptions
         this.events.forEach(event => {
+          // manually add one to the date 
+          // const date = new Date(event.selectedDate)
+          // date.setDate(date.getDate() + 1)
+          // event.selectedDate = date.toString();
           // convert time (8:30) to 2023-06-15T08:30:00
           const eventInput = {
             id: event.eventId,
@@ -82,6 +86,9 @@ export class CalendarComponent implements OnInit {
   }
 
   attendance(eventId:string) {
+    // clear cache in eventYes and evento list 
+    this.eventYes = []
+    this.eventNo = []
     // get attendance of eventId
     this.backend2Svc.getGroupAttendance(eventId).then((result:any) => {
       if (result.message == 'empty') {
@@ -147,6 +154,10 @@ export class CalendarComponent implements OnInit {
     this.calendar.getApi().addEvent(eventInput);
 
     // send to backend to save in list of events 
+    // const date = event.selectedDate 
+    // date.setHours(this.selectedDate.getHours() + 8)
+    // event.selectedDate = date 
+    console.info('>>> Event to store in db: ', event)
     this.backend2Svc.storeEventToDB(event).then((result:any) => {
       console.info('>>> Store event to DB: ', result.isAdded);
     })
@@ -183,6 +194,7 @@ export class CalendarComponent implements OnInit {
   convertDateTime(time:string, selectedDate:Date) {
     const [hours, minutes] = time.split(':');
     const date = new Date(selectedDate);
+    // date.setDate(date.getDate() + 1) // added
     date.setHours(Number(hours))
     date.setMinutes(Number(minutes))
 

@@ -46,6 +46,7 @@ public class BackendCalendarController {
     // store event to list 
     @PostMapping("/storeEventToDB")
     public ResponseEntity<String> storeEventToDB(@RequestBody Event event) {
+        System.out.printf(">>> Event from Angular to SB for storage: %s\n", event.toString());
         boolean isAdded = calRepo.storeEventToDB(event);
         JsonObject jo = Json.createObjectBuilder().add("isAdded", isAdded).build();
         return ResponseEntity.ok().body(jo.toString());

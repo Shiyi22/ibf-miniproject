@@ -50,8 +50,8 @@ export class TeamfundsComponent implements OnInit {
       // amount on cents *10 => to be on dollar
       amount: 2000,
       quantity: '1',
-      cancelUrl: 'http://localhost:4200/funds',
-      successUrl: 'http://localhost:4200/funds',
+      cancelUrl: 'https://faint-dress-production.up.railway.app/funds',
+      successUrl: 'https://faint-dress-production.up.railway.app/funds',
     }
 
     const stripe = await this.stripePromise;

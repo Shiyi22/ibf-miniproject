@@ -1,5 +1,6 @@
 package ibfbatch2miniproject.backend.repository;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
@@ -34,9 +35,12 @@ public class SQLCalendarRepository {
     private String DELETE_FUNDS_LIST_SQL = "delete from teamFunds"; 
     private String REPOPULATE_FUNDS_LIST_SQL = "insert into teamFunds values (?, ?, ?)";
     private String UPDATE_FUNDS_LIST_SQL = "update teamFunds set paid = true where id = ?"; 
-    private String SAVE_ATTENDANCE_SQL = "insert into eventResponse (username, eventId, response) values (?, ?, ?)"; 
+    private String SAVE_ATTENDANCE_SQL = "insert into eventResponse (username, eventId, response) values (?, ?, ?) on duplicate key update response = ?"; 
     private String GET_ATTENDANCE_SQL = "select * from eventResponse where username = ?";
     private String GET_GRP_ATTENDANCE_SQL = "select * from eventResponse where eventId = ?";
+
+    private String GET_FUNDS_AMOUNT_SQL = "select funds from fundsAmount where id = 1";
+    private String ADD_FUNDS_AMOUNT_SQL = "update fundsAmount set funds = funds + ? where id = 1"; 
 
     // retrieve list of events 
     public List<Event> getCalEvents() {
@@ -134,6 +138,7 @@ public class SQLCalendarRepository {
                 ps.setString(1, username);
                 ps.setString(2, data.getResults().get(i).getEventId());
                 ps.setString(3, data.getResults().get(i).getResponse());
+                ps.setString(4, data.getResults().get(i).getResponse());
             }
 
             @Override
@@ -155,5 +160,18 @@ public class SQLCalendarRepository {
     // get group attendance
     public List<EventResult> getGroupAttendance(String eventId) {
         return template.query(GET_GRP_ATTENDANCE_SQL, BeanPropertyRowMapper.newInstance(EventResult.class), eventId); 
+    }
+
+    // get funds amount
+    public BigDecimal getFundsAmount() {
+        return template.queryForObject(GET_FUNDS_AMOUNT_SQL, BigDecimal.class);
+    }
+
+    // add funds amount 
+    public boolean addFundsAmount(Integer amount) {
+        Integer rowsAffected = template.update(ADD_FUNDS_AMOUNT_SQL, amount);
+        if (rowsAffected > 0)
+            return true;
+        return false; 
     }
 }

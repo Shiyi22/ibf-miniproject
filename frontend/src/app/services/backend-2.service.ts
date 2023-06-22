@@ -65,4 +65,12 @@ export class Backend2Service {
     return lastValueFrom(this.http.get(`/getGroupAttendance/${eventId}`))
   }
 
+  getFundsAmount() {
+    return lastValueFrom(this.http.get('/api/getFundsAmount'))
+  }
+
+  addFundsAmount(amount:number) {
+    return lastValueFrom(this.http.put('/api/addFundsAmount', amount))
+  }
+
 }

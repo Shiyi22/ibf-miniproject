@@ -167,6 +167,7 @@ create table emailTable (
     email varchar(30),
     constraint email_pk primary key (id)
 );
+insert into fundsAmount values (1, 0);
 select * from emailTable;
 
 -- team funds table
@@ -178,4 +179,11 @@ create table teamFunds(
 ); 
 select * from teamFunds;
 delete from teamFunds;
-update teamFunds set paid = true where id = ?
+update teamFunds set paid = true where id = ?;
+
+create table fundsAmount (
+	id int not null,
+	funds decimal not null,
+    constraint fundsAmount_pk primary key (id)
+);
+select * from fundsAmount;

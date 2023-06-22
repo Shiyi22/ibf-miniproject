@@ -117,7 +117,7 @@ export class CalendarComponent implements OnInit {
   }
 
   save() {
-    // update database 
+    // update database and overwrite instead of resave
     const username = localStorage.getItem('username')!
     const eventData: EventData = {results: this.eventResults, username: username}
     this.backend2Svc.saveAttendance(eventData).then((result) => {
@@ -139,7 +139,7 @@ export class CalendarComponent implements OnInit {
       allDay: false 
     }
     this.calEvents.push(eventInput);
-    this.calendarOptions = { ... this.calendarOptions, events: this.calEvents}
+    // this.calendarOptions = { ... this.calendarOptions, events: this.calEvents}
     console.info('>>> New calendar options: ', this.calendarOptions)
     console.info('>>> New calendar events: ', this.calEvents)
 

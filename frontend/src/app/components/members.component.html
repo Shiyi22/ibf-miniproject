@@ -1,5 +1,6 @@
 <mat-grid-list cols="5" rowHeight="1:1">
-    <mat-grid-tile *ngFor="let profile of playerProfiles">
+  <ng-container *ngFor="let profile of playerProfiles; let i = index">
+    <mat-grid-tile>
       <mat-card [routerLink]="['/statistics', profile.id]">
         <div *ngIf="profile.playerPhoto == undefined">
             <img src="https://www.shutterstock.com/image-illustration/profile-picture-illustration-woman-260nw-438749314.jpg" width="250" height="300">
@@ -12,8 +13,12 @@
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
-  </mat-grid-list>
+    <br *ngIf="(i + 1) % 5 === 0">
+  </ng-container>
+</mat-grid-list>
+
   <br>
+
   <div *ngIf="captainAddon">
     <mat-card class="addMember">
       <mat-card-content>

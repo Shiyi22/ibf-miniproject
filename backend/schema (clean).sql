@@ -142,11 +142,13 @@ create table CalendarEvent (
 
 create table eventResponse (
 	id int auto_increment, 
-    userId varchar(8),
+    username varchar(8),
     eventId varchar(5),
     attending varchar(3),
     constraint eventresponse_pk primary key (id)
 );
+
+ALTER TABLE eventResponse ADD CONSTRAINT unique_username_eventId UNIQUE (username, eventId);
 -- select * from eventResponse;
 
 create table Notifications (
@@ -178,3 +180,11 @@ create table teamFunds(
 -- select * from teamFunds;
 -- delete from teamFunds;
 -- update teamFunds set paid = true where id = ?
+
+create table fundsAmount (
+	id int not null,
+	funds decimal not null,
+    constraint fundsAmount_pk primary key (id)
+);
+insert into fundsAmount values (1, 0);
+-- select * from fundsAmount;

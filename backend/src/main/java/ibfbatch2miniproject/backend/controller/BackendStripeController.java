@@ -1,5 +1,6 @@
 package ibfbatch2miniproject.backend.controller;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -87,5 +89,17 @@ public class BackendStripeController {
     @PostMapping("/updateFundList")
     public boolean updateFundList(@RequestBody TeamFund tf) {
         return calRepo.updateFund(tf);
+    }
+
+    // get team fund amount 
+    @GetMapping("/getFundsAmount")
+    public BigDecimal getFundsAmount() {
+        return calRepo.getFundsAmount();
+    }
+
+    // add funds amount 
+    @PutMapping("/addFundsAmount")
+    public boolean addFundsAmount(@RequestBody Integer amount) {
+        return calRepo.addFundsAmount(amount);
     }
 }

@@ -18,6 +18,7 @@ export class TeamfundsComponent implements OnInit {
 
   teamfunds!: TeamFund[]
   players!: PlayerProfile[]
+  funds: any
 
   // load  Stripe
   stripePromise = loadStripe(environment.stripe);
@@ -25,6 +26,12 @@ export class TeamfundsComponent implements OnInit {
   constructor(private http: HttpClient, private router: Router, private backend2Svc: Backend2Service, private backendSvc: BackendService) {}
 
   ngOnInit(): void {
+    // get team funds current amount
+    this.backend2Svc.getFundsAmount().then((result:any) => {
+      this.funds = result;
+      console.info('>>> funds: ', this.funds)
+    })
+
     this.backend2Svc.checkFundsPaid().then((result:any) => {
       this.teamfunds = result;
       console.info('>>> Team funds: ', this.teamfunds)
@@ -68,6 +75,10 @@ export class TeamfundsComponent implements OnInit {
         const teamfund: TeamFund = {'id': userId, 'name': username, 'paid': true}
         this.backend2Svc.updateFundList(teamfund).then((result) => {
           console.info('>>> Update team fund ', result)
+          // add $20 to funds amount 
+          this.backend2Svc.addFundsAmount(20).then((result:any) => {
+            console.info('>>> Added into funds: ', result)
+          })
         })
       })
     })

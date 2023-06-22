@@ -103,17 +103,17 @@ public class BackendService {
             // get positions by quarter but update competition cap by game (not qtr)
             if (!playersToAddCap.contains(qtr.getGk()))
                 playersToAddCap.add(qtr.getGk()); // add to the namelist
-            else if (!playersToAddCap.contains(qtr.getGd()))
+            if (!playersToAddCap.contains(qtr.getGd()))
                 playersToAddCap.add(qtr.getGd()); 
-            else if (!playersToAddCap.contains(qtr.getWd()))
+            if (!playersToAddCap.contains(qtr.getWd()))
                 playersToAddCap.add(qtr.getWd());
-            else if (!playersToAddCap.contains(qtr.getC()))
+            if (!playersToAddCap.contains(qtr.getC()))
                 playersToAddCap.add(qtr.getC());
-            else if (!playersToAddCap.contains(qtr.getWa()))
+            if (!playersToAddCap.contains(qtr.getWa()))
                 playersToAddCap.add(qtr.getWa());
-            else if (!playersToAddCap.contains(qtr.getGa()))
+            if (!playersToAddCap.contains(qtr.getGa()))
                 playersToAddCap.add(qtr.getGa());
-            else if (!playersToAddCap.contains(qtr.getGs()))
+            if (!playersToAddCap.contains(qtr.getGs()))
                 playersToAddCap.add(qtr.getGs());
 
             // update interceptions to game total

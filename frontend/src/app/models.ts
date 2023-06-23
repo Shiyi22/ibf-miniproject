@@ -83,6 +83,13 @@ export interface QuarterData {
     quarterSequence: string[][]
 }
 
+export interface CP {
+    count: number,
+    neat: number,
+    returned: number, 
+    lost: number
+}
+
 export interface WeatherForecast {
     start: string,
     end: string,
@@ -132,3 +139,27 @@ export interface EventGroupAttd {
     response: string, 
     username: string
 }
+
+export interface SearchResult {
+    publishedAt: string,
+    title: string,
+    description: string,
+    thumbnail: string,
+    videoUrl: string
+}
+
+export interface APIResponse {
+    items: Array<{
+      id: {
+        videoId: string;
+      };
+      snippet: {
+        publishedAt: string;
+        title: string;
+        description: string;
+        thumbnails: {
+          default: { url: string };
+        };
+      };
+    }>;
+  }

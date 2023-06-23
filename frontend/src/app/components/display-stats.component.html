@@ -32,8 +32,14 @@
     <h3>Room for improvement: </h3>
     <span>Lost possession due to self error: {{quarter.lostSelfError}}</span><br>
     <span>Lost possession due to interception: {{quarter.lostByIntercept}}</span>
+
+    <!-- display stats chart -->
+    <br>
+    <canvas #doughnutChart style="width: 50px; height: 50px"></canvas>
   </div>
+
 </div>
+
 <br><br>
 <div *ngIf="game != undefined">
   <div *ngFor="let photo of game.photoUrl">

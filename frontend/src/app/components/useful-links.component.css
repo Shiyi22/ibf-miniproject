@@ -1,0 +1,29 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust the height as needed */
+}
+
+.form-wrapper {
+    width: 400px;
+}
+
+.card-content-container {
+    display: flex;
+    /* align-items: center; */
+}
+
+.example-header-image {
+    background-size: cover;
+    flex-shrink: 0;
+    margin-right: 10px;
+}
+
+.text-container {
+    flex-grow: 1;
+    /* display: flex; */
+    justify-content: flex-end;
+    /* align-items: center; */
+    margin-left: 10px;
+}

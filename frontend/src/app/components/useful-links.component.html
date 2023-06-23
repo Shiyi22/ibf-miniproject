@@ -36,6 +36,67 @@
             </div>
         </mat-tab>
     </div>
-    <mat-tab label="Fitness Recommendations">Content 2</mat-tab>
-    <mat-tab label="Court Booking">Content 3</mat-tab>
+
+    <div *ngIf=" youtubeSearch != undefined">
+        <mat-tab label="Netball / Fitness Video Recommendations">
+            <br><br>
+            <form [formGroup]="youtubeSearch" (ngSubmit)="searchKeyword()">
+                <table>
+                    <tr>
+                        <td>Keyword: </td>
+                        <td>
+                            <mat-form-field>
+                                <input matInput type="text" formControlName="keyword" [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option *ngFor="let suggestion of keywordSuggestions" [value]="suggestion">
+                                        {{suggestion}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button mat-raised-button type="submit">Search</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <br><br>
+            <mat-card>
+                <mat-card-content *ngFor="let result of searchResults" class="card-content-container">
+                    <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + result.thumbnail + ')'"></div>
+                    <div class="text-container">
+                        <a href="{{result.videoUrl}}">{{result.title}}</a>
+                        <p>{{result.description}}</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+    </div>
+
+    <mat-tab label="Court Booking">
+        <form [formGroup]="courtSearch" (ngSubmit)="searchCourt()">
+            <table>
+                <tr>
+                    <td>Date: </td>
+                    <td>
+                        <mat-form-field class="example-full-width">
+                            <mat-label>MM/DD/YYYY</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="date">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button mat-raised-button type="submit">Search</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </mat-tab>
   </mat-tab-group>

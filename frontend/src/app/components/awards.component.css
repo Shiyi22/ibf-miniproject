@@ -1,0 +1,26 @@
+.awards-container {
+    /* background-image: url('../../assets/Awards.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 50%; */
+    margin-top: 400px;
+}
+
+.card-row {
+    display: flex;
+    justify-content: space-between;
+    /* Add any other styles for the card row as needed */
+    height: 3cm;
+  }
+  
+  .card {
+    flex: 1;
+    margin-right: 10px; /* Adjust the spacing between cards as desired */
+    /* Add any other styles for the card as needed */
+  }
+
+  .trophy-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+    align-content: center;
+  }

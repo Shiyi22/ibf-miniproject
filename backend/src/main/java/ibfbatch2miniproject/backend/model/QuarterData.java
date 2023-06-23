@@ -47,6 +47,14 @@ public class QuarterData {
     public static JsonArray toJsonArray(List<QuarterData> qtrs) throws JsonProcessingException {
         JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
         for (QuarterData qtr : qtrs) {
+            JsonArrayBuilder sequenceArrayBuilder = Json.createArrayBuilder();
+            for (String[] sequence : qtr.getQuarterSequence()) {
+                JsonArrayBuilder innerArrayBuilder = Json.createArrayBuilder();
+                for (String item : sequence) {
+                    innerArrayBuilder.add(item);
+                }
+                sequenceArrayBuilder.add(innerArrayBuilder.build());
+            }
             JsonObject jo = Json.createObjectBuilder()
                                 .add("gs", qtr.getGs())
                                 .add("ga", qtr.getGa())
@@ -69,7 +77,7 @@ public class QuarterData {
                                 .add("interceptions", new ObjectMapper().writeValueAsString(qtr.getInterceptions()))
                                 .add("lostSelfError", qtr.getLostSelfError())
                                 .add("lostByIntercept", qtr.getLostByIntercept())
-                                .add("quarterSequence",  new ObjectMapper().writeValueAsString(qtr.getQuarterSequence()))
+                                .add("quarterSequence",  sequenceArrayBuilder.build())
                                 .build(); 
             arrBuilder.add(jo);
         }

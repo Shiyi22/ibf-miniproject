@@ -20,31 +20,31 @@
         <mat-icon>facebook</mat-icon>
       </button>
     </a>
-    <button mat-icon-button class="example-icon" matTooltip="Search the webpage">
+    <!-- <button mat-icon-button class="example-icon" matTooltip="Search the webpage">
       <mat-icon>search</mat-icon>
-    </button>
+    </button> -->
   </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-sidenav-container class="example-container">
   <mat-sidenav #sidenav mode="side" opened style="background-color: #edeaea;">
     <mat-nav-list>
-      <mat-list-item matTooltip="Home">
+      <mat-list-item matTooltip="Home" style="margin-bottom: 10px;">
         <button mat-icon-button routerLink="['/']">
           <mat-icon>home</mat-icon>
         </button>
       </mat-list-item>
-      <mat-list-item matTooltip="Notifications">
+      <mat-list-item matTooltip="Notifications" style="margin-bottom: 10px;">
         <button mat-icon-button (click)="checkLoggedIn('notifications')">
           <mat-icon>notifications</mat-icon>
         </button>
       </mat-list-item>
-      <mat-list-item matTooltip="Calendar">
+      <mat-list-item matTooltip="Calendar" style="margin-bottom: 10px;">
         <button mat-icon-button (click)="checkLoggedIn('calendar')">
           <mat-icon>calendar_today</mat-icon>
         </button>
       </mat-list-item>
-      <mat-list-item matTooltip="Members">
+      <mat-list-item matTooltip="Members" style="margin-bottom: 10px;">
         <button mat-icon-button (click)="checkLoggedIn('members')">
           <mat-icon>people</mat-icon>
         </button>
@@ -54,42 +54,42 @@
           <mat-icon>assignment_turned_in</mat-icon>
         </button>
       </mat-list-item> -->
-      <mat-list-item matTooltip="Messaging">
+      <!-- <mat-list-item matTooltip="Messaging">
         <button mat-icon-button (click)="checkLoggedIn('messaging')">
           <mat-icon>email</mat-icon>
         </button>
-      </mat-list-item>
-      <mat-list-item matTooltip="Compeitions & Friendlies">
+      </mat-list-item> -->
+      <mat-list-item matTooltip="Compeitions & Friendlies" style="margin-bottom: 10px;">
         <button mat-icon-button (click)="checkLoggedIn('games')">
           <mat-icon>sports_volleyball</mat-icon>
         </button>
       </mat-list-item>
-      <mat-list-item matTooltip="Fitness">
+      <!-- <mat-list-item matTooltip="Fitness">
         <button mat-icon-button (click)="checkLoggedIn('fitness')">
           <mat-icon>fitness_center</mat-icon>
         </button>
-      </mat-list-item>
-      <mat-list-item matTooltip="Achievements">
+      </mat-list-item> -->
+      <mat-list-item matTooltip="Achievements" style="margin-bottom: 10px;">
         <button mat-icon-button (click)="checkLoggedIn('achievements')">
           <mat-icon>emoji_events</mat-icon>
         </button>
       </mat-list-item>
-      <mat-list-item matTooltip="Team funds">
+      <mat-list-item matTooltip="Team funds" style="margin-bottom: 10px;">
         <button mat-icon-button (click)="checkLoggedIn('funds')">
           <mat-icon>paid</mat-icon>
         </button>
       </mat-list-item>
-      <mat-list-item matTooltip="Useful links">
+      <mat-list-item matTooltip="Useful links" style="margin-bottom: 10px;">
         <button mat-icon-button (click)="checkLoggedIn('links')">
           <mat-icon>link</mat-icon>
         </button>
       </mat-list-item>
-      <mat-list-item matTooltip="Settings">
+      <mat-list-item matTooltip="Settings" style="margin-bottom: 10px;">
         <button mat-icon-button (click)="checkLoggedIn('settings')">
           <mat-icon>settings</mat-icon>
         </button>
       </mat-list-item>
-      <mat-list-item matTooltip="Profile">
+      <mat-list-item matTooltip="Profile" style="margin-bottom: 10px;">
         <button mat-icon-button (click)="checkLoggedIn('profile')">
           <mat-icon>person</mat-icon>
         </button>

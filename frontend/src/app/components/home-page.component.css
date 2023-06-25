@@ -1,10 +1,30 @@
 .background-image {
-    background-image: url("../../assets/Krypt.jpg");
-    background-color: #edeaea;
-    background-size: contain;
-    background-position: right;
+    background-image: url("../../assets/Krypt3.jpg");
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
     height: 100%;
     width: 100%;
-    /* margin-left: 5px; */
+}
+
+.card-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.mat-card {
+    flex: 1;
+}
+
+.card {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.welcome-back {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px
 }

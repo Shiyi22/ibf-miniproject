@@ -1,42 +1,31 @@
-/* .example-form {
-    height: 100%;
-    width: 100%;
-    background-image: url("../../assets/login.jpg");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: lightgrey;
-  } */
-
-  .example-form {
-    background-image: url("../../assets/login.jpg");
-    background-size: cover;
-    background-position: center;
-    height: 100%;
-  }
-  
-  /* .example-full-width {
-    width: 100%;
-  } */
-
-  /* .login-form {
-    display: flex;
-    justify-content: center;
-    background-color: lightyellow;
-    align-items: center;
-    height: 100vh;
-  } */
-
-  /* .login-form {
-    justify-content: center;
-    align-items: center;
-    background-color: #1a578f;
-    color: white;
-  } */
+.example-form {
+  background-image: url("../../assets/login.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .card {
-    background-color: #1a578f;
-    color: white;
-    align-self: center;
-    width: 10cm;
-  }
+  background-color: transparent;
+  width: 500px;
+  padding: 20px;
+  text-align: center;
+  
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

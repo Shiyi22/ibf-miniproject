@@ -1,102 +1,104 @@
-<mat-toolbar style="background-color: #89daf5;">
-  <mat-toolbar-row>
-    <button mat-icon-button (click)="sidenav.toggle()" matTooltip="Menu">
-      <mat-icon>menu</mat-icon>
-    </button>
-
-    <p>Kryptonite Netball Team Management App</p  >
-    &nbsp;
-    &nbsp;
-    <span>
-      <img src="../assets/netball.png" style="height: 40px">
-      <!-- <mat-icon class="material-icons-outlined">sports_volleyball</mat-icon> -->
-    </span>
-    <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon" matTooltip="Login" routerLink="/login">
-      <mat-icon>login</mat-icon>
-    </button>
-    <a href="https://www.facebook.com/groups/271486002972/" target="_blank">
-      <button mat-icon-button class="example-icon" matTooltip="Link to Facebook" >
-        <mat-icon>facebook</mat-icon>
+<div class="app-container">
+  <mat-toolbar style="background-color: #1e6b85;">
+    <mat-toolbar-row>
+      <button mat-icon-button (click)="sidenav.toggle()" matTooltip="Menu" style="color: white">
+        <mat-icon>menu</mat-icon>
       </button>
-    </a>
-    <!-- <button mat-icon-button class="example-icon" matTooltip="Search the webpage">
-      <mat-icon>search</mat-icon>
-    </button> -->
-  </mat-toolbar-row>
-</mat-toolbar>
-
-<mat-sidenav-container class="example-container">
-  <mat-sidenav #sidenav mode="side" opened style="background-color: #edeaea;">
-    <mat-nav-list>
-      <mat-list-item matTooltip="Home" style="margin-bottom: 10px;">
-        <button mat-icon-button routerLink="['/']">
-          <mat-icon>home</mat-icon>
+  
+      <p style="color: white;">Netball Team Management App</p>
+      &nbsp;
+      &nbsp;
+      <!-- <span style="color: white">
+        <img src="../assets/netball.png" style="height: 40px;">
+        <mat-icon class="material-icons-outlined">sports_volleyball</mat-icon>
+      </span> -->
+      <span class="example-spacer"></span>
+      <button mat-icon-button class="example-icon" matTooltip="Login" routerLink="/login">
+        <mat-icon>login</mat-icon>
+      </button>
+      <a href="https://www.facebook.com/groups/271486002972/" target="_blank">
+        <button mat-icon-button class="example-icon" matTooltip="Link to Facebook" >
+          <mat-icon>facebook</mat-icon>
         </button>
-      </mat-list-item>
-      <mat-list-item matTooltip="Notifications" style="margin-bottom: 10px;">
-        <button mat-icon-button (click)="checkLoggedIn('notifications')">
-          <mat-icon>notifications</mat-icon>
-        </button>
-      </mat-list-item>
-      <mat-list-item matTooltip="Calendar" style="margin-bottom: 10px;">
-        <button mat-icon-button (click)="checkLoggedIn('calendar')">
-          <mat-icon>calendar_today</mat-icon>
-        </button>
-      </mat-list-item>
-      <mat-list-item matTooltip="Members" style="margin-bottom: 10px;">
-        <button mat-icon-button (click)="checkLoggedIn('members')">
-          <mat-icon>people</mat-icon>
-        </button>
-      </mat-list-item>
-      <!-- <mat-list-item matTooltip="Attendance">
-        <button mat-icon-button (click)="checkLoggedIn('attendance')">
-          <mat-icon>assignment_turned_in</mat-icon>
-        </button>
-      </mat-list-item> -->
-      <!-- <mat-list-item matTooltip="Messaging">
-        <button mat-icon-button (click)="checkLoggedIn('messaging')">
-          <mat-icon>email</mat-icon>
-        </button>
-      </mat-list-item> -->
-      <mat-list-item matTooltip="Compeitions & Friendlies" style="margin-bottom: 10px;">
-        <button mat-icon-button (click)="checkLoggedIn('games')">
-          <mat-icon>sports_volleyball</mat-icon>
-        </button>
-      </mat-list-item>
-      <!-- <mat-list-item matTooltip="Fitness">
-        <button mat-icon-button (click)="checkLoggedIn('fitness')">
-          <mat-icon>fitness_center</mat-icon>
-        </button>
-      </mat-list-item> -->
-      <mat-list-item matTooltip="Achievements" style="margin-bottom: 10px;">
-        <button mat-icon-button (click)="checkLoggedIn('achievements')">
-          <mat-icon>emoji_events</mat-icon>
-        </button>
-      </mat-list-item>
-      <mat-list-item matTooltip="Team funds" style="margin-bottom: 10px;">
-        <button mat-icon-button (click)="checkLoggedIn('funds')">
-          <mat-icon>paid</mat-icon>
-        </button>
-      </mat-list-item>
-      <mat-list-item matTooltip="Useful links" style="margin-bottom: 10px;">
-        <button mat-icon-button (click)="checkLoggedIn('links')">
-          <mat-icon>link</mat-icon>
-        </button>
-      </mat-list-item>
-      <mat-list-item matTooltip="Settings" style="margin-bottom: 10px;">
-        <button mat-icon-button (click)="checkLoggedIn('settings')">
-          <mat-icon>settings</mat-icon>
-        </button>
-      </mat-list-item>
-      <mat-list-item matTooltip="Profile" style="margin-bottom: 10px;">
-        <button mat-icon-button (click)="checkLoggedIn('profile')">
-          <mat-icon>person</mat-icon>
-        </button>
-      </mat-list-item>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content class="content">
-    <router-outlet> </router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+      </a>
+      <!-- <button mat-icon-button class="example-icon" matTooltip="Search the webpage">
+        <mat-icon>search</mat-icon>
+      </button> -->
+    </mat-toolbar-row>
+  </mat-toolbar>
+  
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav #sidenav mode="side" closed class="custom-sidenav">
+      <mat-nav-list>
+        <mat-list-item matTooltip="Home" style="margin-bottom: 10px;">
+          <button mat-icon-button routerLink="['/']">
+            <mat-icon style="color: white">home</mat-icon>
+          </button>
+        </mat-list-item>
+        <mat-list-item matTooltip="Notifications" style="margin-bottom: 10px;">
+          <button mat-icon-button (click)="checkLoggedIn('notifications')">
+            <mat-icon style="color: white">notifications</mat-icon>
+          </button>
+        </mat-list-item>
+        <mat-list-item matTooltip="Calendar" style="margin-bottom: 10px;  color:white">
+          <button mat-icon-button (click)="checkLoggedIn('calendar')">
+            <mat-icon style="color: white">calendar_today</mat-icon>
+          </button>
+        </mat-list-item>
+        <mat-list-item matTooltip="Members" style="margin-bottom: 10px;">
+          <button mat-icon-button (click)="checkLoggedIn('members')">
+            <mat-icon style="color: white">people</mat-icon>
+          </button>
+        </mat-list-item>
+        <!-- <mat-list-item matTooltip="Attendance">
+          <button mat-icon-button (click)="checkLoggedIn('attendance')">
+            <mat-icon>assignment_turned_in</mat-icon>
+          </button>
+        </mat-list-item> -->
+        <!-- <mat-list-item matTooltip="Messaging">
+          <button mat-icon-button (click)="checkLoggedIn('messaging')">
+            <mat-icon>email</mat-icon>
+          </button>
+        </mat-list-item> -->
+        <mat-list-item matTooltip="Compeitions & Friendlies" style="margin-bottom: 10px;">
+          <button mat-icon-button (click)="checkLoggedIn('games')">
+            <mat-icon style="color: white">sports_volleyball</mat-icon>
+          </button>
+        </mat-list-item>
+        <!-- <mat-list-item matTooltip="Fitness">
+          <button mat-icon-button (click)="checkLoggedIn('fitness')">
+            <mat-icon>fitness_center</mat-icon>
+          </button>
+        </mat-list-item> -->
+        <mat-list-item matTooltip="Achievements" style="margin-bottom: 10px;">
+          <button mat-icon-button (click)="checkLoggedIn('achievements')">
+            <mat-icon style="color: white">emoji_events</mat-icon>
+          </button>
+        </mat-list-item>
+        <mat-list-item matTooltip="Team funds" style="margin-bottom: 10px;">
+          <button mat-icon-button (click)="checkLoggedIn('funds')">
+            <mat-icon style="color: white">paid</mat-icon>
+          </button>
+        </mat-list-item>
+        <mat-list-item matTooltip="Useful links" style="margin-bottom: 10px;">
+          <button mat-icon-button (click)="checkLoggedIn('links')">
+            <mat-icon style="color: white">link</mat-icon>
+          </button>
+        </mat-list-item>
+        <!-- <mat-list-item matTooltip="Settings" style="margin-bottom: 10px;">
+          <button mat-icon-button (click)="checkLoggedIn('settings')">
+            <mat-icon>settings</mat-icon>
+          </button>
+        </mat-list-item> -->
+        <mat-list-item matTooltip="Profile">
+          <button mat-icon-button (click)="checkLoggedIn('profile')">
+            <mat-icon style="color: white">person</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="content">
+      <router-outlet> </router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

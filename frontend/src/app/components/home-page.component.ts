@@ -20,5 +20,8 @@ export class HomePageComponent implements OnInit {
       this.isLoggedIn = true; 
   }
 
+  showDetails() {
+    alert("Contact details of the captain:\nEmail: ele@gmail.com\nPhone: 91234567")
+  }
   
 }

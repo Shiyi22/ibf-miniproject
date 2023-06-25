@@ -1,3 +1,4 @@
+<br>
 <mat-grid-list cols="5" rowHeight="1:1">
   <ng-container *ngFor="let profile of playerProfiles; let i = index">
     <mat-grid-tile>
@@ -5,7 +6,8 @@
         <div *ngIf="profile.playerPhoto == undefined">
             <img src="https://www.shutterstock.com/image-illustration/profile-picture-illustration-woman-260nw-438749314.jpg" width="250" height="300">
         </div>
-        <div *ngIf="profile.playerPhoto != undefined"><img mat-card-image [src]="profile.playerPhoto" alt="Player Photo" width="250" height="300"></div>
+        <div *ngIf="profile.playerPhoto != undefined">
+          <img mat-card-image [src]="profile.playerPhoto" alt="Player Photo" width="250" height="300"></div>
         <mat-card-content>
           <h3>Name: {{ profile.name }}</h3>
           <p>Positions: {{ profile.positions }}</p>
@@ -17,7 +19,7 @@
   </ng-container>
 </mat-grid-list>
 
-  <br>
+  <br><br>
 
   <div *ngIf="captainAddon">
     <mat-card class="addMember">

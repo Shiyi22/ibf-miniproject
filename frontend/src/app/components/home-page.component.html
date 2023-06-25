@@ -1,20 +1,31 @@
-<mat-card class="background-image">
-    <mat-card-content>
-      <p *ngIf="isLoggedIn" style="text-align: right;">Welcome Back!</p>
+<div class="background-image">
+  <div class="card-row">
+    <mat-card class="card" style="margin-right: 100px;">
+      <mat-card-content class="mat-card">
+        <h1 style="color: rgb(19, 55, 186);">Team Mission</h1>
+        <p><strong> Passion for Netball</strong></p>
+        <p><strong>We believe in team work</strong></p>
+        <p><strong>T.ogether E.veryone A.chieve M.ore!</strong></p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="card" style="margin-right: 80px;">
+      <mat-card-content class="mat-card">
+        <h1 style="color: rgb(19, 55, 186);">Navigations</h1>
+        <p><strong>Record game stats, track events and more!</strong></p>
+        <p><strong>Login to access page</strong></p>
+        <br>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="card">
+      <mat-card-content class="mat-card">
+        <h1 style="color: rgb(19, 55, 186);">Interested to join our team?</h1>
+        <p><strong>Contact our <a href="#" (click)="showDetails()">captain</a> for more details</strong></p>
+        <br>
+        <br>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <p *ngIf="isLoggedIn" class="welcome-back">Welcome Back!</p>
+</div>
 
-      <h2>Team Mission</h2>
-      <p>Uniting Passion for Netball</p>
-      <p>We believe in team - Together Everyone Achieve More! </p>
-      <br>
-
-      <h2>Team Dynamics</h2>
-      <p>Coach Koh and Coach Sarah</p>
-      <p>38 female players and growing...</p>
-      <br>
-
-      <h2>Interested to join our team?</h2>
-      <p>Want to play netball?</p>
-      <p>Contact our team <a href="/contact">captain</a> for more details</p>
-    </mat-card-content>
-  </mat-card>
   

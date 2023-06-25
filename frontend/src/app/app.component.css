@@ -1,3 +1,8 @@
+.app-container {
+  position: relative;
+  z-index: 1;
+}
+
 .example-spacer {
     flex: 1 1 auto;
   }
@@ -12,4 +17,12 @@
 
 body {
   font-family: "Poppins", sans-serif;
+}
+
+.example-icon {
+  color: white
+} 
+
+.custom-sidenav {
+  background-color: #1e6b85;
 }

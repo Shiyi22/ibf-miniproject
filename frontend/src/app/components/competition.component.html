@@ -1,10 +1,9 @@
-<div style="margin-left: 20px; margin-top: 20px;">
+<div class="div-container">
     <!-- Add game stats -->
-    <div>
-        <button type="button" mat-raised-button [routerLink]="['/addGame']">Add Game!</button>
+    <div style="grid-row: 1;">
+        <button type="button" mat-raised-button [routerLink]="['/addGame']" color="primary">Add Game!</button>
     </div>  
-    <br>
-    <div style="display: flex">
+    <div style="grid-row: 2; display:flex">
         <div style="width: 800px; margin-right: 30px;">
             <table *ngIf="games != undefined" mat-table [dataSource]="games" class="mat-elevation-z8">
             
@@ -59,6 +58,9 @@
                             <tr>
                                 <td>
                                     <button mat-raised-button type="submit">Upload to S3</button>
+                                </td>
+                                <td *ngIf="isSaved">
+                                    <p><strong>Saved!</strong></p>
                                 </td>
                             </tr>
                         </table>

@@ -16,6 +16,7 @@ export class CompetitionComponent implements OnInit {
   gameIdToAddMedia!: number
   mediaTypeToUpload!: string
   mediaForm!: FormGroup
+  isSaved: boolean = false 
 
   @ViewChild('mediaFile') mediaFile!: ElementRef;
 
@@ -66,7 +67,8 @@ export class CompetitionComponent implements OnInit {
       console.info('>>> s3 upload results(url): ', results); 
       // save url in sql (update)
       let r:any = await this.backendSvc.updateS3UrlToSql(results.s3url, this.mediaTypeToUpload, this.gameIdToAddMedia);
-      console.info('>>> s3 url updated to database sql: ', r.isUrlUpdated) 
+      console.info('>>> s3 url updated to database sql: ', r.isUrlUpdated)
+      this.isSaved = true; 
     })
 
   }

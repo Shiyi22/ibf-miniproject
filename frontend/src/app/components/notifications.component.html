@@ -1,32 +1,35 @@
-<h2 style="margin-left: 2cm; margin-top: 1cm;">Notifications <mat-icon>notifications</mat-icon></h2>
+<div class="container">
+    <br><br>
+    <h2 style="margin-left: 2cm;">Notifications <mat-icon>notifications</mat-icon></h2>
 
-<div *ngIf="notifType == 'add'" style="margin-left: 2cm;">
-    <button mat-raised-button (click)="sendNotif()">Send notification to inform members of new {{notifEvent}} date</button>
+    <div *ngIf="notifType == 'add'" style="margin-left: 2cm;">
+        <button mat-raised-button (click)="sendNotif()">Send notification to inform members of new {{notifEvent}} date</button>
+    </div>
+    <div *ngIf="notifType == 'cancel'" style="margin-left: 2cm;">
+        <button mat-raised-button color="primary" (click)="sendNotif()">Send notification to inform members of cancelled {{notifEvent}} date</button>
+    </div>
+    <br>
+    <div *ngIf="emailButton" style="margin-left: 2cm;">
+        <button mat-raised-button (click)="sendEmail()">Send email to notify them</button>
+    </div>
+    <br>
+    <!-- Latest notification to be added will be displayed first -->
+    <mat-card style="width: 50%; margin-left: 2cm;" *ngIf="notifs.length > 0">
+        <mat-card-content *ngFor="let notif of notifs.reverse(); let i = index" class="card-content-container">
+            <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + notif.imageUrl + ')'"></div>
+            <div class="text-container">
+                <p><strong>{{notif.name}}</strong> {{notif.action}}</p>
+                <p><small>Date: {{notif.date}}</small></p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-card style="width: 50%; margin-left: 2cm;" *ngIf="notifs.length == 0">
+        <mat-card-content>
+            <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + noNotif.imageUrl + ')'"></div>
+            <div class="text-container">
+                <p><strong>{{noNotif.name}}</strong> {{noNotif.action}}</p>
+                <p><small>Date: {{noNotif.date}}</small></p>
+            </div>
+        </mat-card-content>
+    </mat-card>
 </div>
-<div *ngIf="notifType == 'cancel'" style="margin-left: 2cm;">
-    <button mat-raised-button color="primary" (click)="sendNotif()">Send notification to inform members of cancelled {{notifEvent}} date</button>
-</div>
-<br>
-<div *ngIf="emailButton" style="margin-left: 2cm;">
-    <button mat-raised-button (click)="sendEmail()">Send email to notify them</button>
-</div>
-<br>
-<!-- Latest notification to be added will be displayed first -->
-<mat-card style="width: 70%; margin-left: 2cm;" *ngIf="notifs.length > 0">
-    <mat-card-content *ngFor="let notif of notifs.reverse(); let i = index" class="card-content-container">
-        <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + notif.imageUrl + ')'"></div>
-        <div class="text-container">
-            <p><strong>{{notif.name}}</strong> {{notif.action}}</p>
-            <p><small>Date: {{notif.date}}</small></p>
-        </div>
-    </mat-card-content>
-</mat-card>
-<mat-card style="width: 70%; margin-left: 2cm;" *ngIf="notifs.length == 0">
-    <mat-card-content>
-        <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + noNotif.imageUrl + ')'"></div>
-        <div class="text-container">
-            <p><strong>{{noNotif.name}}</strong> {{noNotif.action}}</p>
-            <p><small>Date: {{noNotif.date}}</small></p>
-        </div>
-    </mat-card-content>
-</mat-card>

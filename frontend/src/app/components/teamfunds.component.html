@@ -1,23 +1,27 @@
-<mat-card class="example-card">
-    <mat-card-content>
-        <p>Current team funds: S${{funds}}</p>
-        <br>
-        <p>Semi-annual fees: S$20</p>
-        <br>
-        <p>
-            <button mat-raised-button (click)="pay()">Pay team funds</button>
-        </p>
-        <br><br><br>
-        <h3>List of players who have yet to pay team funds:</h3>
-        <!-- To add players -->
-        <div *ngFor="let team of teamfunds">
-            <ul *ngIf="team.paid == false">
-                <li>{{team.name}}</li>
-            </ul>
-        </div>
-        <p>
-            <button mat-raised-button (click)="refresh()">New Semi-annual Period</button>
-        </p>
-    </mat-card-content>
-</mat-card>
+<div class="container">
+    <div class="center-content">
+        <mat-card class="example-card">
+            <br><br><br>
+            <mat-card-content class="card-content">
+                <br>
+                <h2><mat-icon>paid</mat-icon> Current Team Fund: ${{funds}}</h2>
+                <h3><mat-icon>request_quote</mat-icon> Fees per pax: $20</h3>
+                <p>
+                    <button mat-raised-button (click)="pay()" [disabled]="paid()">Pay team funds</button>
+                </p>
+                <br><br><br>
+                <h3>List of players who have yet to pay team funds:</h3>
+                <!-- To add players -->
+                <div *ngFor="let team of teamfunds">
+                    <ul *ngIf="team.paid == false">
+                        <li>{{team.name}}</li>
+                    </ul>
+                </div>
+                <p>
+                    <button mat-raised-button (click)="refresh()">Reset Semi-Annual Period</button>
+                </p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
 

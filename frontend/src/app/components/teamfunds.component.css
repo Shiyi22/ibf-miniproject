@@ -1,0 +1,23 @@
+.container {
+    background-image: url("../../assets/Krypt3.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.example-card {
+    background-color: transparent;
+    width: 500px;
+}
+
+.card-content {
+    background-color: lightgrey;
+}

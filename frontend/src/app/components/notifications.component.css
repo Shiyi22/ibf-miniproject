@@ -1,6 +1,23 @@
+.container {
+    background-image: url("../../assets/Krypt3.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+}
+
+.div {
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
 .card-content-container {
     display: flex;
-    /* align-items: center; */
+    align-items: center;
 }
 
 .example-header-image {
@@ -13,7 +30,7 @@
     flex-grow: 1;
     /* display: flex; */
     justify-content: flex-end;
-    /* align-items: center; */
+    align-items: center;
     margin-left: 10px;
 }
 

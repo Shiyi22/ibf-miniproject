@@ -1,0 +1,12 @@
+.div-container {
+    display: grid; 
+    justify-content: center; 
+    align-items: center;
+    /* grid-template-rows: 2cm; */
+    background-image: url("../../assets/Krypt3.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+}

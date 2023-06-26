@@ -53,7 +53,7 @@ export class UsefulLinksComponent implements OnInit {
     const apiKey = environment.youtubeApiKey;
     const query = this.youtubeSearch.value.keyword
     const params = new HttpParams().append('part', 'snippet')
-                                    .append('maxResults', 10)
+                                    .append('maxResults', 8)
                                     .append('q', query)
                                     .append('key', apiKey);
 

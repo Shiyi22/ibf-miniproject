@@ -1,10 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { environment } from '../environment';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { lastValueFrom } from 'rxjs';
-import { StripePaymentElementComponent, StripeService } from 'ngx-stripe';
-import { StripeElementsOptions, StripeError, loadStripe } from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import { Backend2Service } from '../services/backend-2.service';
 import { PlayerProfile, TeamFund } from '../models';
 import { BackendService } from '../services/backend.service';
@@ -82,6 +80,22 @@ export class TeamfundsComponent implements OnInit {
         })
       })
     })
+  }
+
+  paid(): boolean {
+    const username = localStorage.getItem('username')!
+    const teamfund = this.teamfunds.find((funds) => funds.name === username)
+    if (teamfund) {
+      const paid = teamfund.paid
+      console.info('>>> paid? ', paid)
+      if (paid) {
+        return true; 
+      } else {
+        return false; 
+      }
+    } else {
+      return false; 
+    }
   }
 
 }

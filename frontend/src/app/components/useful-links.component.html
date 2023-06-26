@@ -1,102 +1,101 @@
-<mat-tab-group animationDuration="0ms">
-    <div *ngIf="weatherArea != undefined">
+<div class="container">
+    <mat-tab-group animationDuration="0ms">
         <mat-tab label="Weather Forecast">
-            <br><br>
-            <form [formGroup]="weatherArea" (ngSubmit)="displayForecast()">
-                <table>
-                    <tr>
-                        <td>Area of forecast: </td>
-                        <td>
-                            <mat-form-field>
-                                <mat-select formControlName="area">
-                                    <mat-option *ngFor="let region of areaNames" [value]="region">{{region}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <button mat-raised-button type="submit">Search</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-            <br>
-            <div *ngIf="areaForecast != undefined">
-                <mat-card class="example-card">
-                    <mat-card-content>
-                        <p><strong>Forecast period:</strong> {{areaForecast.start}} - {{areaForecast.end}} (SGT)</p>
-                        <br>
-                        <p><strong>Forecast area:</strong> {{areaForecast.area}}</p>
-                        <br>
-                        <p><strong>Forecast:</strong> {{areaForecast.forecast}}</p>
-                    </mat-card-content>
-                </mat-card>
+            <div *ngIf="weatherArea != undefined" style="margin-left: 100px;">
+                <form [formGroup]="weatherArea" (ngSubmit)="displayForecast()">
+                    <br><br><br>
+                    <table>
+                        <tr>
+                            <td style="padding-right: 10px;">
+                                <mat-form-field>
+                                    <mat-label>Forecast Area</mat-label>
+                                    <mat-select formControlName="area">
+                                        <mat-option *ngFor="let region of areaNames" [value]="region">{{region}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <button mat-raised-button type="submit">Search</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <div *ngIf="areaForecast != undefined">
+                    <br>
+                    <mat-card style="width: 620px;">
+                        <mat-card-content>
+                            <p><strong>Forecast period:</strong> {{areaForecast.start}} - {{areaForecast.end}} (SGT)</p>
+                            <br>
+                            <p><strong>Forecast area:</strong> {{areaForecast.area}}</p>
+                            <br>
+                            <p><strong>Forecast:</strong> {{areaForecast.forecast}}</p>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
             </div>
         </mat-tab>
-    </div>
 
-    <div *ngIf=" youtubeSearch != undefined">
         <mat-tab label="Netball / Fitness Video Recommendations">
-            <br><br>
-            <form [formGroup]="youtubeSearch" (ngSubmit)="searchKeyword()">
-                <table>
-                    <tr>
-                        <td>Keyword: </td>
-                        <td>
-                            <mat-form-field>
-                                <input matInput type="text" formControlName="keyword" [matAutocomplete]="auto">
-                                <mat-autocomplete #auto="matAutocomplete">
-                                    <mat-option *ngFor="let suggestion of keywordSuggestions" [value]="suggestion">
-                                        {{suggestion}}
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <button mat-raised-button type="submit">Search</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-            <br><br>
-            <mat-card>
-                <mat-card-content *ngFor="let result of searchResults" class="card-content-container">
-                    <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + result.thumbnail + ')'"></div>
-                    <div class="text-container">
-                        <a href="{{result.videoUrl}}">{{result.title}}</a>
-                        <p>{{result.description}}</p>
-                    </div>
-                </mat-card-content>
-            </mat-card>
+            <div *ngIf=" youtubeSearch != undefined"  style="margin-left: 100px;">
+                <div>    
+                    <form [formGroup]="youtubeSearch" (ngSubmit)="searchKeyword()">
+                        <br><br><br>
+                        <table>
+                            <tr>
+                                <td style="padding-right: 10px;">
+                                    <mat-form-field>
+                                        <mat-label>Keyword</mat-label>
+                                        <input matInput type="text" formControlName="keyword" [matAutocomplete]="auto">
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                            <mat-option *ngFor="let suggestion of keywordSuggestions" [value]="suggestion">
+                                                {{suggestion}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <button mat-raised-button type="submit">Search</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <br><br>
+                <div>
+                    <mat-card style="width: 1400px">
+                        <mat-card-content *ngFor="let result of searchResults" class="card-content-container">
+                            <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + result.thumbnail + ')'"></div>
+                            <div class="text-container">
+                                <a href="{{result.videoUrl}}">{{result.title}}</a>
+                                <p>{{result.description}}</p>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
         </mat-tab>
-    </div>
-
-    <mat-tab label="Court Booking">
-        <form [formGroup]="courtSearch" (ngSubmit)="searchCourt()">
-            <table>
-                <tr>
-                    <td>Date: </td>
-                    <td>
-                        <mat-form-field class="example-full-width">
-                            <mat-label>MM/DD/YYYY</mat-label>
-                            <input matInput [matDatepicker]="picker" formControlName="date">
-                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <button mat-raised-button type="submit">Search</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </mat-tab>
-  </mat-tab-group>
+    
+        <mat-tab label="Court Booking">
+            <div  style="margin-left: 100px;">
+                <form [formGroup]="courtSearch" (ngSubmit)="searchCourt()">
+                    <br><br><br>
+                    <table>
+                        <tr>
+                            <td style="padding-right: 10px;">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>MM/DD/YYYY</mat-label>
+                                    <input matInput [matDatepicker]="picker" formControlName="date">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <button mat-raised-button type="submit">Search</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

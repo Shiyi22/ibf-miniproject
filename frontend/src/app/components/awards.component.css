@@ -1,26 +1,30 @@
+.background {
+  background-image: url("../../assets/Krypt3.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+}
+
 .awards-container {
-    /* background-image: url('../../assets/Awards.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 50%; */
-    margin-top: 400px;
+  display: flex;
+  margin-left: 450px;
+
 }
 
 .card-row {
-    display: flex;
-    justify-content: space-between;
-    /* Add any other styles for the card row as needed */
     height: 3cm;
   }
   
-  .card {
-    flex: 1;
-    margin-right: 10px; /* Adjust the spacing between cards as desired */
-    /* Add any other styles for the card as needed */
-  }
+.card {
+  flex: 1;
+  width: 450px;
+  margin-bottom: 20px;
+}
 
-  .trophy-icon {
-    font-size: 24px;
-    margin-bottom: 10px;
-    align-content: center;
-  }
+.trophy-icon {
+  font-size: 24px;
+  margin-bottom: 10px;
+  align-content: center;
+}

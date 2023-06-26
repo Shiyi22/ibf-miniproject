@@ -23,13 +23,13 @@ import { NgxStripeModule, StripeService } from 'ngx-stripe';
 import { environment } from './environment';
 import { CalendarComponent } from './components/calendar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import interactionPlugin from '@fullcalendar/interaction'; 
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { MatIconModule } from '@angular/material/icon';
 import { NotificationsComponent } from './components/notifications.component';
 import { SignupComponent } from './components/signup.component';
-import { Chart } from 'chart.js';
 import { AwardsComponent } from './components/awards.component';
+import { LottieModule } from 'ngx-lottie';
+import player from 'lottie-web';
+
 @NgModule({
   declarations: [
     AppComponent, HomePageComponent, LoginPageComponent, ProfilePageComponent, MembersComponent, StatisticsComponent, CompetitionComponent,
@@ -53,6 +53,7 @@ import { AwardsComponent } from './components/awards.component';
     FormsModule,
     FullCalendarModule,
     MatIconModule,
+    LottieModule.forRoot({player: () => player})
   ],
   providers: [StripeService, NgxStripeModule],
   bootstrap: [AppComponent]

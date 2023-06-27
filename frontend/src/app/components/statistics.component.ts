@@ -29,4 +29,8 @@ export class StatisticsComponent implements OnInit {
     })
   }
 
+  capName(name:string) {
+    return name.toUpperCase();
+  }
+
 }

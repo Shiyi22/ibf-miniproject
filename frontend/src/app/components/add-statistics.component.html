@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="scoreboard" *ngIf="qData != undefined">
-      <mat-card>
+      <mat-card style="width: 700px">
         &nbsp;
         <h3>Quarter {{currentQ}} Statistics</h3>
         <button mat-raised-button (click)="startTimer()" *ngIf="quarterStarted == false">Start Quarter Clock</button>

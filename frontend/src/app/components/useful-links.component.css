@@ -26,3 +26,9 @@
     /* align-items: center; */
     margin-left: 10px;
 }
+
+.custom-label {
+    font-size: 20px; /* Adjust the font size as needed */
+    font-weight: bold;
+    color: rgb(19, 55, 186); /* Adjust the font color as needed */
+  }

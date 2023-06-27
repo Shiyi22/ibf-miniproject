@@ -5,40 +5,41 @@
           <mat-icon>person</mat-icon>
           &nbsp;
           <span>Identity</span>
-        </mat-list-item>
+        </mat-list-item><br>
         <mat-list-item (click)="showDetails('emergency')">
           <mat-icon>emergency</mat-icon>
           &nbsp;
           <span>Emergency Contact</span>
-        </mat-list-item>
+        </mat-list-item><br>
         <mat-list-item (click)="showDetails('team')">
           <mat-icon>group</mat-icon>
           &nbsp;
           <span>Team Related</span>
-        </mat-list-item>
-        <mat-list-item (click)="showDetails('blockout')">
+        </mat-list-item><br>
+        <!-- <mat-list-item (click)="showDetails('blockout')">
             <mat-icon>date_range</mat-icon>
             &nbsp;
             <span>Block out dates</span>
-        </mat-list-item>
+        </mat-list-item> -->
         <mat-list-item (click)="showDetails('photo')">
             <mat-icon>photo</mat-icon>
             &nbsp;
             <span>Profile picture</span>
         </mat-list-item>
-        <br>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         <mat-list-item>
             <button mat-raised-button color="primary" (click)="logout()">Logout</button>
         </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-      <div *ngIf="selectedSection === 'identity'" style="margin-left: 10px;">
+      <div *ngIf="selectedSection === 'identity'" class="identity-div">
         <!-- Display identity details here -->
-        <form [formGroup]="identityForm" (ngSubmit)="saveIdentity()">
+        <form [formGroup]="identityForm" (ngSubmit)="saveIdentity()" style="margin-left: 30px;">
+            <br>
             <table>
                 <tr>
-                    <td>Name: </td>
+                    <td><h3>Name: </h3></td>
                     <td>
                         <mat-form-field>
                             <input matInput type="text" formControlName="name">
@@ -46,7 +47,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Weight (kg): </td>
+                    <td><h3>Weight (kg): </h3></td>
                     <td>
                         <mat-form-field>
                             <input matInput type="number" formControlName="weight">
@@ -54,7 +55,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Height (cm): </td>
+                    <td><h3>Height (cm): </h3></td>
                     <td>
                         <mat-form-field>
                             <input matInput type="number" formControlName="height">
@@ -62,7 +63,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Positions: </td>
+                    <td><h3>Positions: </h3></td>
                     <td>
                         <mat-form-field>
                             <input matInput type="text" formControlName="position">
@@ -70,7 +71,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Email: </td>
+                    <td><h3>Email: </h3></td>
                     <td>
                         <mat-form-field>
                             <input matInput type="text" formControlName="email">
@@ -78,7 +79,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Phone Number: </td>
+                    <td><h3>Phone Number: </h3></td>
                     <td>
                         <mat-form-field>
                             <input matInput type="number" formControlName="phoneNumber">
@@ -86,7 +87,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>DOB: </td>
+                    <td><h3>DOB: </h3></td>
                     <td>
                         <mat-form-field>
                             <input matInput type="text" formControlName="DOB">
@@ -100,14 +101,16 @@
                     </td>
                 </tr>
             </table>
+            <br>
         </form>
       </div>
-      <div *ngIf="selectedSection === 'emergency'" style="margin-left: 10px;">
+      <div *ngIf="selectedSection === 'emergency'" class="identity-div">
         <!-- Display emergency contact details here -->
-        <form [formGroup]="emergencyForm" (ngSubmit)="saveEForm()">
+        <form [formGroup]="emergencyForm" (ngSubmit)="saveEForm()" style="margin-left: 30px;">
+            <br>
             <table>
                 <tr>
-                    <td>Emergency Contact: </td>
+                    <td><h3>Emergency Contact: </h3></td>
                     <td>
                         <mat-form-field>
                             <input matInput type="number" formControlName="eContact">
@@ -115,7 +118,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Emergency Name: </td>
+                    <td><h3>Emergency Name: </h3></td>
                     <td>
                         <mat-form-field>
                             <input matInput type="text" formControlName="eName">
@@ -123,7 +126,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Home Address: </td>
+                    <td><h3>Home Address: </h3></td>
                     <td>
                         <mat-form-field>
                             <input matInput type="text" formControlName="homeAdd">
@@ -131,7 +134,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Past Injuries: </td>
+                    <td><h3>Past Injuries: </h3></td>
                     <td>
                         <mat-form-field>
                             <input matInput type="text" formControlName="injuries">
@@ -145,38 +148,39 @@
                     </td>
                 </tr>
             </table>
+            <br>
         </form>
       </div>
       
-      <div *ngIf="selectedSection === 'team'" style="margin-left: 10px;">
+      <div *ngIf="selectedSection === 'team'" style="margin-left: 30px; margin-top: 30px;">
             <!-- Display team-related details here -->
             <ng-container *ngIf="playerInfo">
-                <mat-card>
+                <mat-card style="width: 400px">
                     <mat-card-content>
                     <div class="player-info">
                         <div>
-                        <strong>Role:</strong> {{ playerInfo.role }}
+                        <h3>Role: {{ playerInfo.role }}</h3>
                         </div>
                         <br>
                         <div>
-                        <strong>Year Joined:</strong> {{ playerInfo.yearJoined }}
+                        <h3>Year Joined: {{ playerInfo.yearJoined }}</h3> 
                         </div>
                     </div>
                     </mat-card-content>
                 </mat-card>
-                </ng-container>
+            </ng-container>
     </div>
 
-      <div *ngIf="selectedSection === 'blockout'" style="margin-left: 10px;">
-        <!-- Display blockout dates details here -->
-        <!-- <div class="demo-button-container">
+      <!-- <div *ngIf="selectedSection === 'blockout'" style="margin-left: 10px;">
+        Display blockout dates details here
+        <div class="demo-button-container">
             <button mat-raised-button (click)="addData()" class="demo-button">
               Add data
             </button>
             <button mat-raised-button [disabled]="!dataSource.length" (click)="removeData()" class="demo-button">
               Remove data
             </button>
-          </div> -->
+          </div>
         <table mat-table [dataSource]="blockdates" class="mat-elevation-z8 demo-table">
             <ng-container>
                 <th mat-header-cell *matHeaderCellDef>Dates not available</th>
@@ -190,20 +194,20 @@
                 <td mat-cell *matCellDef="let blockdate">{{blockdate.to}}</td>
             </ng-container>
         </table>
-      </div>
-      <div *ngIf="selectedSection === 'photo'" style="margin-left: 10px;">
+      </div> -->
+      <div *ngIf="selectedSection === 'photo'" style="margin-left: 30px; margin-top: 30px;">
         <!-- display current photo and allow a change in photo -->
-        <mat-card>
-            <!-- TODO: Display current photo -->
-            <div *ngIf="playerInfo.playerPhoto != undefined">
+        <mat-card style="width: 700px;">
+            <br>
+            <div *ngIf="playerInfo.playerPhoto != undefined" class="photo-card">
                 <img src="{{playerInfo.playerPhoto}}" height="400">
             </div>
             <br>
-            <form [formGroup]="photoForm" (ngSubmit)="updatePhoto()">
+            <form [formGroup]="photoForm" (ngSubmit)="updatePhoto()" class="photo-card">
                 <table>
                     <tr>
                         <td>
-                            <mat-label>Change Profile Picture (jpg only): </mat-label>
+                            <mat-label><h3>Change Profile Picture (jpg only): </h3></mat-label>
                             <input type="file" accept="image/*" #picture>
                         </td>
                     </tr>
@@ -215,6 +219,7 @@
                         </td>
                     </tr>
                 </table>
+                <br>
             </form>       
         </mat-card>
     </div>

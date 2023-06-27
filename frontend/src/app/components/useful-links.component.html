@@ -1,6 +1,9 @@
 <div class="container">
     <mat-tab-group animationDuration="0ms">
-        <mat-tab label="Weather Forecast">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <span class="custom-label">Weather Forecast</span>
+            </ng-template>
             <div *ngIf="weatherArea != undefined" style="margin-left: 100px;">
                 <form [formGroup]="weatherArea" (ngSubmit)="displayForecast()">
                     <br><br><br>
@@ -35,7 +38,10 @@
             </div>
         </mat-tab>
 
-        <mat-tab label="Netball / Fitness Video Recommendations">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <span class="custom-label">Netball / Fitness Video Recommendations</span>
+            </ng-template>
             <div *ngIf=" youtubeSearch != undefined"  style="margin-left: 100px;">
                 <div>    
                     <form [formGroup]="youtubeSearch" (ngSubmit)="searchKeyword()">
@@ -75,7 +81,10 @@
             </div>
         </mat-tab>
     
-        <mat-tab label="Court Booking">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <span class="custom-label">Court Booking</span>
+            </ng-template>
             <div  style="margin-left: 100px;">
                 <form [formGroup]="courtSearch" (ngSubmit)="searchCourt()">
                     <br><br><br>

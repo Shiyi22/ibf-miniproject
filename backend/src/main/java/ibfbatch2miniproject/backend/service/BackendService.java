@@ -215,7 +215,7 @@ public class BackendService {
                 return false; // early terminate
         }
 
-        // update avg interceptions percentage by game (all entries will have > 0 interceptions) // removed if entry.getValue() > 0 
+        // update avg interceptions percentage by game (all entries will have > 0 interceptions)
         System.out.printf(">>> Total Interceptions by player in game: %s\n", interceptionTotalCountInGame); 
         for (Map.Entry<String, Integer> entry : interceptionTotalCountInGame.entrySet()) {
             // get userId and update player avgInterception if count > 0

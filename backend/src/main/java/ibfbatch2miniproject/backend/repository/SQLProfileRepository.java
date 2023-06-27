@@ -32,7 +32,7 @@ public class SQLProfileRepository {
 
     private final String GET_CREDS_SQL = "select * from logincreds where username = ?";
     private final String SAVE_CREDS_SQL = "insert into logincreds values (?, ?, ?)";
-    private final String GET_ID_SQL = "select id from logincreds where username = ?";
+    private final String GET_ID_SQL = "select id from playerInfo where name = ?";
     private final String GET_PLAYER_INFO_SQL = "select * from playerInfo where id = ?";
     private final String GET_PLAYER_POSITION_SQL = "select position from playerPosition where id = ?";
     private final String SAVE_PLAYER_INFO_SQL = "insert into playerInfo values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ";

@@ -14,7 +14,7 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   getLoginCreds(login: Login) {
-    return lastValueFrom (this.http.post('/login', login))
+    return lastValueFrom (this.http.post('https://net-pro-production.up.railway.app/login', login))
   }
 
   checkLogin() {
@@ -27,16 +27,16 @@ export class LoginService {
   }
 
   addEmailToMemberList(email: string) {
-    return lastValueFrom(this.http.post('/addEmailToList', email))
+    return lastValueFrom(this.http.post('https://net-pro-production.up.railway.app/addEmailToList', email))
   }
 
   getEmailListApproved() {
-    return lastValueFrom(this.http.get('/getApprovedEmailList'))
+    return lastValueFrom(this.http.get('https://net-pro-production.up.railway.app/getApprovedEmailList'))
   }
 
   // save login creds
   saveLoginCreds(signup: Signup) {
-    return lastValueFrom(this.http.post('/saveLoginCreds', signup))
+    return lastValueFrom(this.http.post('https://net-pro-production.up.railway.app/saveLoginCreds', signup))
   }
 
 }

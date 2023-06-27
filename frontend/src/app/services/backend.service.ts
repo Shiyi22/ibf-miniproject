@@ -19,63 +19,63 @@ export class BackendService {
   constructor(private http: HttpClient) { }
 
   getPlayerId(username: string) {
-    return lastValueFrom(this.http.get(`/getId/${username}`))
+    return lastValueFrom(this.http.get(`https://net-pro-production.up.railway.app/getId/${username}`))
   }
 
   getPlayerInfo(userId: string): Promise<any> {
     const params = new HttpParams().set('userId', userId); 
-    return lastValueFrom( this.http.get('/playerInfo', {params}))
+    return lastValueFrom( this.http.get('https://net-pro-production.up.railway.app/playerInfo', {params}))
   }
 
   savePlayerInfo(formData: FormData) {
-    return lastValueFrom(this.http.post(`/saveProfile`, formData))
+    return lastValueFrom(this.http.post(`https://net-pro-production.up.railway.app/saveProfile`, formData))
   }
 
   updatePlayerInfo(info: PlayerInfo, username: string) {
     // remove playerphoto before sending over 
     info.playerPhoto = '';
-    return lastValueFrom(this.http.post(`/updatePlayerInfo/${username}`, info)); // return Integer on num of rows affected
+    return lastValueFrom(this.http.post(`https://net-pro-production.up.railway.app/updatePlayerInfo/${username}`, info)); // return Integer on num of rows affected
   }
 
   updatePhoto(formData: FormData, username: string) {
-    return lastValueFrom(this.http.put(`/updatePhoto/${username}`, formData));
+    return lastValueFrom(this.http.put(`https://net-pro-production.up.railway.app/updatePhoto/${username}`, formData));
   }
 
   uploadToS3(formData: FormData, game_id: number) {
     const params = new HttpParams().set('game_id', game_id.toString()); 
-    return lastValueFrom(this.http.post('/uploadToS3', formData, {params}));
+    return lastValueFrom(this.http.post('https://net-pro-production.up.railway.app/uploadToS3', formData, {params}));
   }
 
   updateS3UrlToSql(s3Url: string, mediaTypeToUpload: string, gameId : number) {
-    return lastValueFrom(this.http.post(`/updateS3UrlToSql/${mediaTypeToUpload}/${gameId}`, s3Url));
+    return lastValueFrom(this.http.post(`https://net-pro-production.up.railway.app/updateS3UrlToSql/${mediaTypeToUpload}/${gameId}`, s3Url));
   }
 
   getPlayerProfiles() {
-    return lastValueFrom(this.http.get('/playerProfiles'))
+    return lastValueFrom(this.http.get('https://net-pro-production.up.railway.app/playerProfiles'))
   }
 
   saveGameData(gameData: GameData) {
-    return lastValueFrom(this.http.post('/saveGameData', gameData))
+    return lastValueFrom(this.http.post('https://net-pro-production.up.railway.app/saveGameData', gameData))
   }
   
   saveFullGameData(fullGameData: QuarterData[]) {
-    return lastValueFrom(this.http.post('/saveFullGameData', fullGameData))
+    return lastValueFrom(this.http.post('https://net-pro-production.up.railway.app/saveFullGameData', fullGameData))
   }
 
   getGameDataList() {
-    return lastValueFrom(this.http.get('/getGameList')); 
+    return lastValueFrom(this.http.get('https://net-pro-production.up.railway.app/getGameList')); 
   }
   
   getGameDataById(gameId: number) {
-    return lastValueFrom(this.http.get(`/getGameData/${gameId}`))
+    return lastValueFrom(this.http.get(`https://net-pro-production.up.railway.app/getGameData/${gameId}`))
   }
 
   getFullGameData(gameId: number) {
-    return lastValueFrom(this.http.get(`/getFullGameData/${gameId}`))
+    return lastValueFrom(this.http.get(`https://net-pro-production.up.railway.app/getFullGameData/${gameId}`))
   }
 
   getPlayerStats(userId: string) {
-    return lastValueFrom(this.http.get(`/${userId}/stats`))
+    return lastValueFrom(this.http.get(`https://net-pro-production.up.railway.app/${userId}/stats`))
   }
 
   initVariables(quarter: string) {

@@ -17,60 +17,60 @@ export class Backend2Service {
   // SERVE NON NETBALL STATS Http Request 
 
   getCalEvents() {
-    return lastValueFrom(this.http.get('/events'))
+    return lastValueFrom(this.http.get('https://net-pro-production.up.railway.app/events'))
   }
 
   storeEventToDB(event: Event) {
-    return lastValueFrom(this.http.post('/storeEventToDB', event))
+    return lastValueFrom(this.http.post('https://net-pro-production.up.railway.app/storeEventToDB', event))
   }
 
   removeEventFromDB(eventId: string) {
-    return lastValueFrom(this.http.delete(`/removeEventFromDB/${eventId}`))
+    return lastValueFrom(this.http.delete(`https://net-pro-production.up.railway.app/removeEventFromDB/${eventId}`))
   }
 
   saveNotif(notif: Notif) {
-    return lastValueFrom(this.http.post('/saveNotification', notif))
+    return lastValueFrom(this.http.post('https://net-pro-production.up.railway.app/saveNotification', notif))
   }
 
   getNotifs() {
-    return lastValueFrom(this.http.get('/getNotifications'))
+    return lastValueFrom(this.http.get('https://net-pro-production.up.railway.app/getNotifications'))
   }
 
   sendEmailUsingSB(req: EmailRequest) {
-    return lastValueFrom(this.http.post('/sendEmail', req))
+    return lastValueFrom(this.http.post('https://net-pro-production.up.railway.app/sendEmail', req))
   }
 
   checkFundsPaid() {
-    return lastValueFrom(this.http.get('/api/teamFundsList'))
+    return lastValueFrom(this.http.get('https://net-pro-production.up.railway.app/api/teamFundsList'))
   }
 
   repopulateFundList(players: PlayerProfile[]) {
     players.forEach((player)=> {player.playerPhoto = ''})
-    return lastValueFrom(this.http.post('/api/repopulateList', players))
+    return lastValueFrom(this.http.post('https://net-pro-production.up.railway.app/api/repopulateList', players))
   }
 
   updateFundList(tf : TeamFund) {
-    return lastValueFrom(this.http.post('/api/updateFundList', tf))
+    return lastValueFrom(this.http.post('https://net-pro-production.up.railway.app/api/updateFundList', tf))
   }
 
   saveAttendance(data: EventData) {
-    return lastValueFrom(this.http.post('/saveAttendance', data))
+    return lastValueFrom(this.http.post('https://net-pro-production.up.railway.app/saveAttendance', data))
   }
 
   getIndvAttendance(username:string) {
-    return lastValueFrom(this.http.get(`/getIndvAttendance/${username}`))
+    return lastValueFrom(this.http.get(`https://net-pro-production.up.railway.app/getIndvAttendance/${username}`))
   }
 
   getGroupAttendance(eventId:string) {
-    return lastValueFrom(this.http.get(`/getGroupAttendance/${eventId}`))
+    return lastValueFrom(this.http.get(`https://net-pro-production.up.railway.app/getGroupAttendance/${eventId}`))
   }
 
   getFundsAmount() {
-    return lastValueFrom(this.http.get('/api/getFundsAmount'))
+    return lastValueFrom(this.http.get('https://net-pro-production.up.railway.app/api/getFundsAmount'))
   }
 
   addFundsAmount(amount:number) {
-    return lastValueFrom(this.http.put('/api/addFundsAmount', amount))
+    return lastValueFrom(this.http.put('https://net-pro-production.up.railway.app/api/addFundsAmount', amount))
   }
 
 }

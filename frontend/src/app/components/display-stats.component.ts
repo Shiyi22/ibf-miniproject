@@ -32,7 +32,7 @@ export class DisplayStatsComponent implements OnInit, AfterViewInit {
         console.info('>>> center pass stats: ', this.centerpass);
         this.createDoughnutCharts();
       }
-    }, 100)
+    }, 300)
   }
 
   ngOnInit(): void {

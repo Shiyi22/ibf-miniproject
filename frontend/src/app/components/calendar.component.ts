@@ -154,9 +154,11 @@ export class CalendarComponent implements OnInit {
     this.calendar.getApi().addEvent(eventInput);
 
     // send to backend to save in list of events 
-    // const date = event.selectedDate 
-    // date.setHours(this.selectedDate.getHours() + 8)
-    // event.selectedDate = date 
+    const date = event.selectedDate 
+    console.info('>>> event date: ', date)
+    date.setHours(this.selectedDate.getHours() + 8)
+    event.selectedDate = date 
+    console.info('>>> event date (changed): ', date)
     console.info('>>> Event to store in db: ', event)
     this.backend2Svc.storeEventToDB(event).then((result:any) => {
       console.info('>>> Store event to DB: ', result.isAdded);
